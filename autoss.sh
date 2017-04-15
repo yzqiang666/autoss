@@ -14,7 +14,8 @@ wget -q -O getss.sh --no-check-certificate  https://raw.github.com/yzqiang666/au
 
 wget -q -O setss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.sh
 
-
+oldpath＝$PATH
+export PATH＝$oldpath:/tmp
 
 
 
@@ -28,6 +29,7 @@ chmod a+x setss.sh
 chmod a+x jq
 ./sscfg.sh
 ./setss.sh
+export PATH＝$oldpath
 
 fi
 
