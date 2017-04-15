@@ -2,7 +2,7 @@
 
 if [ $# -le 4 ] ; then 
 	echo "USAGE: $0 Token:Secret Arukas_Endpoint Arukas_Port Local_Port" 
-	echo " e.g.: $0 123456-1234-123456789876:abcdefghijklmnopqrst endpoint.arukascloud.io 8388 password rc4-md5 auth_sha1 http_simple" 
+	echo " e.g.: $0 Token:Secret endpoint.arukascloud.io 8388 password rc4-md5 auth_sha1 http_simple" 
 	exit 1
 fi 
 
