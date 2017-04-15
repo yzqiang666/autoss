@@ -1,6 +1,6 @@
 cd /tmp
 wget -q -O jq --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/jq
-wget -q -O /sscfg.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/sscfg.sh
+wget -q -O sscfg.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/sscfg.sh
 wget -q -O getss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/getss.sh
 
 
