@@ -17,7 +17,8 @@ awk -v aaaa=$CCCC 'BEGIN{srand();print int(rand()*aaaa)+1 }' >/tmp/tmp.txt
 randowrow=`cat /tmp/tmp.txt`
 tail -n $randowrow /tmp/ss.ini |head -n 1 >/tmp/tmp1.txt
 ssinfo=`cat /tmp/tmp1.txt` 
-echo $ssinfoecho $ssinfo | awk -F":" '{print $1"\n"; }' >/tmp/tmp.txt; addr0=`cat /tmp/tmp.txt` 
+
+echo $ssinfo | awk -F":" '{print $1"\n"; }' >/tmp/tmp.txt; addr0=`cat /tmp/tmp.txt` 
 echo $ssinfo | awk -F":" '{print $2"\n"; }' >/tmp/tmp.txt; port0=`cat /tmp/tmp.txt`
 echo $ssinfo | awk -F":" '{print $3"\n"; }' >/tmp/tmp.txt; password0=`cat /tmp/tmp.txt` 
 echo $ssinfo | awk -F":" '{print $4"\n"; }' >/tmp/tmp.txt; method0=`cat /tmp/tmp.txt` 
