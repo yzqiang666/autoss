@@ -1,15 +1,8 @@
 
 
-ss_internet=`nvram get ss_internet`
-ss_enable=`nvram get ss_enable`
 
-if [ "$ss_enable" == "0" ] ; then
-logger  "SS is disable"
-elif [ "$ss_internet" == "1" ]; then
-logger "SS Status is working"
-else
 logger "get ss information"
-wget -q -O /tmp/ss.ini ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/ss.ini
+
 if [  -f "/tmp/ss.ini" ]; then
 wc -l  /tmp/ss.ini | awk -F" " '{print $1; }' >/tmp/tmp.txt 
 CCCC=`cat /tmp/tmp.txt`
@@ -60,4 +53,4 @@ logger  "get ss.ini error" $ssinfo
 echo  "get ss.ini error" $ssinfo 
 fi
 
-fi
+
