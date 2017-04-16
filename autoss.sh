@@ -1,5 +1,4 @@
-
-ss_internet=`nvram get ss_internet`
+s_internet=`nvram get ss_internet`
 ss_enable=`nvram get ss_enable`
 
 if [ "$ss_enable" == "0" ] ; then
@@ -15,12 +14,12 @@ cd /tmp
 #wget -q -O sscfg.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/sscfg.sh
 #wget -q -O getss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/getss.sh
 
-wget -q -O ss.ini ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/ss.ini
+wget -O ss.ini ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/ss.ini
 if [ ! -f ss.ini ] ; then
-    wget -q -O ss.ini --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/ss.ini
+    wget -O ss.ini --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/ss.ini
 fi
 if [ ! -f ss.ini ] ; then
-    wget -q -O ss.ini --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.ini
+    wget -O ss.ini --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.ini
 fi
 if [ ! -f ss.ini ] ; then
     logger "get ss.ini error"
@@ -28,9 +27,9 @@ if [ ! -f ss.ini ] ; then
     exit 1
 fi
 
-wget -q -O setss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.sh
+wget -O setss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.sh
 if [ ! -f setss.sh ] ; then
-    wget -q -O setss.sh ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/setss.sh
+    wget -O setss.sh ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/setss.sh
 fi
 if [ ! -f setss.sh ] ; then
     logger "get setss.sh error"
@@ -58,5 +57,4 @@ chmod a+x setss.sh
 #sh ss.sh start
 #/tmp/ss.sh update
 fi
-
 
