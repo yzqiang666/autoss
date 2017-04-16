@@ -16,14 +16,28 @@ cd /tmp
 #wget -q -O getss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/getss.sh
 
 wget -q -O ss.ini ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/ss.ini
-if [ test –f ss.ini ] ; then
+if [ test ！ –f ss.ini ] ; then
     wget -q -O ss.ini --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/ss.ini
 fi
-if [ test –f ss.ini ] ; then
-    wget -q -O setss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.sh
-else
+
+if [ test  ! -f  ss.ini ] ; then
+    wget -q -O ss.ini --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.ini
+fi
+if [ test  ! -f  ss.ini ] ; then
     logger "get ss.ini error"
     echo "get ss.ini error"
+    exit 1
+fi
+
+wget -q -O setss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.sh
+if [ test ！ –f setss.sh ] ; then
+    wget -q -O setss.sh ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/setss.sh
+fi
+
+if [ test ！ –f setss.sh ] ; then
+    logger "get setss.sh error"
+    echo "get setss.sh error"
+    exit 1
 fi
 #wget -q -O jq ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/jq
 #oldpath=$PATH
