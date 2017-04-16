@@ -2,9 +2,9 @@
 ss_internet=`nvram get ss_internet`
 ss_enable=`nvram get ss_enable`
 
-if [ "$ss_enable" == "0" ] ; then
+if [ "$ss_enable" == "00" ] ; then
 logger  "SS is disable"
-elif [ "$ss_internet" == "1" ]; then
+elif [ "$ss_internet" == "11" ]; then
 logger "SS Status is working"
 else
 
