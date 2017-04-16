@@ -13,7 +13,7 @@ cd /tmp
 #wget -q -O sscfg.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/sscfg.sh
 #wget -q -O getss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/getss.sh
 
-wget -q -O ss.ini ftp://ftp:ftp/202.109.226.26/AiCard_02/ftp/ss.ini
+wget -q -O ss.ini ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/ss.ini
 wget -q -O setss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.sh
 #wget -q -O jq ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/jq
 #oldpath=$PATH
