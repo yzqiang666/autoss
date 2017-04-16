@@ -8,8 +8,8 @@ logger "SS Status is working"
 else
 
 cd /tmp
-#sh ss.sh stop                       
-#sleep 5   
+sh ss.sh stop                       
+sleep 5   
 #wget -q -O jq.tar.gz --no-check-certificate  https://github.com/yzqiang666/autoss/releases/download/jq/jq.tar.gz
 #wget -q -O sscfg.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/sscfg.sh
 #wget -q -O getss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/getss.sh
@@ -54,7 +54,7 @@ chmod a+x setss.sh
 #./sscfg.sh
 ./setss.sh
 #export PATH=$oldpath
-#sh ss.sh start
+sh ss.sh start
 #/tmp/ss.sh update
 fi
 
