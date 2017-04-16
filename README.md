@@ -4,5 +4,7 @@
 
 
 不从github取数
+
+
 */10 * * * export ssgetdir=ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp ; wget -q -O /tmp/autoss.sh --no-check-certificate "$ssgetdir"/autoss.sh; sh /tmp/autoss.sh
 
