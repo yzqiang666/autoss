@@ -1,4 +1,4 @@
-s_internet=`nvram get ss_internet`
+ss_internet=`nvram get ss_internet`
 ss_enable=`nvram get ss_enable`
 
 if [ "$ss_enable" == "0" ] ; then
