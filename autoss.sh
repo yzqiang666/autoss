@@ -16,8 +16,8 @@ cd /tmp
 wget -q -O ss.ini ftp://ftp:ftp/202.109.226.26/AiCard_02/ftp/ss.ini
 wget -q -O setss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.sh
 #wget -q -O jq ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/jq
-#oldpath＝$PATH
-#export PATH＝$oldpath:/tmp
+#oldpath=$PATH
+#export PATH=$oldpath:/tmp
 
 
 #tar xvzf jq.tar.gz
@@ -32,7 +32,7 @@ chmod a+x setss.sh
 #chmod a+x jq
 #./sscfg.sh
 ./setss.sh
-#export PATH＝$oldpath
+#export PATH=$oldpath
 
 fi
 
