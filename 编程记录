@@ -1,5 +1,9 @@
 mtd_storage.sh save
 
+[ -z $ss_link_1 ] && ss_link_1="www.163.com" && nvram set ss_link_1="www.163.com"
+[ -z $ss_link_2 ] && echo "True" || echo "False"
+
+rm ~/Desktop/1.txt >/dev/null 2>&1 && echo "success" || echo "fail"
 Shell if 条件判断
 [ -a FILE ]  如果 FILE 存在则为真。  
 [ -b FILE ]  如果 FILE 存在且是一个块特殊文件则为真。  
