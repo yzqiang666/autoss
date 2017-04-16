@@ -14,23 +14,14 @@ sleep 5
 #wget -q -O sscfg.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/sscfg.sh
 #wget -q -O getss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/getss.sh
 
-wget -O ss.ini ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/ss.ini
-if [ ! -f ss.ini ] ; then
-    wget -O ss.ini --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/ss.ini
-fi
-if [ ! -f ss.ini ] ; then
-    wget -O ss.ini --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.ini
-fi
+wget -O ss.ini "$ssgetdir"/ss.ini
 if [ ! -f ss.ini ] ; then
     logger "get ss.ini error"
     echo "get ss.ini error"
     exit 1
 fi
 
-wget -O setss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.sh
-if [ ! -f setss.sh ] ; then
-    wget -O setss.sh ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/setss.sh
-fi
+wget -O setss.sh --no-check-certificate  "$ssgetdir"/setss.sh
 if [ ! -f setss.sh ] ; then
     logger "get setss.sh error"
     echo "get setss.sh error"
