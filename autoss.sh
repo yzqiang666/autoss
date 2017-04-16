@@ -14,10 +14,17 @@ cd /tmp
 #wget -q -O jq.tar.gz --no-check-certificate  https://github.com/yzqiang666/autoss/releases/download/jq/jq.tar.gz
 #wget -q -O sscfg.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/sscfg.sh
 #wget -q -O getss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/getss.sh
-rm ss.ini
+
 wget -q -O ss.ini ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/ss.ini
-wget -q -O ss.ini --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/ss.ini
-wget -q -O setss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.sh
+if [ test –f ss.ini ] ; then
+    wget -q -O ss.ini --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/ss.ini
+fi
+if [ test –f ss.ini ] ; then
+    wget -q -O setss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/setss.sh
+else
+    logger "get ss.ini error"
+    echo "get ss.ini error"
+fi
 #wget -q -O jq ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp/jq
 #oldpath=$PATH
 #export PATH=$oldpath:/tmp
