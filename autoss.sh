@@ -36,7 +36,7 @@ chmod a+x setss.sh
 ./setss.sh
 #export PATH=$oldpath
 #sh ss.sh start
-/tmp/ss.sh update
+#/tmp/ss.sh update
 fi
 
 
