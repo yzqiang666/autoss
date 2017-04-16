@@ -1,11 +1,13 @@
+export ssgetdir=export ssgetdir=ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp
 ss_internet=`nvram get ss_internet`
 ss_enable=`nvram get ss_enable`
 
 if [ "$ss_enable" == "0" ] ; then
-logger  "SS is disable"
-elif [ "$ss_internet" == "1" ]; then
-logger "SS Status is working"
-else
+ exit 0
+fi
+wget -O google.txt --continue --no-check-certificate -s -q -T 10 http://www.google.com.hk       
+echo "Connect google status: "$?
+if  [ ! "$?" == "0" ] ; then
 
 cd /tmp
 #sh ss.sh stop                       
@@ -14,15 +16,17 @@ cd /tmp
 #wget -q -O sscfg.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/sscfg.sh
 #wget -q -O getss.sh --no-check-certificate  https://raw.github.com/yzqiang666/autoss/master/getss.sh
 
-wget -O ss.ini "$ssgetdir"/ss.ini
-if [ ! -f ss.ini ] ; then
+wget  -O ss.ini "$ssgetdir"/ss.ini
+echo "get ss.ini status:"$?
+if [ ! -s ss.ini ] ; then
     logger "get ss.ini error"
     echo "get ss.ini error"
     exit 1
 fi
 
-wget -O setss.sh --no-check-certificate  "$ssgetdir"/setss.sh
-if [ ! -f setss.sh ] ; then
+wget  -O setss.sh --no-check-certificate  "$ssgetdir"/setss.sh
+echo "get setss.sh status:"$?
+if [ ! -s setss.sh ] ; then
     logger "get setss.sh error"
     echo "get setss.sh error"
     exit 1
@@ -48,4 +52,3 @@ chmod a+x setss.sh
 #sh ss.sh start
 #/tmp/ss.sh update
 fi
-
