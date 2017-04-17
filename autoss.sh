@@ -1,4 +1,4 @@
-export ssgetdir=export ssgetdir=ftp://ftp:ftp@202.109.226.26/AiCard_02/ftp
+export ssgetdir=export ssgetdir=ftp://ssftp:ftp@202.109.226.26/AiCard_02/ftp
 ss_internet=`nvram get ss_internet`
 ss_enable=`nvram get ss_enable`
 
