@@ -6,5 +6,4 @@
 不从github取数
 
 
-*/10 * * * * export ssgetdir='ftp://ssftp:ftp@202.109.226.26/AiCard_02/ftp' ; wget -q -O /tmp/autoss.sh --no-check-certificate "$ssgetdir"/autoss.sh; sh /tmp/autoss.sh
-
+*/10 * * * * [ `nvram get ss_enable` == "1" ] && [ `nvram get ss_internet` != "1" ] && export ssgetdir='ftp://ssftp:ftp@202.109.226.26/AiCard_02/ftp' && wget -q -O /tmp/autoss.sh --no-check-certificate "$ssgetdir"/autoss.sh && sh /tmp/autoss.sh
