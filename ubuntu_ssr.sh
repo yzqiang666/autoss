@@ -3,8 +3,6 @@
 apt-get install python-pip
 apt-get install git
 
-
-
 git clone -b  manyuser https://github.com/breakwa11/shadowsocks.git
 cd shadowsocks
 cat > config.json <<-\EOF
@@ -31,4 +29,8 @@ EOF
 bash initcfg.sh
 cd shadowsocks
 ./run.sh
+
+####结束
+
+
 
