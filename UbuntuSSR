@@ -28,6 +28,8 @@ cat > config.json <<-\EOF
     "redirect": "",
     "fast_open": false
 }
+
+EOF
 bash initcfg.sh
 cd shadowsocks
 ./run.sh
