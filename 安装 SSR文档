@@ -13,14 +13,7 @@ apt-get install git
 
 git clone -b  manyuser https://github.com/breakwa11/shadowsocks.git
 cd shadowsocks
-vi config.json
-
-bash initcfg.sh
-cd shadowsocks
-./run.sh
-
-netstat -an|grep 8888
-
+cat > config.json <<-\EOF
 {
     "server": "0.0.0.0",
     "server_port": 8888,
@@ -39,7 +32,8 @@ netstat -an|grep 8888
     "redirect": "",
     "fast_open": false
 }
+bash initcfg.sh
+cd shadowsocks
+./run.sh
 
-
-
-
+netstat -an|grep 8888
