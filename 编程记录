@@ -1,5 +1,14 @@
 mtd_storage.sh save
 
+*/20 * * * * /home/smccb/autoss/sscfg.sh
+
+上传文件
+curl -u ssftp:ftp -T 
+
+curl -T ss.ini -u ssftp:ftp ftp://202.109.226.26/AiCard_02/ftp/ 
+
+curl -s https://e39ed54e-18ee-4eae-b372-41b4e05721f3:eoZ9cCkTpM0d6Rb7BEtXl5luBcqZyVeiNLZuKUxGjgOFnB1tqTChz3Wr8JKS2kJY@app.arukas.io/api/containers >ss.txt
+
 随机数产生
 	SEED=`tr -cd 0-9 </dev/urandom | head -c 8`
 	RND_NUM=`echo $SEED 150 230|awk '{srand($1);printf "%d",rand()*10000%($3-$2)+$2}'`
