@@ -33,6 +33,7 @@ fi
 
 ########################  get from ishadowsock ########################
 iss="http://go.ishadow.online/"
+iss＝"http://www.ishadowsocks.org/"
 rm ssss.txt > /dev/null 2>&1
 wget  -q -O ssss.txt -tries=10 $iss
 [ ! -s ssss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
