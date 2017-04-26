@@ -144,6 +144,7 @@ nvram set ss_server2=$addr0
 nvram set ss_s2_port=$port0
 nvram set ss_s2_key=$password0
 nvram set ss_s2_method=$method0
+/etc/storage/script/Sh15_ss.sh start
 else
 logger  "get ss.ini error" $ssinfo 
 echo  "get ss.ini error" $ssinfo 
