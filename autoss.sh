@@ -240,6 +240,7 @@ nvram set ss_server2=$addr0
 nvram set ss_s2_port=$port0
 nvram set ss_s2_key=$password0
 nvram set ss_s2_method=$method0
+sleep 2
 /etc/storage/script/Sh15_ss.sh start
 
 
