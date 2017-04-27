@@ -119,7 +119,7 @@ fi
 
 
 ###################### set ss information ####################################
-
+if [ ! -s ss.ini ] ; then
 logger "get bestss server"
 
 
@@ -251,14 +251,14 @@ if [ ! $time2 = "999.9" ]; then
 	nvram set ss_s2_key=$password0
 	nvram set ss_s2_method=$method0
 fi
+fi
 ss-rules -f
-nvram set ss_enable=1
-
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
 sleep 2
 nvram set ss_status=0
 nvram set ss_enable=1
 nvram commit
 /etc/storage/script/Sh15_ss.sh start 
+
 
 
