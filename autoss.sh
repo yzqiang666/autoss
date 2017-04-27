@@ -1,4 +1,4 @@
-
+nvarm set ss_enable=0
 /etc/storage/script/Sh15_ss.sh stop
 sleep 2
 
