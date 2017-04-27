@@ -10,7 +10,8 @@ nvram set ss_status=1
 nvram set ss_enable=0
 nvram commit
 /etc/storage/script/Sh15_ss.sh stop &
-
+ss-rules -f
+pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
 sleep 2
 
 rm ss.ini > /dev/null 2>&1
