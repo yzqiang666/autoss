@@ -2,10 +2,16 @@ rm /tmp/tmp.txt 2>/dev/null
 wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 http://www.google.com.hk/ 
 [ -s /tmp/tmp.txt ] && exit 0 
 
+#nvram set ss_enable=0
+#killall sh_sskeey_k.sh
+#killall -9 sh_sskeey_k.sh
+#/etc/storage/script/Sh15_ss.sh stop
+
+nvram set ss_status=1
 nvram set ss_enable=0
-killall sh_sskeey_k.sh
-killall -9 sh_sskeey_k.sh
-/etc/storage/script/Sh15_ss.sh stop
+nvram commit
+/tmp/script/_ss &
+nvram set button_script_2="0"
 sleep 2
 
 rm ss.ini > /dev/null 2>&1
@@ -247,7 +253,17 @@ if [ ! $time2 = "999.9" ]; then
 fi
 ss-rules -f
 nvram set ss_enable=1
+
+
+
 sleep 2
-/etc/storage/script/Sh15_ss.sh start
+
+nvram set ss_status=0
+nvram set ss_enable=1
+nvram commit
+/tmp/script/_ss &
+nvram set button_script_2="1"
+
+#/etc/storage/script/Sh15_ss.sh start
 
 
