@@ -1,5 +1,7 @@
  #删除开头的#启动命令 ：自定义设置 - 脚本 - 自定义 Crontab 定时任务配置
+ 
 */10 * * * * [ `nvram get ss_enable` == "1" ] && [ `nvram get ss_internet` != "1" ] && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh
+
 13 0,6,12,18 * * *   [ `nvram get ss_enable` == "1" ]  && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh
 
 
