@@ -5,7 +5,7 @@ rm /tmp/tmp.txt 2>/dev/null
 wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url
 [ -s /tmp/tmp.txt ] && exit 0
 fi
-
+cd /tmp
 nvram set ss_status=1
 nvram set ss_enable=0
 nvram commit
