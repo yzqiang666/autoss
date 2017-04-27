@@ -119,7 +119,7 @@ fi
 
 
 ###################### set ss information ####################################
-if [ ! -s ss.ini ] ; then
+if [ -s ss.ini ] ; then
 logger "get bestss server"
 
 
