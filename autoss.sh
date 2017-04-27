@@ -9,9 +9,9 @@ fi
 nvram set ss_status=1
 nvram set ss_enable=0
 nvram commit
+pidof ss-redir  >/dev/null 2>&1 && killall ss-redir ss-local Sh15_ss.sh wgetcurl.sh curl ss-rules && killall -9ss-redir ss-local Sh15_ss.sh wgetcurl.sh curl ss-rules 2>/dev/null
 /etc/storage/script/Sh15_ss.sh stop &
 ss-rules -f
-pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
 sleep 10
 
 rm ss.ini > /dev/null 2>&1
@@ -254,13 +254,11 @@ fi
 ss-rules -f
 nvram set ss_enable=1
 
-
-
+pidof ss-redir  >/dev/null 2>&1 && killall ss-redir ss-local Sh15_ss.sh wgetcurl.sh curl ss-rules && killall -9ss-redir ss-local Sh15_ss.sh wgetcurl.sh curl ss-rules 2>/dev/null
 sleep 2
-
 nvram set ss_status=0
 nvram set ss_enable=1
 nvram commit
-/etc/storage/script/Sh15_ss.sh start
+/etc/storage/script/Sh15_ss.sh start &
 
 
