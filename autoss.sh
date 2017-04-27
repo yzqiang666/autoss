@@ -1,6 +1,8 @@
+if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 http://www.google.com.hk/ 
-[ -s /tmp/tmp.txt ] && exit 0 
+[ -s /tmp/tmp.txt ] && exit 0
+fi
 
 nvram set ss_status=1
 nvram set ss_enable=0
