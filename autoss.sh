@@ -2,7 +2,7 @@ rm /tmp/tmp.txt 2>/dev/null
 wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 http://www.google.com.hk/ 
 [ -s /tmp/tmp.txt ] && exit 0 
 
-nvarm set ss_enable=0
+nvram set ss_enable=0
 killall sh_sskeey_k.sh
 killall -9 sh_sskeey_k.sh
 /etc/storage/script/Sh15_ss.sh stop
