@@ -94,9 +94,10 @@ done
 sed -i '$d' ssss.ini
 head -n 9  ssss.ini >>ss.ini
 rm ssss.*
+else
 
-
-########################  get from github.com/Alvin9999 ########################
+########################  get from github.com/Alvin9999 不得已才用　########################
+if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
 
@@ -105,7 +106,7 @@ wget  -q -O ss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
-cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g' | sed 's/ /:/g'  | sed 's/　/:/g' | sed 's/::/:/g'  | sed 's/（/:/g' |head -n 9 | while read i  
+cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g' | sed 's/ /:/g'  | sed 's/　/:/g' | sed 's/::/:/g'  | sed 's/（/:/g' | head -n 18 | while read i  
 do
   var1=`echo $i|awk -F ':' '{print $2}'`
   var2=`echo $i|awk -F ':' '{print $4}'`
@@ -115,7 +116,7 @@ do
 done
 
 rm ss.txt
-
+fi
 
 
 ###################### set ss information ####################################
