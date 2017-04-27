@@ -258,7 +258,7 @@ sleep 2
 nvram set ss_status=0
 nvram set ss_enable=1
 nvram commit
-/etc/storage/script/Sh15_ss.sh start 
+/etc/storage/script/Sh15_ss.sh start &
 
 
 
