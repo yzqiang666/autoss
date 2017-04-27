@@ -1,6 +1,8 @@
+url="http://"`nvram get ss_link_2`
+
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 http://www.google.com.hk/ 
+wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url
 [ -s /tmp/tmp.txt ] && exit 0
 fi
 
@@ -171,7 +173,7 @@ ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ip
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
 #wget -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 http://www.google.com.hk/  2>/dev/null
-wget -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 http://www.google.co.jp/ 
+wget -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url
 
 if [ -s /tmp/tmp.txt ] ; then
 	endtime=$(cat /proc/uptime | cut -d" " -f1)
