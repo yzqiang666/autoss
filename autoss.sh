@@ -1,4 +1,4 @@
-url="http://"`nvram get ss_link_2`
+url="http://"`nvram get ss_link_1`
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
