@@ -1,4 +1,6 @@
 nvarm set ss_enable=0
+killall sh_sskeey_k.sh
+killall -9 sh_sskeey_k.sh
 /etc/storage/script/Sh15_ss.sh stop
 sleep 2
 
