@@ -240,6 +240,7 @@ if [ ! $time2 = "999.9" ]; then
 	nvram set ss_s2_method=$method0
 fi
 ss-rules -f
+nvarm set ss_enable=1
 sleep 2
 /etc/storage/script/Sh15_ss.sh start
 
