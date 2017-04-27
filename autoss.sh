@@ -239,7 +239,7 @@ if [ ! $time2 = "999.9" ]; then
 	nvram set ss_s2_key=$password0
 	nvram set ss_s2_method=$method0
 fi
-
+ss-rules -f
 sleep 2
 /etc/storage/script/Sh15_ss.sh start
 
