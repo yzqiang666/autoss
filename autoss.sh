@@ -241,6 +241,6 @@ if [ ! $time2 = "999.9" ]; then
 fi
 
 sleep 2
-#/etc/storage/script/Sh15_ss.sh start
+/etc/storage/script/Sh15_ss.sh start
 
 
