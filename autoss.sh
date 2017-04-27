@@ -169,7 +169,7 @@ ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ip
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
 #wget -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 http://www.google.com.hk/  2>/dev/null
-wget -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 http://www.google.com.hk/ 
+wget -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 https://www.google.co.jp/ 
 
 if [ -s /tmp/tmp.txt ] ; then
 	endtime=$(cat /proc/uptime | cut -d" " -f1)
