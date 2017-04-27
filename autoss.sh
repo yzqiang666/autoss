@@ -95,7 +95,6 @@ sed -i '$d' ssss.ini
 head -n 9  ssss.ini >>ss.ini
 rm ssss.*
 
-
 ########################  get from github.com/Alvin9999 不得已才用　########################
 if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
