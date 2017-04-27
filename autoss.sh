@@ -2,7 +2,7 @@ url="http://"`nvram get ss_link_2`
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url
+wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url
 [ -s /tmp/tmp.txt ] && exit 0
 fi
 
