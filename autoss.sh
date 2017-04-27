@@ -94,7 +94,7 @@ done
 sed -i '$d' ssss.ini
 head -n 9  ssss.ini >>ss.ini
 rm ssss.*
-else
+
 
 ########################  get from github.com/Alvin9999 不得已才用　########################
 if [ ! -s ss.ini ] ; then
