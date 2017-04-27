@@ -135,7 +135,7 @@ echo "999.9" >/tmp/time2.tmp
 
 cat ss.ini | while read str
 do
-echo "begin process ===========   "$str
+#echo "begin process ===========   "$str
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
