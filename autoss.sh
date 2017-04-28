@@ -1,3 +1,10 @@
+##################### SSR Server ###########
+
+[  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
+&& [ `ps | grep python |wc | awk '{ print $1; }'` = 1 ] \
+&&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
+
+#########################################
 url="http://"`nvram get ss_link_1`
 
 if [ ! "$1" = "refresh" ] ; then
