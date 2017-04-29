@@ -103,7 +103,7 @@ head -n 9  ssss.ini >>ss.ini
 rm ssss.*
 
 ########################  get from github.com/Alvin9999 不得已才用　########################
-if [ ! -s ss.ini ] ; then
+#####if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
 
@@ -122,7 +122,7 @@ do
 done
 
 rm ss.txt
-fi
+######fi
 
 
 ###################### set ss information ####################################
