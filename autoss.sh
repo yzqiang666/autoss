@@ -5,21 +5,22 @@
 &&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
 #########################################
-url="http://"`nvram get ss_link_1`
+url="http://"`nvram get ss_link_2`
+
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url
+wget  -q  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null 
 [ -s /tmp/tmp.txt ] && exit 0
 fi
 cd /tmp
 nvram set ss_status=1
 nvram set ss_enable=0
 nvram commit
-pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
-/etc/storage/script/Sh15_ss.sh stop 
-ss-rules -f
-sleep 10
+#pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
+#/etc/storage/script/Sh15_ss.sh stop 
+#ss-rules -f
+#sleep 4
 
 rm ss.ini > /dev/null 2>&1
 
@@ -28,11 +29,11 @@ token="e39ed54e-18ee-4eae-b372-41b4e05721f3"
 secret="eoZ9cCkTpM0d6Rb7BEtXl5luBcqZyVeiNLZuKUxGjgOFnB1tqTChz3Wr8JKS2kJY"
 
 rm ss.txt > /dev/null 2>&1
-wget -q -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
+wget -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
+[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
+[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
+[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
+[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
 
 if [  -s ss.txt ] ; then
 sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
@@ -52,11 +53,11 @@ fi
 #iss="http://go.ishadow.online/"
 iss="http://www.ishadowsocks.org/"
 rm ss.txt > /dev/null 2>&1
-wget  -q -O ss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
+wget  -q  -O ss.txt -tries=10 $iss
+[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
+[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
+[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
+[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 
 
 cp /dev/null ssss.ini
@@ -103,15 +104,15 @@ head -n 9  ssss.ini >>ss.ini
 rm ssss.*
 
 ########################  get from github.com/Alvin9999 不得已才用　########################
-#####if [ ! -s ss.ini ] ; then
+if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
 
-wget  -q -O ss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q -O ssss.txt -tries=10 $iss
+wget  -q  -O ss.txt -tries=10 $iss
+[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
+[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
+[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
+[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g' | sed 's/ /:/g'  | sed 's/　/:/g' | sed 's/::/:/g'  | sed 's/（/:/g' | head -n 18 | while read i  
 do
   var1=`echo $i|awk -F ':' '{print $2}'`
@@ -122,7 +123,7 @@ do
 done
 
 rm ss.txt
-######fi
+fi
 
 
 ###################### set ss information ####################################
@@ -138,9 +139,9 @@ ss_usage_json=""
 ss_link_1=`nvram get ss_link_2`
 ss_check=`nvram get ss_check`
 nvram set ss_check=0
-pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
+#pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
 
-action_port=1092
+action_port=1090
 lan_ipaddr=`nvram get lan_ipaddr`
 
 server1="NONO"
@@ -168,7 +169,7 @@ resolveip=`/usr/bin/resolveip -4 -t 4 $ss_server1 | grep -v : | sed -n '1p'`
 
 
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
-/tmp/SSJSON.sh -f /tmp/ss-redir_3.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1092 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
+/tmp/SSJSON.sh -f /tmp/ss-redir_3.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1090 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
 ss-redir -c /tmp/ss-redir_3.json $options1 >/dev/null 2>&1 &
 
 ss_s1_ip=$ss_server1
@@ -180,13 +181,14 @@ ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ip
 
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
-#wget -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 http://www.google.com.hk/  2>/dev/null
-wget -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url
+#wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 5 http://www.google.com.hk/  2>/dev/null
+#wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 5 http://www.google.com.hk/  
+wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 5 $url 2>/dev/null
 
 if [ -s /tmp/tmp.txt ] ; then
-	endtime=$(cat /proc/uptime | cut -d" " -f1)
+        endtime=$(cat /proc/uptime | cut -d" " -f1)
     TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
-	RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
+        RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
     if [ "$RES" = "1"  ] ; then
         server2=$server1
         time2=$time1
@@ -205,11 +207,11 @@ if [ -s /tmp/tmp.txt ] ; then
             echo $str >/tmp/server2.tmp
             echo $TIME >/tmp/time2.tmp
         fi
-	
+
     fi
-    echo $str" =====  "$TIME
+    logger $str" =====  "$TIME
 else
-    echo $str" =====  Fail"
+    logger $str" =====  Fail"
 
 fi
 done
@@ -227,45 +229,65 @@ logger "The No2 server: "$server2":"$time2
 nvram set ss_check=$ss_check
 
 logger "set ss information"
+pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
+ss-rules -f
 if [ ! $time1 = "999.9" ]; then
-	ssinfo=$server1
-	addr0=`echo $ssinfo | awk -F":" '{print $1"\n"; }'`
-	port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
-	password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
-	method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
-	logger  "get ssinfo" $ssinfo 
-	echo  "get ssinfo" $ssinfo 
-	nvram set ss_server=$addr0
-	nvram set ss_server_port=$port0
-	nvram set ss_key=$password0
-	nvram set ss_method=$method0
-	nvram set ss_server1=$addr0
-	nvram set ss_s1_port=$port0
-	nvram set ss_s1_key=$password0
-	nvram set ss_s1_method=$method0
+    ssinfo=$server1
+    addr0=`echo $ssinfo | awk -F":" '{print $1"\n"; }'`
+    port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
+    password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
+    method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
+#    logger  "get ssinfo" $ssinfo 
+#    echo  "get ssinfo" $ssinfo 
+    nvram set ss_server=$addr0
+    nvram set ss_server_port=$port0
+    nvram set ss_key=$password0
+    nvram set ss_method=$method0
+    nvram set ss_server1=$addr0
+    nvram set ss_s1_port=$port0
+    nvram set ss_s1_key=$password0
+    nvram set ss_s1_method=$method0
+    nvram commit
+
+#    /tmp/SSJSON.sh -f /tmp/ss-redir_1.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1090 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
+#    ss-redir -c /tmp/ss-redir_1.json $options1 >/dev/null 2>&1 &
+
+#    resolveip=`/usr/bin/resolveip -4 -t 4 $addr0 | grep -v : | sed -n '1p'`                                     
+#    [ -z "$resolveip" ] && resolveip=`nslookup $ss_addr0 | awk 'NR==5{print $3}'`                                  
+                                                                                 
+#    ss_s1_ip=$resolveip
+#    action_ssip=$resolveip
+#    BP_IP=$ss_s1_ip
+#    ss-rules -f
+#    ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80' -o -O
+#    echo $action_ssip $action_port $BP_IP $lan_ipaddr
 fi
 
 if [ ! $time2 = "999.9" ]; then
-	ssinfo=$server2
-	addr0=`echo $ssinfoecho $ssinfo | awk -F":" '{print $1"\n"; }'`
-	port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
-	password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
-	method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
-	logger  "get ssinfo" $ssinfo 
-	echo  "get ssinfo" $ssinfo 
-	nvram set ss_server2=$addr0
-	nvram set ss_s2_port=$port0
-	nvram set ss_s2_key=$password0
-	nvram set ss_s2_method=$method0
+        ssinfo=$server2
+        addr0=`echo $ssinfoecho $ssinfo | awk -F":" '{print $1"\n"; }'`
+        port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
+        password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
+        method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
+        logger  "get ssinfo" $ssinfo 
+        echo  "get ssinfo" $ssinfo 
+        nvram set ss_server2=$addr0
+        nvram set ss_s2_port=$port0
+        nvram set ss_s2_key=$password0
+        nvram set ss_s2_method=$method0
+        nvram commit
+#        /tmp/SSJSON.sh -f /tmp/ss-redir_2.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1091 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
+#        ss-redir -c /tmp/ss-redir_2.json $options1 >/dev/null 2>&1 &
+
+
 fi
 fi
 ss-rules -f
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
-sleep 2
+killall -9  sh_sskeey_k.sh 2>/dev/null
+#sleep 2
 nvram set ss_status=0
 nvram set ss_enable=1
 nvram commit
-/etc/storage/script/Sh15_ss.sh start &
-
-
+/etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 
