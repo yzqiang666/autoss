@@ -1,3 +1,4 @@
+[ ! "`nvram get ss_enable`" = "1" ] && exit 1
 ##################### SSR Server ###########
 
 [  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
