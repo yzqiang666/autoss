@@ -246,8 +246,10 @@ if [ -s /tmp/tmp.txt ] ; then
 
     fi
     echo $str" =====  "$TIME $min
+    logger $str" =====  "$TIME $min
 else
     echo $str" =====  Fail" $min
+    logger $str" =====  Fail" $min
 
 fi
 done
