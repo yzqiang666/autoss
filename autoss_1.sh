@@ -45,8 +45,8 @@ sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
 fi
 
 #######################  加入存放在github中的零星收集的SS Server
-wget  -q  -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt
-[ -s ss.txt ] && cat ss.txt >> ss.ini
+wget  -q  -O sss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt
+[ -s sss.txt ] && cat sss.txt >> ss.ini
 
 ########################  get from ishadowsock ########################
 #iss="http://go.ishadow.online/"
@@ -315,7 +315,8 @@ nvram set shadowsocks_master_config=0
 nvram set shadowsocks_second_config=1
 nvram set shadowsocks_watchdog_enable=$watchdog
 nvram commit
-watchdog
+PID=`pidof watchdog`     
+[ ! "$PID" > "1" ] &&  watchdog
 restart_ss
 
 fi
