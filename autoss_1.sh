@@ -44,6 +44,10 @@ sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
  | awk -F"[-.,]" '{print $4"."$5"."$6"."$7":"$2":yzqyzq:rc4-md5::"; }' >> ss.ini
 fi
 
+#######################  加入存放在github中的零星收集的SS Server
+wget  -q  -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt
+[ -s ss.txt ] && cat ss.txt >> ss.ini
+
 ########################  get from ishadowsock ########################
 #iss="http://go.ishadow.online/"
 iss="http://www.ishadowsocks.org/"
@@ -98,6 +102,7 @@ sed -i '$d' ssss.ini
 head -n 9  ssss.ini >>ss.ini
 rm ssss.*
 
+
 ########################  get from github.com/Alvin9999 不得已才用　########################
 ####if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
@@ -108,6 +113,8 @@ wget  -q  -O ss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
+if [ -s ss.txt ] ; then
+echo "==========" >> ss.ini
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
 | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/ /:/g' \
 | sed 's/::/:/g'  | sed 's/（/:/g' | head -n 18 | while read i  
@@ -118,7 +125,7 @@ do
   var4=`echo $i|awk -F ':' '{print $8}'`
   echo $var1:$var2:$var3:$var4 >> ss.ini
 done
-
+fi
 rm ss.txt
 ####fi
 
@@ -182,9 +189,17 @@ nvram set shadowsocks_second_config=2
 PID=`pidof watchdog`     
 [ ! "$PID" > "1" ] && killall -9 watchdog 
 str="153.125.233.236:31731:yzqyzq:rc4-md5::"
+CC=0
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
+if [ "$str" = "==========" ] ; then
+	if [ $CC > 10 ] ; then
+		break
+	else
+		continue
+	fi
+fi
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
@@ -247,8 +262,10 @@ if [ -s /tmp/tmp.txt ] ; then
         fi
 
     fi
-    echo $str" =====  "$TIME $min
+    echo $str" =====  "$TIME $min $CC
     logger $str" =====  "$TIME $min
+	RES=`awk -v a=$TIME  'BEGIN { print (a<=1)?1:0'}`
+	[ "$RES" = "1"  ] && let CC=$CC+1
 else
     echo $str" =====  Fail" $min
     logger $str" =====  Fail" $min
