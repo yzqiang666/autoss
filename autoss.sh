@@ -169,7 +169,7 @@ cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
 if [ "$str" = "==========" ] ; then
-	if [ $CC -ge 20 ] ; then
+	if [ $CC -ge 15 ] ; then
 		break
 	else
 		continue
@@ -277,8 +277,6 @@ if [ ! $time2 = "999.9" ]; then
         port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
         password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
         method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
-        logger  "get ssinfo" $ssinfo 
-        echo  "get ssinfo" $ssinfo 
         nvram set ss_server2=$addr0
         nvram set ss_s2_port=$port0
         nvram set ss_s2_key=$password0
