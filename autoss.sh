@@ -225,13 +225,13 @@ if [ -s /tmp/tmp.txt ] ; then
         fi
 
     fi
-    echo $str" =====  "$TIM
+    echo $str" =====  "$TIME
     logger $str" =====  "$TIME
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=1.5)?1:0'}`
 	[ "$RES" = "1"  ] && let CC=$CC+1
 else
-    echo $str" =====  Fail" $min
-    logger $str" =====  Fail" $min
+    echo $str" =====  Fail"
+    logger $str" =====  Fail"
 
 fi
 done
