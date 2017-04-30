@@ -42,11 +42,13 @@ sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
  | sed 's/}//g' \
  | sed 's/"//g' \
  | awk -F"[-.,]" '{print $4"."$5"."$6"."$7":"$2":yzqyzq:rc4-md5::"; }' >> ss.ini
+ 
+echo "==========" >> ss.ini 
 fi
 
 #######################  加入存放在github中的零星收集的SS Server
 wget  -q  -O sss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt
-[ -s sss.txt ] && cat sss.txt >> ss.ini
+[ -s sss.txt ]  && cat sss.txt >> ss.ini && echo "==========" >> ss.ini  
 
 ########################  get from ishadowsock ########################
 #iss="http://go.ishadow.online/"
@@ -99,9 +101,9 @@ fi
 done
 
 sed -i '$d' ssss.ini
-head -n 9  ssss.ini >>ss.ini
+####head -n 9  ssss.ini >>ss.ini
 rm ssss.*
-
+echo "==========" >> ss.ini 
 
 ########################  get from github.com/Alvin9999 不得已才用　########################
 ####if [ ! -s ss.ini ] ; then
@@ -114,7 +116,6 @@ wget  -q  -O ss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 if [ -s ss.txt ] ; then
-echo "==========" >> ss.ini
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
 | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/ /:/g' \
 | sed 's/::/:/g'  | sed 's/（/:/g' | head -n 18 | while read i  
@@ -127,6 +128,7 @@ do
 done
 fi
 rm ss.txt
+echo "==========" >> ss.ini 
 ####fi
 
 
@@ -186,15 +188,14 @@ nvram set shadowsocks_watchdog_enable=0
 nvram set ss_node_num_x=3
 nvram set shadowsocks_master_config=2
 nvram set shadowsocks_second_config=2
-PID=`pidof watchdog`     
-[ ! "$PID" > "1" ] && killall -9 watchdog 
+killall -9 watchdog >/dev/null 2>/dev/null 
 str="153.125.233.236:31731:yzqyzq:rc4-md5::"
 CC=0
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
 if [ "$str" = "==========" ] ; then
-	if [ $CC > 10 ] ; then
+	if [ $CC -ge 100 ] ; then
 		break
 	else
 		continue
@@ -315,8 +316,8 @@ nvram set shadowsocks_master_config=0
 nvram set shadowsocks_second_config=1
 nvram set shadowsocks_watchdog_enable=$watchdog
 nvram commit
-PID=`pidof watchdog`     
-[ ! "$PID" > "1" ] &&  watchdog
+killall -9 watchdog >/dev/null 2>/dev/null 
+watchdog
 restart_ss
 
 fi
