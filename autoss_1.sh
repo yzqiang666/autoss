@@ -118,7 +118,7 @@ wget  -q  -O ss.txt -tries=10 $iss
 if [ -s ss.txt ] ; then
 CCC=-1
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
-| sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/ /:/g' \
+| tr -s ' ' | tr ' ' ':' | sed 's/ /:/g' \
 | sed 's/::/:/g'  | sed 's/（/:/g' | head -n 200 | while read i  
 do
   let CCC=$CCC+1
@@ -126,7 +126,8 @@ do
   var1=`echo $i|awk -F ':' '{print $2}'`
   var2=`echo $i|awk -F ':' '{print $4}'`
   var3=`echo $i|awk -F ':' '{print $6}'`
-  var4=`echo $i|awk -F ':' '{print $8}'`
+  var4=`echo $i|awk -F ':' '{print $8}' | tr '[A-Z' '[a-z'`
+  
   echo $var1:$var2:$var3:$var4 >> ss.ini
 done
 fi
