@@ -211,6 +211,10 @@ ss_s1_port=`echo $str|awk -F ':' '{print $2}'`
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
 
+
+resolveip=`resolveip -4 -t 4 $ss_s1_ip | grep -v : | sed -n '1p'`
+[ -z "$resolveip" ] && resolveip=`nslookup $ss_s1_ip | awk 'NR==5{print $3}'` 
+ss_s1_ip=$resolveip
 Method_Str=$ss_s1_method
 getmethod
 nvram set ss_node_server_addr_x2=$ss_s1_ip
