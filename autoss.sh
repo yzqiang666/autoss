@@ -18,10 +18,6 @@ cd /tmp
 nvram set ss_status=1
 nvram set ss_enable=0
 nvram commit
-#pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
-#/etc/storage/script/Sh15_ss.sh stop 
-#ss-rules -f
-#sleep 4
 
 rm ss.ini > /dev/null 2>&1
 
@@ -48,7 +44,13 @@ sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
  | sed 's/}//g' \
  | sed 's/"//g' \
  | awk -F"[-.,]" '{print $4"."$5"."$6"."$7":"$2":yzqyzq:rc4-md5::"; }' >> ss.ini
+ 
+echo "==========" >> ss.ini 
 fi
+
+#######################  加入存放在github中的零星收集的SS Server
+wget  -q  -O sss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt
+[ -s sss.txt ]  && cat sss.txt >> ss.ini && echo "==========" >> ss.ini  
 
 ########################  get from ishadowsock ########################
 #iss="http://go.ishadow.online/"
@@ -60,8 +62,8 @@ wget  -q  -O ss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 
-
-cp /dev/null ssss.ini
+if [  -s ss.txt ] ; then
+cp /dev/null  ssss.ini
 Server=""
 Port=""
 Pass=""
@@ -101,11 +103,12 @@ fi
 done
 
 sed -i '$d' ssss.ini
-head -n 9  ssss.ini >>ss.ini
+head -n 90  ssss.ini >>ss.ini
 rm ssss.*
-
+echo "==========" >> ss.ini 
+fi
 ########################  get from github.com/Alvin9999 不得已才用　########################
-###if [ ! -s ss.ini ] ; then
+####if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
 
@@ -114,19 +117,25 @@ wget  -q  -O ss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
+if [ -s ss.txt ] ; then
+CCC=-1
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
-| sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/ /:/g' \
-| sed 's/::/:/g'  | sed 's/（/:/g' | head -n 18 | while read i  
+| tr -s ' ' | tr ' ' ':' | sed 's/ /:/g' \
+| sed 's/::/:/g'  | sed 's/（/:/g' | while read i  
 do
+
+  let CCC=$CCC+1
+  [ $CCC -ge 10 ] && echo "==========" >> ss.ini && CCC=0
   var1=`echo $i|awk -F ':' '{print $2}'`
   var2=`echo $i|awk -F ':' '{print $4}'`
   var3=`echo $i|awk -F ':' '{print $6}'`
-  var4=`echo $i|awk -F ':' '{print $8}'`
+  var4=`echo $i|awk -F ':' '{print $8}' | tr '[A-Z]' '[a-z]'`  
   echo $var1:$var2:$var3:$var4 >> ss.ini
 done
-
+fi
 rm ss.txt
-###fi
+echo "==========" >> ss.ini 
+####fi
 
 
 ###################### set ss information ####################################
@@ -155,10 +164,17 @@ echo "NONO" >/tmp/server1.tmp
 echo "NONO" >/tmp/server2.tmp
 echo "999.9" >/tmp/time1.tmp
 echo "999.9" >/tmp/time2.tmp
-
+CC=0
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
+if [ "$str" = "==========" ] ; then
+	if [ $CC -ge 20 ] ; then
+		break
+	else
+		continue
+	fi
+fi
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
@@ -180,12 +196,9 @@ action_ssip=$ss_s1_ip
 BP_IP="$action_ssip"
 
 ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80' -o -O
-#sleep 1
-
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
-#wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 5 http://www.google.com.hk/  2>/dev/null
-#wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 5 http://www.google.com.hk/  
+
 wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 5 $url 2>/dev/null
 
 if [ -s /tmp/tmp.txt ] ; then
@@ -212,9 +225,13 @@ if [ -s /tmp/tmp.txt ] ; then
         fi
 
     fi
+    echo $str" =====  "$TIM
     logger $str" =====  "$TIME
+	RES=`awk -v a=$TIME  'BEGIN { print (a<=1.5)?1:0'}`
+	[ "$RES" = "1"  ] && let CC=$CC+1
 else
-    logger $str" =====  Fail"
+    echo $str" =====  Fail" $min
+    logger $str" =====  Fail" $min
 
 fi
 done
@@ -252,18 +269,6 @@ if [ ! $time1 = "999.9" ]; then
     nvram set ss_s1_method=$method0
     nvram commit
 
-#    /tmp/SSJSON.sh -f /tmp/ss-redir_1.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1090 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
-#    ss-redir -c /tmp/ss-redir_1.json $options1 >/dev/null 2>&1 &
-
-#    resolveip=`/usr/bin/resolveip -4 -t 4 $addr0 | grep -v : | sed -n '1p'`                                     
-#    [ -z "$resolveip" ] && resolveip=`nslookup $ss_addr0 | awk 'NR==5{print $3}'`                                  
-                                                                                 
-#    ss_s1_ip=$resolveip
-#    action_ssip=$resolveip
-#    BP_IP=$ss_s1_ip
-#    ss-rules -f
-#    ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80' -o -O
-#    echo $action_ssip $action_port $BP_IP $lan_ipaddr
 fi
 
 if [ ! $time2 = "999.9" ]; then
@@ -279,9 +284,6 @@ if [ ! $time2 = "999.9" ]; then
         nvram set ss_s2_key=$password0
         nvram set ss_s2_method=$method0
         nvram commit
-#        /tmp/SSJSON.sh -f /tmp/ss-redir_2.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1091 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
-#        ss-redir -c /tmp/ss-redir_2.json $options1 >/dev/null 2>&1 &
-
 
 fi
 fi
