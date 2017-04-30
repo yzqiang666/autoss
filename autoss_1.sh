@@ -60,8 +60,8 @@ wget  -q  -O ss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 
-
-cp /dev/null ssss.ini
+if [  -s ss.txt ] ; then
+cp /dev/null  ssss.ini
 Server=""
 Port=""
 Pass=""
@@ -101,10 +101,10 @@ fi
 done
 
 sed -i '$d' ssss.ini
-####head -n 9  ssss.ini >>ss.ini
+head -n 90  ssss.ini >>ss.ini
 rm ssss.*
 echo "==========" >> ss.ini 
-
+fi
 ########################  get from github.com/Alvin9999 不得已才用　########################
 ####if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
@@ -116,10 +116,13 @@ wget  -q  -O ss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 [ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
 if [ -s ss.txt ] ; then
+CCC=-1
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
 | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/  / /g' | sed 's/ /:/g' \
-| sed 's/::/:/g'  | sed 's/（/:/g' | head -n 18 | while read i  
+| sed 's/::/:/g'  | sed 's/（/:/g' | head -n 200 | while read i  
 do
+  let CCC=$CCC+1
+  [ $CCC -ge 10 ] && echo "==========" >> ss.ini && CCC=0
   var1=`echo $i|awk -F ':' '{print $2}'`
   var2=`echo $i|awk -F ':' '{print $4}'`
   var3=`echo $i|awk -F ':' '{print $6}'`
@@ -195,7 +198,7 @@ cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
 if [ "$str" = "==========" ] ; then
-	if [ $CC -ge 100 ] ; then
+	if [ $CC -ge 20 ] ; then
 		break
 	else
 		continue
@@ -265,7 +268,7 @@ if [ -s /tmp/tmp.txt ] ; then
     fi
     echo $str" =====  "$TIME $min $CC
     logger $str" =====  "$TIME $min
-	RES=`awk -v a=$TIME  'BEGIN { print (a<=1)?1:0'}`
+	RES=`awk -v a=$TIME  'BEGIN { print (a<=1.5)?1:0'}`
 	[ "$RES" = "1"  ] && let CC=$CC+1
 else
     echo $str" =====  Fail" $min
