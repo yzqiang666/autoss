@@ -7,12 +7,12 @@
 
 #########################################
 url="http://"`nvram get ss_link_2`
-url="http://www.youtube.com"
+#url="http://www.youtube.com"
 
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-wget  -q  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null 
+wget  -q  -O /tmp/tmp.txt --continue --no-check-certificate   -T 20 $url 2>/dev/null 
 [ -s /tmp/tmp.txt ] && exit 0
 fi
 cd /tmp
@@ -200,7 +200,7 @@ ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ip
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
 
-wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 15 $url 2>/dev/null
+wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 20 $url 2>/dev/null
 
 if [ -s /tmp/tmp.txt ] ; then
         endtime=$(cat /proc/uptime | cut -d" " -f1)
