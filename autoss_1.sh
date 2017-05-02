@@ -6,7 +6,7 @@
 &&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
 #########################################
-url="http://www.google.com.hk"
+url="http://www.youtube.com"
 
 
 if [ ! "$1" = "refresh" ] ; then
@@ -246,7 +246,7 @@ sleep 1
 #########正式测试时间
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
-wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 3  http://www.google.com.hk/ 2>/dev/null
+wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 15  http://http://www.youtube.com/ 2>/dev/null
 #wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 3  http://www.google.co.jp/ 2>/dev/null
 if [ -s /tmp/tmp.txt ] ; then
         endtime=$(cat /proc/uptime | cut -d" " -f1)
@@ -274,7 +274,7 @@ if [ -s /tmp/tmp.txt ] ; then
     fi
     echo $str" =====  "$TIME $min $CC
     logger $str" =====  "$TIME $min
-	RES=`awk -v a=$TIME  'BEGIN { print (a<=1.5)?1:0'}`
+	RES=`awk -v a=$TIME  'BEGIN { print (a<=15)?1:0'}`
 	[ "$RES" = "1"  ] && let CC=$CC+1
 else
     echo $str" =====  Fail" $min
