@@ -7,6 +7,7 @@
 
 #########################################
 url="http://"`nvram get ss_link_2`
+url="http://www.youtube.com"
 
 
 if [ ! "$1" = "refresh" ] ; then
@@ -227,7 +228,7 @@ if [ -s /tmp/tmp.txt ] ; then
     fi
     echo $str" =====  "$TIME
     logger $str" =====  "$TIME
-	RES=`awk -v a=$TIME  'BEGIN { print (a<=1.5)?1:0'}`
+	RES=`awk -v a=$TIME  'BEGIN { print (a<=15)?1:0'}`
 	[ "$RES" = "1"  ] && let CC=$CC+1
 else
     echo $str" =====  Fail"
