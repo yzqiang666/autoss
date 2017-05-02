@@ -121,7 +121,7 @@ if [ -s ss.txt ] ; then
 CCC=-1
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
 | tr -s ' ' | tr ' ' ':' | sed 's/ /:/g' \
-| sed 's/::/:/g'  | sed 's/（/:/g' | while read i  
+| sed 's/::/:/g'  | sed 's/256-cfb（/256-cfb:/g' | while read i  
 do
 
   let CCC=$CCC+1
