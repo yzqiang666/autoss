@@ -1,5 +1,6 @@
 [ ! "`nvram get shadowsocks_enable`" = "1" ] && exit 1
 ##################### SSR Server ###########
+logger "auto get shadowsocks server information"
 
 [  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
 && [ `ps | grep python |wc | awk '{ print $1; }'` = 1 ] \
@@ -14,8 +15,11 @@ rm /tmp/tmp.txt 2>/dev/null
 wget  -q  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null 
 [ -s /tmp/tmp.txt ] && exit 0
 fi
-cd /tmp
 
+
+cd /tmp
+sleep 1
+mv syslog.log syslog.tmp
 rm ss.ini > /dev/null 2>&1
 /etc/storage/shadowsocks_script.sh stop
 
@@ -273,12 +277,12 @@ if [ -s /tmp/tmp.txt ] ; then
 
     fi
     echo $str" =====  "$TIME $min $CC
-    logger $str" =====  "$TIME $min
+    echo  $str" =====  "$TIME $min >>syslog.tmp
         RES=`awk -v a=$TIME  'BEGIN { print (a<=15)?1:0'}`
         [ "$RES" = "1"  ] && let CC=$CC+1
 else
     echo $str" =====  Fail" $min
-    logger $str" =====  Fail" $min
+    echo  $str" =====  Fail" $min  >>syslog.tmp
 
 fi
 done
@@ -290,8 +294,8 @@ time2=`cat /tmp/time2.tmp`
 
 echo "The No1 server: "$server1":"$time1
 echo "The No2 server: "$server2":"$time2
-logger "The No1 server: "$server1":"$time1
-logger "The No2 server: "$server2":"$time2
+echo  "The No1 server: "$server1":"$time1  >>syslog.tmp
+echo  "The No2 server: "$server2":"$time2  >>syslog.tmp
 
 
 str=$server1
@@ -334,6 +338,7 @@ nvram commit
 killall -9 watchdog >/dev/null 2>/dev/null 
 watchdog
 restart_ss
-
+sleep 5
 fi
 
+mv syslog.tmp syslog.log
