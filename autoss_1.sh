@@ -227,7 +227,11 @@ nvram set ss_node_password_x2=$ss_s1_key
 #nvram set ss_node_method_x2=$ss_s1_method
 nvram set ss_node_method_x2=$Method_value
 nvram commit
-restart_ss
+
+#restart_ss
+/etc/storage/shadowsocks_script.sh stop                                                                                
+/etc/storage/shadowsocks_script.sh start 
+
 #killall ss-redir 2>/dev/null  
 #killall -9 ss-redir 2>/dev/null
 ############/usr/sbin/ss-redir -b 0.0.0.0 -c /tmp/shadowsocks.json  >/dev/null 2>&1 &
@@ -235,16 +239,16 @@ restart_ss
 ##########先测试一次，以启动SS
 #wget  -q -T 2 -O  /tmp/aa.txt http://www.google.com.hk/ 2>/dev/null
 
-min=1
-max=30
-while [ $min -le $max ]
-do
-    PID=`pidof shadowsocks_script.sh`
-    [  ! "$PID" > "1" ] && break
-    min=`expr $min + 1`
-    sleep 1
-done  
-sleep 1
+#min=1
+#max=30
+#while [ $min -le $max ]
+#do
+#    PID=`pidof shadowsocks_script.sh`
+#    [  ! "$PID" > "1" ] && break
+#    min=`expr $min + 1`
+#    sleep 1
+#done  
+#sleep 1
 
 #wget  -q -T 2 -O  /tmp/aa.txt http://www.google.com.hk/ 2>/dev/null
 #########正式测试时间
@@ -337,8 +341,10 @@ nvram set shadowsocks_watchdog_enable=$watchdog
 nvram commit
 killall -9 watchdog >/dev/null 2>/dev/null 
 watchdog
-restart_ss
-sleep 5
+#restart_ss
+#sleep 5
+/etc/storage/shadowsocks_script.sh stop                                                                                
+/etc/storage/shadowsocks_script.sh start 
 fi
 
 mv syslog.tmp syslog.log
