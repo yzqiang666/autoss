@@ -1,0 +1,16 @@
+1.下载optware
+
+
+
+cd /media/AiCard_01/  (切换到硬盘)
+wget http://oleg-for-mss-base.googlecode.com/files/opt.tar.gz （下载optware包）
+tar zvxf opt.tar.gz    （解压）
+
+这时候硬盘上就会多出一个opt目录，里面就是optware
+
+2.挂接到/opt
+mount --bind /media/AiCard_01/opt /opt
+mount -o bind /media/AiCard_01/opt /opt
+
+3.更新软件列表
+/opt/bin/opkg update
