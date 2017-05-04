@@ -294,8 +294,8 @@ time2=`cat /tmp/time2.tmp`
 
 echo "The No1 server: "$server1":"$time1
 echo "The No2 server: "$server2":"$time2
-echo  "The No1 server: "$server1":"$time1  >>syslog.tmp
-echo  "The No2 server: "$server2":"$time2  >>syslog.tmp
+###echo  "The No1 server: "$server1":"$time1  >>syslog.tmp
+###echo  "The No2 server: "$server2":"$time2  >>syslog.tmp
 
 
 str=$server1
@@ -342,3 +342,5 @@ sleep 5
 fi
 
 mv syslog.tmp syslog.log
+logger  "The No1 server: "$server1":"$time1 
+logger  "The No2 server: "$server2":"$time2 
