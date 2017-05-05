@@ -208,7 +208,7 @@ CC=0
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
-[ $CC -ge 30 ] && break
+[ $CC -ge 20 ] && break
 [ "$str" = "==========" ] && continue 
 echo $str >>ss.log
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
@@ -251,7 +251,7 @@ done
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
 wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 15 $url 2>/dev/null >>ss.log 2>>ss.log
-#openssl s_client  -connect www.youtube.com:443 -servername www.youtube.com >/tmp/tmp.txt 2>/dev/null
+#echo | openssl s_client -connect www.youtube.com:443 2>&1 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' >/tmp/tmp.txt
 if [ -s /tmp/tmp.txt ] ; then
         endtime=$(cat /proc/uptime | cut -d" " -f1)
     TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
