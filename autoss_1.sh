@@ -217,7 +217,7 @@ ss_s1_key=`echo $str|awk -F ':' '{print $3}'`
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
 
 
-resolveip=`resolveip  $ss_s1_ip | grep -v : | sed -n '1p'`
+resolveip=`resolveip  $ss_s1_ip | grep -v : | sed -n '1p' | cut -d ' ' -f 6`
 [ -z "$resolveip" ] && resolveip=`nslookup $ss_s1_ip | awk 'NR==5{print $3}'` 
 ss_s1_ip=$resolveip
 Method_Str=$ss_s1_method
@@ -302,7 +302,7 @@ ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
-resolveip=`resolveip $ss_s1_ip | grep -v : | sed -n '1p'`
+resolveip=`resolveip $ss_s1_ip | grep -v : | sed -n '1p' | cut -d ' ' -f 6`
 [ -z "$resolveip" ] && resolveip=`nslookup $ss_s1_ip | awk 'NR==5{print $3}'` 
 ss_s1_ip=$resolveip
 
@@ -318,7 +318,7 @@ ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
-resolveip=`resolveip $ss_s1_ip | grep -v : | sed -n '1p'`
+resolveip=`resolveip $ss_s1_ip | grep -v : | sed -n '1p' | cut -d ' ' -f 6`
 [ -z "$resolveip" ] && resolveip=`nslookup $ss_s1_ip | awk 'NR==5{print $3}'` 
 ss_s1_ip=$resolveip
 
