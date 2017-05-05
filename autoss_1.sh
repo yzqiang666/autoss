@@ -57,6 +57,37 @@ fi
 wget    -O sss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log
 [ -s sss.txt ]  && cat sss.txt >> ss.ini && echo "==========" >> ss.ini  
 
+########################  get from github.com/Alvin9999 不得已才用　########################
+####if [ ! -s ss.ini ] ; then
+rm ss.txt > /dev/null 2>&1
+iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
+
+wget  -O ss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+if [ -s ss.txt ] ; then
+CCC=-1
+cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
+| tr -s ' ' | tr ' ' ':' | sed 's/ /:/g' \
+| sed 's/::/:/g'  | sed 's/256-cfb（/256-cfb:/g' | while read i  
+do
+
+  let CCC=$CCC+1
+  [ $CCC -ge 10 ] && echo "==========" >> ss.ini && CCC=0
+  var1=`echo $i|awk -F ':' '{print $2}'`
+  var2=`echo $i|awk -F ':' '{print $4}'`
+  var3=`echo $i|awk -F ':' '{print $6}'`
+  var4=`echo $i|awk -F ':' '{print $8}' | tr '[A-Z]' '[a-z]'`  
+  echo $var1:$var2:$var3:$var4 >> ss.ini
+done
+fi
+rm ss.txt
+echo "==========" >> ss.ini 
+####fi
+
+
 ########################  get from ishadowsock ########################
 #iss="http://go.ishadow.online/"
 iss="http://www.ishadowsocks.org/"
@@ -112,35 +143,6 @@ head -n 90  ssss.ini >>ss.ini
 rm ssss.*
 echo "==========" >> ss.ini 
 fi
-########################  get from github.com/Alvin9999 不得已才用　########################
-####if [ ! -s ss.ini ] ; then
-rm ss.txt > /dev/null 2>&1
-iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-
-wget  -O ss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
-if [ -s ss.txt ] ; then
-CCC=-1
-cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
-| tr -s ' ' | tr ' ' ':' | sed 's/ /:/g' \
-| sed 's/::/:/g'  | sed 's/256-cfb（/256-cfb:/g' | while read i  
-do
-
-  let CCC=$CCC+1
-  [ $CCC -ge 10 ] && echo "==========" >> ss.ini && CCC=0
-  var1=`echo $i|awk -F ':' '{print $2}'`
-  var2=`echo $i|awk -F ':' '{print $4}'`
-  var3=`echo $i|awk -F ':' '{print $6}'`
-  var4=`echo $i|awk -F ':' '{print $8}' | tr '[A-Z]' '[a-z]'`  
-  echo $var1:$var2:$var3:$var4 >> ss.ini
-done
-fi
-rm ss.txt
-echo "==========" >> ss.ini 
-####fi
 
 
 
@@ -206,7 +208,7 @@ CC=0
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
-[ $CC -ge 20 ] && break
+[ $CC -ge 30 ] && break
 [ "$str" = "==========" ] && continue 
 echo $str >>ss.log
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
@@ -249,6 +251,7 @@ done
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
 wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 15 $url 2>/dev/null >>ss.log 2>>ss.log
+#openssl s_client  -connect www.youtube.com:443 -servername www.youtube.com >/tmp/tmp.txt 2>/dev/null
 if [ -s /tmp/tmp.txt ] ; then
         endtime=$(cat /proc/uptime | cut -d" " -f1)
     TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
