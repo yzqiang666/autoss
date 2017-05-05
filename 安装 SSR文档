@@ -23,7 +23,7 @@ cat > config.json <<-\EOF
     "timeout": 120,
     "udp_timeout": 60,
     "method": "rc4-md5",
-    "protocol": "auth_sha1_compatible",
+    "protocol": "origin",
     "protocol_param": "",
     "obfs": "http_simple_compatible",
     "obfs_param": "",
