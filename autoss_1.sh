@@ -14,6 +14,7 @@ if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 wget  -q  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null 
 [ -s /tmp/tmp.txt ] && exit 0
+/etc/storage/shadowsocks_script.sh stop
 fi
 
 
@@ -21,7 +22,7 @@ cd /tmp
 sleep 1
 mv syslog.log syslog.tmp
 rm ss.ini > /dev/null 2>&1
-/etc/storage/shadowsocks_script.sh stop
+
 
 ########################  get from arukas ########################
 token="e39ed54e-18ee-4eae-b372-41b4e05721f3"
@@ -228,34 +229,28 @@ nvram set ss_node_password_x2=$ss_s1_key
 nvram set ss_node_method_x2=$Method_value
 nvram commit
 
-#restart_ss
-/etc/storage/shadowsocks_script.sh stop                                                                                
-/etc/storage/shadowsocks_script.sh start 
+restart_ss
+#/etc/storage/shadowsocks_script.sh stop                                                                                
+#/etc/storage/shadowsocks_script.sh start 
 
 #killall ss-redir 2>/dev/null  
 #killall -9 ss-redir 2>/dev/null
 ############/usr/sbin/ss-redir -b 0.0.0.0 -c /tmp/shadowsocks.json  >/dev/null 2>&1 &
 #sleep 1
-##########先测试一次，以启动SS
-#wget  -q -T 2 -O  /tmp/aa.txt http://www.google.com.hk/ 2>/dev/null
 
-#min=1
-#max=30
-#while [ $min -le $max ]
-#do
-#    PID=`pidof shadowsocks_script.sh`
-#    [  ! "$PID" > "1" ] && break
-#    min=`expr $min + 1`
-#    sleep 1
-#done  
-#sleep 1
-
-#wget  -q -T 2 -O  /tmp/aa.txt http://www.google.com.hk/ 2>/dev/null
+min=1
+max=30
+while [ $min -le $max ]
+do
+    PID=`pidof shadowsocks_script.sh`
+    [  ! "$PID" > "1" ] && break
+    min=`expr $min + 1`
+    sleep 1
+done  
 #########正式测试时间
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
 wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 15  http://www.youtube.com/ 2>/dev/null
-#wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 3  http://www.google.co.jp/ 2>/dev/null
 if [ -s /tmp/tmp.txt ] ; then
         endtime=$(cat /proc/uptime | cut -d" " -f1)
     TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
@@ -281,12 +276,12 @@ if [ -s /tmp/tmp.txt ] ; then
 
     fi
     echo $str" =====  "$TIME $min $CC
-    echo  $str" =====  "$TIME $min >>syslog.tmp
+    echo $str" =====  "$TIME $min >>syslog.tmp
         RES=`awk -v a=$TIME  'BEGIN { print (a<=15)?1:0'}`
         [ "$RES" = "1"  ] && let CC=$CC+1
 else
     echo $str" =====  Fail" $min
-    echo  $str" =====  Fail" $min  >>syslog.tmp
+    echo $str" =====  Fail" $min  >>syslog.tmp
 
 fi
 done
@@ -307,7 +302,7 @@ ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
-resolveip=`resolveip -4 -t 4 $ss_s1_ip | grep -v : | sed -n '1p'`
+resolveip=`resolveip $ss_s1_ip | grep -v : | sed -n '1p'`
 [ -z "$resolveip" ] && resolveip=`nslookup $ss_s1_ip | awk 'NR==5{print $3}'` 
 ss_s1_ip=$resolveip
 
@@ -323,7 +318,7 @@ ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
-resolveip=`resolveip -4 -t 4 $ss_s1_ip | grep -v : | sed -n '1p'`
+resolveip=`resolveip $ss_s1_ip | grep -v : | sed -n '1p'`
 [ -z "$resolveip" ] && resolveip=`nslookup $ss_s1_ip | awk 'NR==5{print $3}'` 
 ss_s1_ip=$resolveip
 
@@ -341,10 +336,10 @@ nvram set shadowsocks_watchdog_enable=$watchdog
 nvram commit
 killall -9 watchdog >/dev/null 2>/dev/null 
 watchdog
-#restart_ss
-#sleep 5
-/etc/storage/shadowsocks_script.sh stop                                                                                
-/etc/storage/shadowsocks_script.sh start 
+restart_ss
+sleep 10
+#/etc/storage/shadowsocks_script.sh stop                                                                                
+#/etc/storage/shadowsocks_script.sh start 
 fi
 
 mv syslog.tmp syslog.log
