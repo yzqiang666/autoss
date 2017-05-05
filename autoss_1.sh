@@ -205,7 +205,7 @@ cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
 if [ "$str" = "==========" ] ; then
-        if [ $CC -ge 50 ] ; then
+        if [ $CC -ge 18 ] ; then
                 break
         else
                 continue
