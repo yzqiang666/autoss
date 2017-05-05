@@ -12,7 +12,7 @@ url="https://www.youtube.com"
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-wget  -q  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null 
+wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null 
 [ -s /tmp/tmp.txt ] && exit 0
 /etc/storage/shadowsocks_script.sh stop
 fi
@@ -22,6 +22,8 @@ cd /tmp
 sleep 1
 mv syslog.log syslog.tmp
 rm ss.ini > /dev/null 2>&1
+rm ss.log > /dev/null 2>&1
+
 
 
 ########################  get from arukas ########################
@@ -29,11 +31,11 @@ token="e39ed54e-18ee-4eae-b372-41b4e05721f3"
 secret="eoZ9cCkTpM0d6Rb7BEtXl5luBcqZyVeiNLZuKUxGjgOFnB1tqTChz3Wr8JKS2kJY"
 
 rm ss.txt > /dev/null 2>&1
-wget -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
+wget   -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
 
 if [  -s ss.txt ] ; then
 sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
@@ -52,18 +54,18 @@ echo "==========" >> ss.ini
 fi
 
 #######################  加入存放在github中的零星收集的SS Server
-wget  -q  -O sss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt
+wget    -O sss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log
 [ -s sss.txt ]  && cat sss.txt >> ss.ini && echo "==========" >> ss.ini  
 
 ########################  get from ishadowsock ########################
 #iss="http://go.ishadow.online/"
 iss="http://www.ishadowsocks.org/"
 rm ss.txt > /dev/null 2>&1
-wget  -q  -O ss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
+wget  -O ss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
 
 if [  -s ss.txt ] ; then
 cp /dev/null  ssss.ini
@@ -115,11 +117,11 @@ fi
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
 
-wget  -q  -O ss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
+wget  -O ss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
 if [ -s ss.txt ] ; then
 CCC=-1
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
@@ -246,7 +248,7 @@ done
 #########正式测试时间
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
-wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 15 $url 2>/dev/null
+wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 15 $url 2>/dev/null >>ss.log 2>>ss.log
 if [ -s /tmp/tmp.txt ] ; then
         endtime=$(cat /proc/uptime | cut -d" " -f1)
     TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
