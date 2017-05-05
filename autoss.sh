@@ -7,7 +7,7 @@
 
 #########################################
 url="http://"`nvram get ss_link_2`
-#url="http://www.youtube.com"
+url="https://www.youtube.com"
 
 
 if [ ! "$1" = "refresh" ] ; then
@@ -170,7 +170,7 @@ cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
 if [ "$str" = "==========" ] ; then
-	if [ $CC -ge 10 ] ; then
+	if [ $CC -ge 50 ] ; then
 		break
 	else
 		continue
@@ -196,7 +196,7 @@ ss_s1_ip=$ss_server1
 action_ssip=$ss_s1_ip
 BP_IP="$action_ssip"
 
-ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80' -o -O
+ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80,443' -o -O
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
 
