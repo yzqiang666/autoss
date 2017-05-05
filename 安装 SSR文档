@@ -1,13 +1,13 @@
-/usr/bin/ssserver -p 8888 -k yzqyzq -m rc4-md5 -o http_simple_compatible -O auth_sha1_compatible
+#/usr/bin/ssserver -p 8888 -k yzqyzq -m rc4-md5 -o http_simple_compatible -O auth_sha1_compatible
+#Ubuntu/debian安装
+#apt-get install python-pip
+#apt-get install git
+#Ubuntu/debian安装
 
-
-Ubuntu/debian安装
-apt-get install python-pip
-apt-get install git
-
-CentOS安装
+####CentOS 安装
 yum -y install python-setuptools && easy_install pip
 yum -y install git 
+####CentOS 安装
 
 
 git clone -b  manyuser https://github.com/breakwa11/shadowsocks.git
@@ -39,5 +39,4 @@ cd shadowsocks
 
 sleep 5
 netstat -an|grep 8888
-
 
