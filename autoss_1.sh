@@ -22,7 +22,7 @@ cd /tmp
 sleep 1
 mv syslog.log syslog.tmp
 rm ss.ini > /dev/null 2>&1
-rm ss.log > /dev/null 2>&1
+date >ss.log
 
 
 
@@ -208,7 +208,7 @@ do
 #echo "begin process ===========   "$str
 [ $CC -ge 50 ] && break
 [ "$str" = "==========" ] && continue 
-
+echo $str >>ss.log
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
@@ -335,6 +335,7 @@ nvram commit
 killall -9 watchdog >/dev/null 2>/dev/null 
 watchdog
 restart_ss
+date >>ss.log
 sleep 5
 #/etc/storage/shadowsocks_script.sh stop                                                                                
 #/etc/storage/shadowsocks_script.sh start 
