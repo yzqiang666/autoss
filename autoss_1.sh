@@ -1,4 +1,3 @@
-exit 1
 
 [ ! "`nvram get shadowsocks_enable`" = "1" ] && exit 1
 ##################### SSR Server ###########
