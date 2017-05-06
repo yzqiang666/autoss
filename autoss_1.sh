@@ -53,6 +53,10 @@ sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
 echo "==========" >> ss.ini 
 fi
 
+#######################  加入存放在github中的零星收集的SS Server
+wget    -O sss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log
+[ -s sss.txt ]  && cat sss.txt >> ss.ini && echo "==========" >> ss.ini  
+
 ########################  get from ishadowsock ########################
 #iss="http://go.ishadow.online/"
 iss="http://www.ishadowsocks.org/"
@@ -108,10 +112,6 @@ head -n 90  ssss.ini >>ss.ini
 rm ssss.*
 echo "==========" >> ss.ini 
 fi
-
-#######################  加入存放在github中的零星收集的SS Server
-wget    -O sss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log
-[ -s sss.txt ]  && cat sss.txt >> ss.ini && echo "==========" >> ss.ini  
 
 ########################  get from github.com/Alvin9999 不得已才用　########################
 ####if [ ! -s ss.ini ] ; then
