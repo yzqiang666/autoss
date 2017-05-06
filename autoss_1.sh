@@ -208,7 +208,7 @@ CC=0
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
-[ $CC -ge 20 ] && break
+[ $CC -ge 25 ] && break
 [ "$str" = "==========" ] && continue 
 echo $str >>ss.log
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
