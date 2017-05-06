@@ -2,9 +2,9 @@
 ##################### SSR Server ###########
 logger "auto get shadowsocks server information"
 
-[  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
-&& [ `ps | grep python |wc | awk '{ print $1; }'` = 1 ] \
-&&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
+#[  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
+#&& [ `ps | grep python |wc | awk '{ print $1; }'` = 1 ] \
+#&&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
 #########################################
 url="https://www.youtube.com"
