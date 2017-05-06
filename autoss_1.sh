@@ -1,4 +1,4 @@
-
+exit 0
 [ ! "`nvram get shadowsocks_enable`" = "1" ] && exit 1
 ##################### SSR Server ###########
 logger "auto get shadowsocks server information"
