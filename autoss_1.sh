@@ -254,11 +254,11 @@ done
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
 wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 15 $url 2>/dev/null >>ss.log 2>>ss.log
+endtime=$(cat /proc/uptime | cut -d" " -f1)
+TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 #echo | openssl s_client -connect www.youtube.com:443 2>&1 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' >/tmp/tmp.txt
 if [ -s /tmp/tmp.txt ] ; then
-        endtime=$(cat /proc/uptime | cut -d" " -f1)
-    TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
-        RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
+    RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
     if [ "$RES" = "1"  ] ; then
         server2=$server1
         time2=$time1
@@ -284,8 +284,8 @@ if [ -s /tmp/tmp.txt ] ; then
         RES=`awk -v a=$TIME  'BEGIN { print (a<=15)?1:0'}`
         [ "$RES" = "1"  ] && let CC=$CC+1
 else
-    echo $str" =====  Fail" $min
-    echo $str" =====  Fail" $min  >>syslog.tmp
+    echo $str" =====  Fail" $TIME $min
+    echo $str" =====  Fail" $TIME $min  >>syslog.tmp
 
 fi
 done
