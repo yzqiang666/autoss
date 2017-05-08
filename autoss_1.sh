@@ -211,7 +211,7 @@ CC=0
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
-[ $CC -ge 25 ] && break
+[ $CC -ge 15 ] && break
 [ "$str" = "==========" ] && continue 
 echo $str >>ss.log
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
@@ -281,7 +281,7 @@ if [ -s /tmp/tmp.txt ] ; then
     fi
     echo $str" =====  "$TIME $min $CC
     echo $str" =====  "$TIME $min >>syslog.tmp
-        RES=`awk -v a=$TIME  'BEGIN { print (a<=15)?1:0'}`
+        RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
         [ "$RES" = "1"  ] && let CC=$CC+1
 else
     echo $str" =====  Fail" $TIME $min
