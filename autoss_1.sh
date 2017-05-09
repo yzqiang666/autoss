@@ -55,7 +55,14 @@ sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
 echo "==========" >> ss.ini 
 fi
 
+################ 零星收集的SS
+if [ ! -s ss.ini ] ; then
+wget   -O ss.txt -tries=10  https://github.com/yzqiang666/autoss/blob/master/ss.txt  >>ss.log 2>>ss.log 
+[  -s ss.txt ] && cat ss.txt >>ss.ini
+fi
+
 ########################  get from ishadowsock ########################
+if [ ! -s ss.ini ] ; then
 #iss="http://go.ishadow.online/"
 iss="http://www.ishadowsocks.org/"
 rm ss.txt > /dev/null 2>&1
@@ -110,13 +117,14 @@ head -n 90  ssss.ini >>ss.ini
 rm ssss.*
 echo "==========" >> ss.ini 
 fi
+fi
 
 #######################  加入存放在github中的零星收集的SS Server
 wget    -O sss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log
 [ -s sss.txt ]  && cat sss.txt >> ss.ini && echo "==========" >> ss.ini  
 
 ########################  get from github.com/Alvin9999 不得已才用　########################
-####if [ ! -s ss.ini ] ; then
+if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
 
@@ -143,7 +151,7 @@ done
 fi
 rm ss.txt
 echo "==========" >> ss.ini 
-####fi
+fi
 
 
 
@@ -211,7 +219,7 @@ CC=0
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
-[ $CC -ge 15 ] && break
+[ $CC -ge 30 ] && break
 [ "$str" = "==========" ] && continue 
 echo $str >>ss.log
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
@@ -280,7 +288,7 @@ if [ -s /tmp/tmp.txt ] ; then
 
     fi
     echo $str" =====  "$TIME $min $CC
-    echo $str" =====  "$TIME $min >>syslog.tmp
+    echo $str" =====  "$TIME $min $CC >>syslog.tmp
         RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
         [ "$RES" = "1"  ] && let CC=$CC+1
 else
