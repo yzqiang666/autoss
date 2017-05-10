@@ -58,7 +58,11 @@ fi
 ################ 零星收集的SS
 ###if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
-wget   -O ss.txt -tries=10  https://github.com/yzqiang666/autoss/blob/master/ss.txt  >>ss.log 2>>ss.log 
+wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
 [  -s ss.txt ] && cat ss.txt >>ss.ini
 ###fi
 
