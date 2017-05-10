@@ -124,9 +124,6 @@ echo "==========" >> ss.ini
 fi
 fi
 
-#######################  加入存放在github中的零星收集的SS Server
-wget    -O sss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log
-[ -s sss.txt ]  && cat sss.txt >> ss.ini && echo "==========" >> ss.ini  
 
 ########################  get from github.com/Alvin9999 不得已才用　########################
 if [ ! -s ss.ini ] ; then
