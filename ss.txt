@@ -1,9 +1,3 @@
-ssr1.wasn.gq:31674:999999:rc4-md5
-ssr2.wasn.gq:31961:999999:rc4-md5
-ssr3.wasn.gq:31971:999999:rc4-md5
-ssr4.wasn.gq:31382:999999:rc4-md5
-ssr5.wasn.gq:31834:999999:rc4-md5
-ssr6.wasn.gq:31047:999999:rc4-md5
 jp.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 us.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 hk.bilibilitv.pw:16862:namaho.org:aes-256-cfb
