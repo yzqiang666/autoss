@@ -28,11 +28,11 @@ token="e39ed54e-18ee-4eae-b372-41b4e05721f3"
 secret="eoZ9cCkTpM0d6Rb7BEtXl5luBcqZyVeiNLZuKUxGjgOFnB1tqTChz3Wr8JKS2kJY"
 
 rm ss.txt > /dev/null 2>&1
-wget -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
-[ ! -s ss.txt ] && wget  -q  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers
+wget   -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
 
 if [  -s ss.txt ] ; then
 sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
@@ -50,15 +50,27 @@ sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
 echo "==========" >> ss.ini 
 fi
 
+################ 零星收集的SS
+###if [ ! -s ss.ini ] ; then
+rm ss.txt > /dev/null 2>&1
+wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[  -s ss.txt ] && cat ss.txt >>ss.ini
+###fi
+
 ########################  get from ishadowsock ########################
+if [ ! -s ss.ini ] ; then
 #iss="http://go.ishadow.online/"
 iss="http://www.ishadowsocks.org/"
 rm ss.txt > /dev/null 2>&1
-wget  -q  -O ss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
+wget  -O ss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
 
 if [  -s ss.txt ] ; then
 cp /dev/null  ssss.ini
@@ -105,40 +117,7 @@ head -n 90  ssss.ini >>ss.ini
 rm ssss.*
 echo "==========" >> ss.ini 
 fi
-
-#######################  加入存放在github中的零星收集的SS Server
-wget  -q  -O sss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt
-[ -s sss.txt ]  && cat sss.txt >> ss.ini && echo "==========" >> ss.ini  
-
-########################  get from github.com/Alvin9999 不得已才用　########################
-####if [ ! -s ss.ini ] ; then
-rm ss.txt > /dev/null 2>&1
-iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-
-wget  -q  -O ss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-[ ! -s ss.txt ] && wget  -q  -O ssss.txt -tries=10 $iss
-if [ -s ss.txt ] ; then
-CCC=-1
-cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
-| tr -s ' ' | tr ' ' ':' | sed 's/ /:/g' \
-| sed 's/::/:/g'  | sed 's/256-cfb（/256-cfb:/g' | while read i  
-do
-
-  let CCC=$CCC+1
-  [ $CCC -ge 10 ] && echo "==========" >> ss.ini && CCC=0
-  var1=`echo $i|awk -F ':' '{print $2}'`
-  var2=`echo $i|awk -F ':' '{print $4}'`
-  var3=`echo $i|awk -F ':' '{print $6}'`
-  var4=`echo $i|awk -F ':' '{print $8}' | tr '[A-Z]' '[a-z]'`  
-  echo $var1:$var2:$var3:$var4 >> ss.ini
-done
 fi
-rm ss.txt
-echo "==========" >> ss.ini 
-####fi
 
 
 ###################### set ss information ####################################
@@ -296,4 +275,3 @@ nvram set ss_status=0
 nvram set ss_enable=1
 nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
-
