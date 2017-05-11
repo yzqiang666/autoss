@@ -150,13 +150,8 @@ CC=0
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
-if [ "$str" = "==========" ] ; then
-	if [ $CC -ge 50 ] ; then
-		break
-	else
-		continue
-	fi
-fi
+[ $CC -ge 35 ] && break
+[ "$str" = "==========" ] && continue 
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
