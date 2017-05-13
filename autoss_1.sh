@@ -217,7 +217,10 @@ nvram set shadowsocks_master_config=2
 nvram set shadowsocks_second_config=2
 killall -9 watchdog >/dev/null 2>/dev/null 
 str="153.125.233.236:31731:yzqyzq:rc4-md5::"
-CC=0
+CC=1
+echo "sleep 10" >/tmp/killwget.sh
+echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
+chmod a+x /tmp/killwget.sh
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
@@ -263,7 +266,10 @@ done
 #########正式测试时间
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
-wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 15 $url 2>/dev/null >>ss.log 2>>ss.log
+/tmp/killwget.sh &
+PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
+wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null >>ss.log 2>>ss.log
+kill -9 $PID >/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 #echo | openssl s_client -connect www.youtube.com:443 2>&1 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' >/tmp/tmp.txt
