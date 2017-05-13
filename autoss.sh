@@ -205,7 +205,7 @@ ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ip
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
 
-wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 20 $url 2>/dev/null
+wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 5 $url 2>/dev/null
 
 if [ -s /tmp/tmp.txt ] ; then
         endtime=$(cat /proc/uptime | cut -d" " -f1)
@@ -233,7 +233,7 @@ if [ -s /tmp/tmp.txt ] ; then
     fi
     echo $str" =====  "$TIME
     logger $str" =====  "$TIME
-	RES=`awk -v a=$TIME  'BEGIN { print (a<=15)?1:0'}`
+	RES=`awk -v a=$TIME  'BEGIN { print (a<=5)?1:0'}`
 	[ "$RES" = "1"  ] && let CC=$CC+1
 else
     echo $str" =====  Fail"
@@ -291,6 +291,7 @@ if [ ! $time2 = "999.9" ]; then
 
 fi
 fi
+mv /tmp/syslog.log /tmp/syslog.tmp
 ss-rules -f
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
 killall -9  sh_sskeey_k.sh 2>/dev/null
@@ -299,3 +300,5 @@ nvram set ss_status=0
 nvram set ss_enable=1
 nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
+sleep 10
+mv /tmp/syslog.tmp /tmp/syslog.log
