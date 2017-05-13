@@ -22,7 +22,8 @@ nvram set ss_enable=0
 nvram commit
 
 rm ss.ini > /dev/null 2>&1
-
+get_from_arukas()
+{
 ########################  get from arukas ########################
 token="e39ed54e-18ee-4eae-b372-41b4e05721f3"
 secret="eoZ9cCkTpM0d6Rb7BEtXl5luBcqZyVeiNLZuKUxGjgOFnB1tqTChz3Wr8JKS2kJY"
@@ -49,9 +50,11 @@ sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
  
 echo "==========" >> ss.ini 
 fi
+}
 
+get_from_other()
+{
 ################ 零星收集的SS
-###if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
 wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
 [ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
@@ -59,10 +62,12 @@ wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/m
 [ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
 [ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
 [  -s ss.txt ] && cat ss.txt >>ss.ini
-###fi
+[  -s ss.txt ] && echo "==========" >> ss.ini 
+}
 
+get_from_ishadowsock()
+{
 ########################  get from ishadowsock ########################
-if [ ! -s ss.ini ] ; then
 #iss="http://go.ishadow.online/"
 iss="http://www.ishadowsocks.org/"
 rm ss.txt > /dev/null 2>&1
@@ -117,10 +122,12 @@ head -n 90  ssss.ini >>ss.ini
 rm ssss.*
 echo "==========" >> ss.ini 
 fi
-fi
 
+}
+
+get_from_Alvin9999()
+{
 ########################  get from github.com/Alvin9999 不得已才用　########################
-if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
 wget  -O ss.txt -tries=10 $iss >>ss.log 2>>ss.log
@@ -146,7 +153,12 @@ done
 fi
 rm ss.txt
 echo "==========" >> ss.ini 
-fi
+}
+
+get_from_arukas
+[ ! -s ss.ini ] && get_from_other
+[ ! -s ss.ini ] && get_from_ishadowsock
+[ ! -s ss.ini ] && get_from_Alvin9999
 
 ###################### set ss information ####################################
 if [ -s ss.ini ] ; then
@@ -181,7 +193,7 @@ chmod a+x /tmp/killwget.sh
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
-[ $CC -ge 35 ] && break
+[ $CC -ge 30 ] && break
 [ "$str" = "==========" ] && continue 
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
