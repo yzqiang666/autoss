@@ -6,22 +6,6 @@
 && [ `ps | grep python |wc | awk '{ print $1; }'` = 1 ] \
 &&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
-#########################################
-url="http://"`nvram get ss_link_2`
-url="https://www.youtube.com"
-
-
-if [ ! "$1" = "refresh" ] ; then
-rm /tmp/tmp.txt 2>/dev/null
-wget  -q  -O /tmp/tmp.txt --continue --no-check-certificate   -T 20 $url 2>/dev/null 
-[ -s /tmp/tmp.txt ] && exit 0
-fi
-cd /tmp
-nvram set ss_status=1
-nvram set ss_enable=0
-nvram commit
-
-rm ss.ini > /dev/null 2>&1
 get_from_arukas()
 {
 ########################  get from arukas ########################
@@ -155,7 +139,26 @@ rm ss.txt
 echo "==========" >> ss.ini 
 }
 
-get_from_arukas
+
+#########################################
+url="http://"`nvram get ss_link_2`
+url="https://www.youtube.com"
+
+
+if [ ! "$1" = "refresh" ] ; then
+rm /tmp/tmp.txt 2>/dev/null
+wget  -q  -O /tmp/tmp.txt --continue --no-check-certificate   -T 20 $url 2>/dev/null 
+[ -s /tmp/tmp.txt ] && exit 0
+fi
+cd /tmp
+nvram set ss_status=1
+nvram set ss_enable=0
+nvram commit
+
+rm ss.ini > /dev/null 2>&1
+##########################################
+
+[ ! -s ss.ini ] && get_from_arukas
 [ ! -s ss.ini ] && get_from_other
 [ ! -s ss.ini ] && get_from_ishadowsock
 [ ! -s ss.ini ] && get_from_Alvin9999
