@@ -123,7 +123,6 @@ fi
 if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-
 wget  -O ss.txt -tries=10 $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
@@ -175,7 +174,10 @@ echo "NONO" >/tmp/server1.tmp
 echo "NONO" >/tmp/server2.tmp
 echo "999.9" >/tmp/time1.tmp
 echo "999.9" >/tmp/time2.tmp
-CC=0
+CC=1
+echo "sleep 10" >/tmp/killwget.sh
+echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
+chmod a+x /tmp/killwget.sh
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
@@ -205,10 +207,12 @@ ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ip
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
 
-wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 5 $url 2>/dev/null
-
+/tmp/killwget.sh &
+PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
+wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null
+kill -9 $PID >/dev/null 2>&1
 if [ -s /tmp/tmp.txt ] ; then
-        endtime=$(cat /proc/uptime | cut -d" " -f1)
+    endtime=$(cat /proc/uptime | cut -d" " -f1)
     TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
         RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
     if [ "$RES" = "1"  ] ; then
@@ -231,9 +235,9 @@ if [ -s /tmp/tmp.txt ] ; then
         fi
 
     fi
-    echo $str" =====  "$TIME
-    logger $str" =====  "$TIME
-	RES=`awk -v a=$TIME  'BEGIN { print (a<=5)?1:0'}`
+    echo $str" =====  "$TIME $CC
+    logger $str" =====  "$TIME $CC
+	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	[ "$RES" = "1"  ] && let CC=$CC+1
 else
     echo $str" =====  Fail"
@@ -254,17 +258,13 @@ logger "The No2 server: "$server2":"$time2
 
 nvram set ss_check=$ss_check
 
-logger "set ss information"
-pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
-ss-rules -f
+
 if [ ! $time1 = "999.9" ]; then
     ssinfo=$server1
     addr0=`echo $ssinfo | awk -F":" '{print $1"\n"; }'`
     port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
     password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
     method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
-#    logger  "get ssinfo" $ssinfo 
-#    echo  "get ssinfo" $ssinfo 
     nvram set ss_server=$addr0
     nvram set ss_server_port=$port0
     nvram set ss_key=$password0
@@ -291,14 +291,11 @@ if [ ! $time2 = "999.9" ]; then
 
 fi
 fi
-mv /tmp/syslog.log /tmp/syslog.tmp
 ss-rules -f
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
 killall -9  sh_sskeey_k.sh 2>/dev/null
-#sleep 2
 nvram set ss_status=0
 nvram set ss_enable=1
 nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
-sleep 10
-mv /tmp/syslog.tmp /tmp/syslog.log
+
