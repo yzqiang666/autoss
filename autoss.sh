@@ -211,10 +211,10 @@ rm /tmp/tmp.txt 2>/dev/null
 PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
 wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null
 kill -9 $PID >/dev/null 2>&1
+endtime=$(cat /proc/uptime | cut -d" " -f1)
+TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 if [ -s /tmp/tmp.txt ] ; then
-    endtime=$(cat /proc/uptime | cut -d" " -f1)
-    TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
-        RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
+    RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
     if [ "$RES" = "1"  ] ; then
         server2=$server1
         time2=$time1
@@ -240,8 +240,8 @@ if [ -s /tmp/tmp.txt ] ; then
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	[ "$RES" = "1"  ] && let CC=$CC+1
 else
-    echo $str" =====  Fail"
-    logger $str" =====  Fail"
+    echo $str" =====  Fail" $TIME
+    logger $str" =====  Fail" $TIME
 
 fi
 done
