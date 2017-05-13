@@ -175,7 +175,7 @@ echo "NONO" >/tmp/server2.tmp
 echo "999.9" >/tmp/time1.tmp
 echo "999.9" >/tmp/time2.tmp
 CC=1
-echo "sleep 10" >/tmp/killwget.sh
+echo "sleep 11" >/tmp/killwget.sh
 echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
 chmod a+x /tmp/killwget.sh
 cat ss.ini | while read str
@@ -209,8 +209,9 @@ rm /tmp/tmp.txt 2>/dev/null
 
 /tmp/killwget.sh &
 PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
+PID1=`ps|grep "sleep 11"|grep -v grep|awk -F" " '{print $1; }'`
 wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null
-kill -9 $PID >/dev/null 2>&1
+kill -9 $PID $PID1>/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 if [ -s /tmp/tmp.txt ] ; then
@@ -298,4 +299,3 @@ nvram set ss_status=0
 nvram set ss_enable=1
 nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
-
