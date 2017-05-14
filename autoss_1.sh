@@ -174,7 +174,7 @@ CC=1
 
 #str="a.usip.pro:443:02286385:aes-256-cfb"
 CC0=31
-[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 6 ] &&CC0=999
+[ `date "+%k"` -ge 0 ] && [ `date "+%k"` -le 6 ] &&CC0=999
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
