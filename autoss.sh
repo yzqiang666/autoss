@@ -175,6 +175,10 @@ CC=1
 #str="a.usip.pro:443:02286385:aes-256-cfb"
 CC0=31
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 6 ] &&CC0=999
+
+echo "sleep 10" >/tmp/killwget.sh
+echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
+chmod a+x /tmp/killwget.sh
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
@@ -185,7 +189,6 @@ ss_s1_port=`echo $str|awk -F ':' '{print $2}'`
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
 
-starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
 
 ####### for ss_enable ########
@@ -205,8 +208,11 @@ action_ssip=$ss_s1_ip
 BP_IP="$action_ssip"
 
 ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80,443' -o -O
+/tmp/killwget.sh &
+PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
+starttime=$(cat /proc/uptime | cut -d" " -f1)
 wget  -q -O /tmp/tmp.txt  --no-check-certificate   -t 1 -T 8 $url 2>/dev/null
-
+kill -9 $PID >/dev/null 2>&1
 ####### END for ss_enable ########
 
 #KEY=`echo "" |openssl s_client   -connect www.youtube.com:443 -servername www.youtube.com 2>/dev/null|grep Master-Key|wc -L`
