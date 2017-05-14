@@ -174,7 +174,7 @@ CC=1
 
 #str="a.usip.pro:443:02286385:aes-256-cfb"
 CC0=31
-[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 6 ] &&CC0=999
+[ `date "+%k"` -ge 0 ] && [ `date "+%k"` -le 6 ] &&CC0=999
 
 echo "sleep 10" >/tmp/killwget.sh
 echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
