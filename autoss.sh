@@ -256,8 +256,8 @@ if [ -s /tmp/tmp.txt ] ; then
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	[ "$RES" = "1"  ] && let CC=$CC+1
 else
-    echo $str" =====  Fail" $TIME
-    logger $str" =====  Fail" $TIME
+    echo $str" =====  "$TIME" Fail"
+    logger $str" =====  "$TIME" Fail"
 
 fi
 done
