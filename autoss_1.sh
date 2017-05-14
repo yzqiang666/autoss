@@ -1,43 +1,20 @@
-
-[ ! "`nvram get shadowsocks_enable`" = "1" ] && exit 1
+[ ! "`nvram get ss_enable`" = "1" ] && [ ! "`nvram get shadowsocks_enable`" = "1" ] && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 ##################### SSR Server ###########
-logger "auto get shadowsocks server information"
 
-#[  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
-#&& [ `ps | grep python |wc | awk '{ print $1; }'` = 1 ] \
-#&&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
+[  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
+&&[ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
+&&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
-#########################################
-url="https://www.youtube.com"
-
-
-if [ ! "$1" = "refresh" ] ; then
-rm /tmp/tmp.txt 2>/dev/null
-wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null 
-[ -s /tmp/tmp.txt ] && exit 0
-/etc/storage/shadowsocks_script.sh stop
-fi
-
-
-cd /tmp
-sleep 1
-mv syslog.log syslog.tmp
-rm ss.ini > /dev/null 2>&1
-date >ss.log
-
-
-
+get_from_arukas()
+{
 ########################  get from arukas ########################
 token="e39ed54e-18ee-4eae-b372-41b4e05721f3"
 secret="eoZ9cCkTpM0d6Rb7BEtXl5luBcqZyVeiNLZuKUxGjgOFnB1tqTChz3Wr8JKS2kJY"
 
 rm ss.txt > /dev/null 2>&1
-wget   -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ss.txt -tries=10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+wget   -O ss.txt -t 5 -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+
 
 if [  -s ss.txt ] ; then
 sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
@@ -50,33 +27,26 @@ sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
  | sed 's/{//g' \
  | sed 's/}//g' \
  | sed 's/"//g' \
- | awk -F"[-.,]" '{print $4"."$5"."$6"."$7":"$2":yzqyzq:rc4-md5::"; }' >> ss.ini
+ | awk -F"[-.,]" '{print $4"."$5"."$6"."$7":"$2":yzqyzq:rc4-md5"; }' >> ss.ini
  
 echo "==========" >> ss.ini 
 fi
+}
 
+get_from_other()
+{
 ################ 零星收集的SS
-###if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
-wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
-[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
-[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
-[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
-[ ! -s ss.txt ] && wget   -O ss.txt -tries=10 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
-[  -s ss.txt ] && cat ss.txt >>ss.ini
-###fi
+wget   -O ss.txt  -t 5 -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[  -s ss.txt ] && cat ss.txt >>ss.ini && echo "==========" >> ss.ini 
+}
 
+get_from_ishadowsock()
+{
 ########################  get from ishadowsock ########################
-if [ ! -s ss.ini ] ; then
-#iss="http://go.ishadow.online/"
 iss="http://www.ishadowsocks.org/"
 rm ss.txt > /dev/null 2>&1
-wget  -O ss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
-
+wget  -O ss.txt  -t 5 -T 10  $iss >>ss.log 2>>ss.log
 if [  -s ss.txt ] ; then
 cp /dev/null  ssss.ini
 Server=""
@@ -105,8 +75,8 @@ esac
 
 
 
-if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ] && [ "$Other" = "" ] ; then
-    echo $Server:$Port:$Pass:$Method:: >>ssss.ini
+if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
+    echo $Server:$Port:$Pass:$Method >>ss.ini
         Server=""
         Port=""
         Pass=""
@@ -116,30 +86,22 @@ if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$
 fi
 
 done
-
-sed -i '$d' ssss.ini
-head -n 90  ssss.ini >>ss.ini
-rm ssss.*
 echo "==========" >> ss.ini 
 fi
-fi
 
+}
 
+get_from_Alvin9999()
+{
 ########################  get from github.com/Alvin9999 不得已才用　########################
-if [ ! -s ss.ini ] ; then
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-
-wget  -O ss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
-[ ! -s ss.txt ] && wget  -O ssss.txt -tries=10 $iss >>ss.log 2>>ss.log
+wget  -O ss.txt -t 5 -T 10 $iss >>ss.log 2>>ss.log
 if [ -s ss.txt ] ; then
 CCC=-1
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
 | tr -s ' ' | tr ' ' ':' | sed 's/ /:/g' \
-| sed 's/::/:/g'  | sed 's/256-cfb（/256-cfb:/g' | while read i  
+| sed 's/::/:/g'  | sed 's/256-cfb（/256-cfb:/g' | sed 's/chacha20-life（/chacha20-life:/g' | while read i  
 do
 
   let CCC=$CCC+1
@@ -153,55 +115,53 @@ done
 fi
 rm ss.txt
 echo "==========" >> ss.ini 
-fi
-
-
-
-
-
-
-
-if [ -s ss.ini ] ; then
-Method_value=0
-Method_Str=""
-
-
-getmethod()
-{
-SSSS=$(echo $Method_Str  | tr '[A-Z]' '[a-z]')
-case $SSSS in  
- table  )  Method_value=1       ;;
- rc4  )  Method_value=2 ;;  
- rc4-md5 )  Method_value=3      ;;   
- aes-128-cfb  ) Method_value=4  ;;
- aes-192-cfb  ) Method_value=5  ;;
- aes-256-cfb  ) Method_value=6  ;;
- aes-128-ctr  ) Method_value=7  ;;
- aes-192-ctr  ) Method_value=8  ;;
- aes-256-ctr  ) Method_value=9  ;;
- bf-cfb  ) Method_value=10      ;;
- camellia-128-cfb  ) Method_value=11    ;;
- camellia-192-cfb  ) Method_value=12    ;;
- camellia-256-cfb  ) Method_value=13    ;;
- cast5-cfb  ) Method_value=14   ;;
- des-cfb  ) Method_value=15     ;;
- idea-cfb  ) Method_value=16    ;;
- rc2-cfb  ) Method_value=17     ;;
- seed-cfb  ) Method_value=18    ;;
- salsa20  ) Method_value=19     ;;
- chacha20  ) Method_value=20    ;;
- chacha20-ietf  ) Method_value=21       ;;
- chacha20-ietf-poly1305  ) Method_value=22      ;;
- aes-128-gcm  ) Method_value=23 ;;
- aes-192-gcm  ) Method_value=24 ;;
- aes-256-gcm  ) Method_value=25 ;;
-
- *  ) Method_value=3 ;; 
-esac
 }
 
 
+#########################################
+
+if [ ! "$1" = "refresh" ] ; then
+rm /tmp/tmp.txt 2>/dev/null
+wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 20 $url 2>/dev/null 
+[ -s /tmp/tmp.txt ] && exit 0
+fi
+cd /tmp
+
+url="https://www.youtube.com"
+
+
+rm ss.ini > /dev/null 2>&1
+##########################################
+### [ ! -s ss.ini ] && #####
+get_from_arukas
+get_from_ishadowsock
+get_from_other
+get_from_Alvin9999
+
+###################### set ss information ####################################
+if [ -s ss.ini ] ; then
 logger "get bestss server"
+ss_enable=0
+shadowsocks_enable=0
+[ ! "`nvram get ss_enable`" = "1" ] && ss_enable=1
+[ ! "`nvram get shadowsocks_enable`" = "1" ] && shadowsocks_enable=1
+
+######## for hiboy  ###############
+options1=""
+options2=""
+ss_usage=""
+ss_usage_json=""
+
+nvram set ss_status=1
+nvram set ss_enable=0
+nvram commit
+ss_link_1=`nvram get ss_link_2`
+ss_check=`nvram get ss_check`
+nvram set ss_check=0
+action_port=1090
+lan_ipaddr=`nvram get lan_ipaddr`
+############################
+
 server1="NONO"
 server2="NONO"
 time1=999.9
@@ -210,70 +170,50 @@ echo "NONO" >/tmp/server1.tmp
 echo "NONO" >/tmp/server2.tmp
 echo "999.9" >/tmp/time1.tmp
 echo "999.9" >/tmp/time2.tmp
-watchdog=`nvram get shadowsocks_watchdog_enable`
-nvram set shadowsocks_watchdog_enable=0
-nvram set ss_node_num_x=3
-nvram set shadowsocks_master_config=2
-nvram set shadowsocks_second_config=2
-killall -9 watchdog >/dev/null 2>/dev/null 
-str="153.125.233.236:31731:yzqyzq:rc4-md5::"
 CC=1
-echo "sleep 10" >/tmp/killwget.sh
-echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
-chmod a+x /tmp/killwget.sh
+
+#str="a.usip.pro:443:02286385:aes-256-cfb"
+CC0=31
+[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 6 ] &&CC0=999
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
-[ $CC -ge 35 ] && break
+[ $CC -ge $CC0 ] && break
 [ "$str" = "==========" ] && continue 
-echo $str >>ss.log
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
 
-
-#resolveip=`resolveip $ss_s1_ip | grep -v : | sed -n '1p'`
-#[ -z "$resolveip" ] && resolveip=`nslookup $ss_s1_ip | awk 'NR==5{print $3}'` 
-#ss_s1_ip=$resolveip
-Method_Str=$ss_s1_method
-getmethod
-nvram set ss_node_server_addr_x2=$ss_s1_ip
-nvram set ss_node_server_port_x2=$ss_s1_port
-nvram set ss_node_password_x2=$ss_s1_key
-#nvram set ss_node_method_x2=$ss_s1_method
-nvram set ss_node_method_x2=$Method_value
-nvram commit
-
-restart_ss
-#/etc/storage/shadowsocks_script.sh stop                                                                                
-#/etc/storage/shadowsocks_script.sh start 
-
-#killall ss-redir 2>/dev/null  
-#killall -9 ss-redir 2>/dev/null
-############/usr/sbin/ss-redir -b 0.0.0.0 -c /tmp/shadowsocks.json  >/dev/null 2>&1 &
-#sleep 1
-
-min=1
-max=30
-while [ $min -le $max ]
-do
-    PID=`pidof shadowsocks_script.sh`
-    [  ! "$PID" > "1" ] && break
-    min=`expr $min + 1`
-    sleep 1
-done  
-#########正式测试时间
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 rm /tmp/tmp.txt 2>/dev/null
-/tmp/killwget.sh &
-PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
-wget  -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null >>ss.log 2>>ss.log
-kill -9 $PID >/dev/null 2>&1
+
+####### for ss_enable ########
+
+ss_server1=$ss_s1_ip
+resolveip=`/usr/bin/resolveip -4 -t 4 $ss_server1 | grep -v : | sed -n '1p'`
+[ -z "$resolveip" ] && resolveip=`nslookup $ss_server1 | awk 'NR==5{print $3}'` 
+ss_server1=$resolveip
+ss_s1_ip=$ss_server1
+
+pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
+/tmp/SSJSON.sh -f /tmp/ss-redir_3.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1090 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
+ss-redir -c /tmp/ss-redir_3.json $options1 >/dev/null 2>&1 &
+
+ss_s1_ip=$ss_server1
+action_ssip=$ss_s1_ip
+BP_IP="$action_ssip"
+
+ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80,443' -o -O
+wget  -q -O /tmp/tmp.txt  --no-check-certificate   -t 1 -T 8 $url 2>/dev/null
+
+####### END for ss_enable ########
+
+#KEY=`echo "" |openssl s_client   -connect www.youtube.com:443 -servername www.youtube.com 2>/dev/null|grep Master-Key|wc -L`
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
-#echo | openssl s_client -connect www.youtube.com:443 2>&1 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' >/tmp/tmp.txt
 if [ -s /tmp/tmp.txt ] ; then
+###if [ $KEY -gt 5 ] ; then
     RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
     if [ "$RES" = "1"  ] ; then
         server2=$server1
@@ -295,13 +235,13 @@ if [ -s /tmp/tmp.txt ] ; then
         fi
 
     fi
-    echo $str" =====  "$TIME $min $CC
-    echo $str" =====  "$TIME $min $CC >>syslog.tmp
-        RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
-        [ "$RES" = "1"  ] && let CC=$CC+1
+    echo $str" =====  "$TIME $CC
+    logger $str" =====  "$TIME $CC
+	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
+	[ "$RES" = "1"  ] && let CC=$CC+1
 else
-    echo $str" =====  Fail" $TIME $min
-    echo $str" =====  Fail" $TIME $min  >>syslog.tmp
+    echo $str" =====  "$TIME" Fail"
+    logger $str" =====  "$TIME" Fail"
 
 fi
 done
@@ -313,58 +253,50 @@ time2=`cat /tmp/time2.tmp`
 
 echo "The No1 server: "$server1":"$time1
 echo "The No2 server: "$server2":"$time2
-###echo  "The No1 server: "$server1":"$time1  >>syslog.tmp
-###echo  "The No2 server: "$server2":"$time2  >>syslog.tmp
+logger "The No1 server: "$server1":"$time1
+logger "The No2 server: "$server2":"$time2
 
+nvram set ss_check=$ss_check
+if [ ! $time1 = "999.9" ]; then
+    ssinfo=$server1
+    addr0=`echo $ssinfo | awk -F":" '{print $1"\n"; }'`
+    port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
+    password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
+    method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
+    nvram set ss_server=$addr0
+    nvram set ss_server_port=$port0
+    nvram set ss_key=$password0
+    nvram set ss_method=$method0
+    nvram set ss_server1=$addr0
+    nvram set ss_s1_port=$port0
+    nvram set ss_s1_key=$password0
+    nvram set ss_s1_method=$method0
+    nvram commit
 
-str=$server1
-ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
-ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
-ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
-ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
-#resolveip=`resolveip $ss_s1_ip | grep -v : | sed -n '1p'`
-#[ -z "$resolveip" ] && resolveip=`nslookup $ss_s1_ip | awk 'NR==5{print $3}'` 
-#ss_s1_ip=$resolveip
-
-Method_Str=$ss_s1_method                          
-getmethod
-nvram set ss_node_server_addr_x0=$ss_s1_ip
-nvram set ss_node_server_port_x0=$ss_s1_port
-nvram set ss_node_password_x0=$ss_s1_key
-nvram set ss_node_method_x0=$Method_value
-
-str=$server2
-ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
-ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
-ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
-ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
-#resolveip=`resolveip $ss_s1_ip | grep -v : | sed -n '1p'`
-#[ -z "$resolveip" ] && resolveip=`nslookup $ss_s1_ip | awk 'NR==5{print $3}'` 
-#ss_s1_ip=$resolveip
-
-Method_Str=$ss_s1_method                                                                                
-getmethod 
-nvram set ss_node_server_addr_x1=$ss_s1_ip
-nvram set ss_node_server_port_x1=$ss_s1_port
-nvram set ss_node_password_x1=$ss_s1_key
-nvram set ss_node_method_x1=$Method_value
-
-
-nvram set shadowsocks_master_config=0
-nvram set shadowsocks_second_config=1
-nvram set shadowsocks_watchdog_enable=$watchdog
-nvram commit
-killall -9 watchdog >/dev/null 2>/dev/null 
-watchdog
-restart_ss
-date >>ss.log
-sleep 5
-#/etc/storage/shadowsocks_script.sh stop                                                                                
-#/etc/storage/shadowsocks_script.sh start 
 fi
 
-mv syslog.tmp syslog.log
-sleep 2
+if [ ! $time2 = "999.9" ]; then
+        ssinfo=$server2
+        addr0=`echo $ssinfoecho $ssinfo | awk -F":" '{print $1"\n"; }'`
+        port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
+        password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
+        method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
+        nvram set ss_server2=$addr0
+        nvram set ss_s2_port=$port0
+        nvram set ss_s2_key=$password0
+        nvram set ss_s2_method=$method0
+        nvram commit
 
-logger  "The No1 server: "$server1":"$time1 
-logger  "The No2 server: "$server2":"$time2 
+fi
+fi
+
+if [ $ss_enable = 1] ; then
+pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
+killall -9  sh_sskeey_k.sh 2>/dev/null
+nvram set ss_status=0
+nvram set ss_enable=1
+nvram commit
+/etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
+fi
+
+
