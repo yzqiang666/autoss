@@ -89,7 +89,7 @@ esac
 
 
 
-if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ] && [ "$Other" = "" ] ; then
+if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
     echo $Server:$Port:$Pass:$Method:: >>ssss.ini
         Server=""
         Port=""
@@ -101,8 +101,9 @@ fi
 
 done
 
-sed -i '$d' ssss.ini
-head -n 90  ssss.ini >>ss.ini
+###sed -i '$d' ssss.ini
+###head -n 90  ssss.ini >>ss.ini
+cat ssss.ini >>ss.ini
 rm ssss.*
 echo "==========" >> ss.ini 
 fi
@@ -123,7 +124,7 @@ if [ -s ss.txt ] ; then
 CCC=-1
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
 | tr -s ' ' | tr ' ' ':' | sed 's/ /:/g' \
-| sed 's/::/:/g'  | sed 's/256-cfb（/256-cfb:/g' | while read i  
+| sed 's/::/:/g'  | sed 's/256-cfb（/256-cfb:/g' | sed 's/chacha20-life（/chacha20-life:/g' | while read i  
 do
 
   let CCC=$CCC+1
@@ -141,9 +142,6 @@ echo "==========" >> ss.ini
 
 
 #########################################
-url="http://"`nvram get ss_link_2`
-url="https://www.youtube.com"
-
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
@@ -151,6 +149,10 @@ wget  -q  -O /tmp/tmp.txt --continue --no-check-certificate   -T 20 $url 2>/dev/
 [ -s /tmp/tmp.txt ] && exit 0
 fi
 cd /tmp
+
+url="http://"`nvram get ss_link_2`
+url="https://www.youtube.com"
+
 nvram set ss_status=1
 nvram set ss_enable=0
 nvram commit
@@ -159,9 +161,9 @@ rm ss.ini > /dev/null 2>&1
 ##########################################
 ### [ ! -s ss.ini ] && #####
 get_from_arukas
-[ ! -s ss.ini ]  && get_from_ishadowsock
-[ ! -s ss.ini ]  && get_from_other
-[ ! -s ss.ini ]  && get_from_Alvin9999
+get_from_ishadowsock
+get_from_other
+get_from_Alvin9999
 
 ###################### set ss information ####################################
 if [ -s ss.ini ] ; then
@@ -176,7 +178,6 @@ ss_usage_json=""
 ss_link_1=`nvram get ss_link_2`
 ss_check=`nvram get ss_check`
 nvram set ss_check=0
-#pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
 
 action_port=1090
 lan_ipaddr=`nvram get lan_ipaddr`
@@ -191,12 +192,15 @@ echo "999.9" >/tmp/time1.tmp
 echo "999.9" >/tmp/time2.tmp
 CC=1
 echo "sleep 11" >/tmp/killwget.sh
-echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
+echo "killall -9  openssl wget>/dev/null 2>&1" >>/tmp/killwget.sh
 chmod a+x /tmp/killwget.sh
+#str="a.usip.pro:443:02286385:aes-256-cfb"
+CC0=31
+[ `date "+%k"` -gt 1 ] && [ `date "+%k"` -lt 6 ] &&CC0=999
 cat ss.ini | while read str
 do
 #echo "begin process ===========   "$str
-[ $CC -ge 35 ] && break
+[ $CC -ge $CC0 ] && break
 [ "$str" = "==========" ] && continue 
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
@@ -204,11 +208,12 @@ ss_s1_key=`echo $str|awk -F ':' '{print $3}'`
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
 
 
-ss-rules -f
+###ss-rules -f
 ss_server1=$ss_s1_ip
 resolveip=`/usr/bin/resolveip -4 -t 4 $ss_server1 | grep -v : | sed -n '1p'`
 [ -z "$resolveip" ] && resolveip=`nslookup $ss_server1 | awk 'NR==5{print $3}'` 
-
+ss_server1=$resolveip
+ss_s1_ip=$ss_server1
 
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
 /tmp/SSJSON.sh -f /tmp/ss-redir_3.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1090 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
@@ -226,10 +231,12 @@ rm /tmp/tmp.txt 2>/dev/null
 PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
 PID1=`ps|grep "sleep 11"|grep -v grep|awk -F" " '{print $1; }'`
 wget  -q -O /tmp/tmp.txt --continue --no-check-certificate   -T 10 $url 2>/dev/null
+#KEY=`echo "" |openssl s_client   -connect www.youtube.com:443 -servername www.youtube.com 2>/dev/null|grep Master-Key|wc -L`
 kill -9 $PID $PID1>/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 if [ -s /tmp/tmp.txt ] ; then
+###if [ $KEY -gt 5 ] ; then
     RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
     if [ "$RES" = "1"  ] ; then
         server2=$server1
@@ -307,7 +314,7 @@ if [ ! $time2 = "999.9" ]; then
 
 fi
 fi
-ss-rules -f
+###ss-rules -f
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
 killall -9  sh_sskeey_k.sh 2>/dev/null
 nvram set ss_status=0
