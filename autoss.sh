@@ -160,8 +160,8 @@ rm ss.ini > /dev/null 2>&1
 ### [ ! -s ss.ini ] && #####
 get_from_arukas
 get_from_ishadowsock
-[ ! -s ss.ini ] get_from_other
-[ ! -s ss.ini ] get_from_Alvin9999
+[ ! -s ss.ini ]  && get_from_other
+[ ! -s ss.ini ]  && get_from_Alvin9999
 
 ###################### set ss information ####################################
 if [ -s ss.ini ] ; then
