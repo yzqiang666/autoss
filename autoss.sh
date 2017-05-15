@@ -268,10 +268,10 @@ server2=`cat /tmp/server2.tmp`
 time1=`cat /tmp/time1.tmp`
 time2=`cat /tmp/time2.tmp`
 
-echo "The No1 server: "$server1":"$time1
-echo "The No2 server: "$server2":"$time2
-logger "The No1 server: "$server1":"$time1
-logger "The No2 server: "$server2":"$time2
+echo "The No1 server: "$server1"  "$time1
+echo "The No2 server: "$server2"  "$time2
+logger "The No1 server: "$server1"  "$time1
+logger "The No2 server: "$server2"  "$time2
 
 if [ ! $time1 = "999.9" ]; then
     ssinfo=$server1
