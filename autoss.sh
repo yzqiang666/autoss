@@ -188,7 +188,7 @@ echo "999.9" >/tmp/time1.tmp
 echo "999.9" >/tmp/time2.tmp
 CC=1
 CC0=31
-[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 6 ] &&CC0=999
+[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=999
 
 echo "sleep 11" >/tmp/killwget.sh
 echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
