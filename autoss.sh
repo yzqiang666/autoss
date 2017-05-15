@@ -1,20 +1,32 @@
-[ ! "`nvram get ss_enable`" = "1" ] && exit 1
+[ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
-##################### SSR Server ###########
 
+
+##################### SSR Server ###########
 [  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
 &&[ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
 &&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
+
+if [ ! "$1" = "refresh" ] ; then
+rm /tmp/tmp.txt 2>/dev/null
+wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 $url 2>/dev/null 
+[ -s /tmp/tmp.txt ] && exit 0
+fi
+
+
+########################  get from arukas ########################
 get_from_arukas()
 {
-########################  get from arukas ########################
 token="e39ed54e-18ee-4eae-b372-41b4e05721f3"
 secret="eoZ9cCkTpM0d6Rb7BEtXl5luBcqZyVeiNLZuKUxGjgOFnB1tqTChz3Wr8JKS2kJY"
 
 rm ss.txt > /dev/null 2>&1
-wget   -O ss.txt -t 5 -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
-
+wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
 
 if [  -s ss.txt ] ; then
 sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
@@ -33,20 +45,30 @@ echo "==========" >> ss.ini
 fi
 }
 
+################ 零星收集的SS
 get_from_other()
 {
-################ 零星收集的SS
 rm ss.txt > /dev/null 2>&1
-wget   -O ss.txt  -t 5 -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+wget   -O ss.txt  -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt  -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt  -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt  -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+[ ! -s ss.txt ] && wget   -O ss.txt  -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
+
 [  -s ss.txt ] && cat ss.txt >>ss.ini && echo "==========" >> ss.ini 
 }
 
+########################  get from ishadowsock ########################
 get_from_ishadowsock()
 {
-########################  get from ishadowsock ########################
 iss="http://www.ishadowsocks.org/"
 rm ss.txt > /dev/null 2>&1
-wget  -O ss.txt  -t 5 -T 10  $iss >>ss.log 2>>ss.log
+wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
+
 if [  -s ss.txt ] ; then
 cp /dev/null  ssss.ini
 Server=""
@@ -91,12 +113,17 @@ fi
 
 }
 
+########################  get from github.com/Alvin9999 不得已才用　########################
 get_from_Alvin9999()
 {
-########################  get from github.com/Alvin9999 不得已才用　########################
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-wget  -O ss.txt -t 5 -T 10 $iss >>ss.log 2>>ss.log
+wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+
 if [ -s ss.txt ] ; then
 CCC=-1
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
@@ -120,27 +147,18 @@ echo "==========" >> ss.ini
 
 #########################################
 
-if [ ! "$1" = "refresh" ] ; then
-rm /tmp/tmp.txt 2>/dev/null
-wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 20 $url 2>/dev/null 
-[ -s /tmp/tmp.txt ] && exit 0
-fi
 cd /tmp
-
-url="https://www.youtube.com"
-
-
 rm ss.ini > /dev/null 2>&1
-##########################################
-### [ ! -s ss.ini ] && #####
 get_from_arukas
 get_from_ishadowsock
 get_from_other
 get_from_Alvin9999
 
+
 ###################### set ss information ####################################
 if [ -s ss.ini ] ; then
 logger "get bestss server"
+url="https://www.youtube.com"
 
 options1=""
 options2=""
@@ -156,7 +174,6 @@ nvram set ss_check=0
 action_port=1090
 lan_ipaddr=`nvram get lan_ipaddr`
 
-
 server1="NONO"
 server2="NONO"
 time1=999.9
@@ -167,16 +184,15 @@ echo "999.9" >/tmp/time1.tmp
 echo "999.9" >/tmp/time2.tmp
 CC=1
 
-#str="a.usip.pro:443:02286385:aes-256-cfb"
 CC0=31
-[ `date "+%k"` -ge 0 ] && [ `date "+%k"` -le 6 ] &&CC0=999
+[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 6 ] &&CC0=999
 
-echo "sleep 10" >/tmp/killwget.sh
+echo "sleep 11" >/tmp/killwget.sh
 echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
 chmod a+x /tmp/killwget.sh
+
 cat ss.ini | while read str
 do
-#echo "begin process ===========   "$str
 [ $CC -ge $CC0 ] && break
 [ "$str" = "==========" ] && continue 
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
@@ -184,7 +200,6 @@ ss_s1_port=`echo $str|awk -F ':' '{print $2}'`
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
 
-rm /tmp/tmp.txt 2>/dev/null
 ss_server1=$ss_s1_ip
 resolveip=`/usr/bin/resolveip -4 -t 4 $ss_server1 | grep -v : | sed -n '1p'`
 [ -z "$resolveip" ] && resolveip=`nslookup $ss_server1 | awk 'NR==5{print $3}'` 
@@ -200,17 +215,19 @@ action_ssip=$ss_s1_ip
 BP_IP="$action_ssip"
 
 ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80,443' -o -O
+
+rm /tmp/tmp.txt 2>/dev/null
 /tmp/killwget.sh &
 PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
+PID1=`ps|grep "sleep 11"|grep -v grep|awk -F" " '{print $1; }'`
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 wget  -q -O /tmp/tmp.txt  --no-check-certificate   -t 1 -T 8 $url 2>/dev/null
-kill -9 $PID >/dev/null 2>&1
-
-#KEY=`echo "" |openssl s_client   -connect www.youtube.com:443 -servername www.youtube.com 2>/dev/null|grep Master-Key|wc -L`
+                                #KEY=`echo "" |openssl s_client   -connect www.youtube.com:443 -servername www.youtube.com 2>/dev/null|grep Master-Key|wc -L`
+kill -9 $PID $PID1 >/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 if [ -s /tmp/tmp.txt ] ; then
-###if [ $KEY -gt 5 ] ; then
+                                ###if [ $KEY -gt 5 ] ; then
     RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
     if [ "$RES" = "1"  ] ; then
         server2=$server1
@@ -253,13 +270,13 @@ echo "The No2 server: "$server2":"$time2
 logger "The No1 server: "$server1":"$time1
 logger "The No2 server: "$server2":"$time2
 
-nvram set ss_check=$ss_check
 if [ ! $time1 = "999.9" ]; then
     ssinfo=$server1
     addr0=`echo $ssinfo | awk -F":" '{print $1"\n"; }'`
     port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
     password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
     method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
+
     nvram set ss_server=$addr0
     nvram set ss_server_port=$port0
     nvram set ss_key=$password0
@@ -269,7 +286,6 @@ if [ ! $time1 = "999.9" ]; then
     nvram set ss_s1_key=$password0
     nvram set ss_s1_method=$method0
     nvram commit
-
 fi
 
 if [ ! $time2 = "999.9" ]; then
@@ -278,16 +294,16 @@ if [ ! $time2 = "999.9" ]; then
         port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
         password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
         method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
+		
         nvram set ss_server2=$addr0
         nvram set ss_s2_port=$port0
         nvram set ss_s2_key=$password0
         nvram set ss_s2_method=$method0
         nvram commit
-
-fi
 fi
 
 
+nvram set ss_check=$ss_check
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
 killall -9  sh_sskeey_k.sh 2>/dev/null
 nvram set ss_status=0
@@ -295,3 +311,4 @@ nvram set ss_enable=1
 nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 
+fi
