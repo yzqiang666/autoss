@@ -7,6 +7,7 @@
 &&[ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
 &&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
+url="https://www.youtube.com"
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
@@ -160,7 +161,6 @@ get_from_Alvin9999
 ###################### set ss information ####################################
 if [ -s ss.ini ] ; then
 logger "get bestss server"
-url="https://www.youtube.com"
 
 options1=""
 options2=""
