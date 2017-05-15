@@ -11,6 +11,8 @@
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 $url 2>/dev/null 
+[ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 $url 2>/dev/null 
+[ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 $url 2>/dev/null 
 [ -s /tmp/tmp.txt ] && exit 0
 fi
 
@@ -99,11 +101,11 @@ esac
 
 if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
     echo $Server:$Port:$Pass:$Method >>ss.ini
-        Server=""
-        Port=""
-        Pass=""
-        Method=""
-        Other=""
+    Server=""
+    Port=""
+    Pass=""
+    Method=""
+    Other=""
 
 fi
 
@@ -173,6 +175,8 @@ ss_check=`nvram get ss_check`
 nvram set ss_check=0
 action_port=1090
 lan_ipaddr=`nvram get lan_ipaddr`
+killall -9  sh_sskeey_k.sh 2>/dev/null
+killall -9  ss-redir 2>/dev/null
 
 server1="NONO"
 server2="NONO"
@@ -183,7 +187,6 @@ echo "NONO" >/tmp/server2.tmp
 echo "999.9" >/tmp/time1.tmp
 echo "999.9" >/tmp/time2.tmp
 CC=1
-
 CC0=31
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 6 ] &&CC0=999
 
@@ -195,6 +198,7 @@ cat ss.ini | while read str
 do
 [ $CC -ge $CC0 ] && break
 [ "$str" = "==========" ] && continue 
+
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
@@ -213,7 +217,6 @@ ss-redir -c /tmp/ss-redir_3.json $options1 >/dev/null 2>&1 &
 ss_s1_ip=$ss_server1
 action_ssip=$ss_s1_ip
 BP_IP="$action_ssip"
-
 ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80,443' -o -O
 
 rm /tmp/tmp.txt 2>/dev/null
@@ -221,7 +224,7 @@ rm /tmp/tmp.txt 2>/dev/null
 PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
 PID1=`ps|grep "sleep 11"|grep -v grep|awk -F" " '{print $1; }'`
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-wget  -q -O /tmp/tmp.txt  --no-check-certificate   -t 1 -T 8 $url 2>/dev/null
+wget  -q -O /tmp/tmp.txt  --no-check-certificate  -T 8 $url 2>/dev/null
                                 #KEY=`echo "" |openssl s_client   -connect www.youtube.com:443 -servername www.youtube.com 2>/dev/null|grep Master-Key|wc -L`
 kill -9 $PID $PID1 >/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
@@ -289,17 +292,17 @@ if [ ! $time1 = "999.9" ]; then
 fi
 
 if [ ! $time2 = "999.9" ]; then
-        ssinfo=$server2
-        addr0=`echo $ssinfoecho $ssinfo | awk -F":" '{print $1"\n"; }'`
-        port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
-        password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
-        method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
+    ssinfo=$server2
+    addr0=`echo $ssinfo | awk -F":" '{print $1"\n"; }'`
+    port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
+    password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
+    method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
 		
-        nvram set ss_server2=$addr0
-        nvram set ss_s2_port=$port0
-        nvram set ss_s2_key=$password0
-        nvram set ss_s2_method=$method0
-        nvram commit
+    nvram set ss_server2=$addr0
+    nvram set ss_s2_port=$port0
+    nvram set ss_s2_key=$password0
+    nvram set ss_s2_method=$method0
+    nvram commit
 fi
 
 
