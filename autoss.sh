@@ -1,4 +1,4 @@
-[ ! "`nvram get ss_enable`" = "1" ] && [ ! "`nvram get shadowsocks_enable`" = "1" ] && exit 1
+[ ! "`nvram get ss_enable`" = "1" ] && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 ##################### SSR Server ###########
 
@@ -141,12 +141,7 @@ get_from_Alvin9999
 ###################### set ss information ####################################
 if [ -s ss.ini ] ; then
 logger "get bestss server"
-ss_enable=0
-shadowsocks_enable=0
-[ ! "`nvram get ss_enable`" = "1" ] && ss_enable=1
-[ ! "`nvram get shadowsocks_enable`" = "1" ] && shadowsocks_enable=1
 
-######## for hiboy  ###############
 options1=""
 options2=""
 ss_usage=""
@@ -160,7 +155,7 @@ ss_check=`nvram get ss_check`
 nvram set ss_check=0
 action_port=1090
 lan_ipaddr=`nvram get lan_ipaddr`
-############################
+
 
 server1="NONO"
 server2="NONO"
@@ -190,9 +185,6 @@ ss_s1_key=`echo $str|awk -F ':' '{print $3}'`
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
 
 rm /tmp/tmp.txt 2>/dev/null
-
-####### for ss_enable ########
-
 ss_server1=$ss_s1_ip
 resolveip=`/usr/bin/resolveip -4 -t 4 $ss_server1 | grep -v : | sed -n '1p'`
 [ -z "$resolveip" ] && resolveip=`nslookup $ss_server1 | awk 'NR==5{print $3}'` 
@@ -213,7 +205,6 @@ PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 wget  -q -O /tmp/tmp.txt  --no-check-certificate   -t 1 -T 8 $url 2>/dev/null
 kill -9 $PID >/dev/null 2>&1
-####### END for ss_enable ########
 
 #KEY=`echo "" |openssl s_client   -connect www.youtube.com:443 -servername www.youtube.com 2>/dev/null|grep Master-Key|wc -L`
 endtime=$(cat /proc/uptime | cut -d" " -f1)
