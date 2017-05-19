@@ -1,0 +1,60 @@
+潘多拉固件：
+
+1、点击“系统”；
+2、点击“启动项”；
+3、找到最下方的“本地启动脚本”；
+4、在“exit 0”这句代码前加上以下代码：
+
+
+gpioctl dirout 8
+gpioctl dirout 10
+gpioctl dirout 11
+gpioctl set 10
+gpioctl set 11
+while [ 1 ]
+do
+gpioctl clear 10
+gpioctl set 8
+sleep 1
+gpioctl set 10
+sleep 1
+gpioctl clear 11
+sleep 1
+gpioctl clear 8
+sleep 1
+gpioctl clear 10
+sleep 1
+gpioctl set 11
+sleep 1
+done
+
+
+
+5、点“提交”，重启路由。
+
+二、华硕固件：
+
+1、在自定义设置-脚本中找到路由启动后执行的代码；
+2、在最下方添加：
+mtk_gpio -d 8 1
+mtk_gpio -d 10 0
+mtk_gpio -d 11 0
+while [ 1 ]
+do
+mtk_gpio -d 10 1
+mtk_gpio -d 8 0
+sleep 1
+mtk_gpio -d 10 0
+sleep 1
+mtk_gpio -d 11 1
+sleep 1
+mtk_gpio -d 8 1
+sleep 1
+mtk_gpio -d 10 1
+sleep 1
+mtk_gpio -d 11 0
+sleep 1
+done
+3、应用本页面设置，重启路由。
+
+重启后就能看到六色循环的走马灯了，很酷炫！
