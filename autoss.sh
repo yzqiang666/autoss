@@ -135,7 +135,7 @@ cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g
 do
 
   let CCC=$CCC+1
-  [ $CCC -ge 10 ] && echo "==========" >> ss.ini && CCC=0
+ # [ $CCC -ge 10 ] && echo "==========" >> ss.ini && CCC=0
   var1=`echo $i|awk -F ':' '{print $2}'`
   var2=`echo $i|awk -F ':' '{print $4}'`
   var3=`echo $i|awk -F ':' '{print $6}'`
