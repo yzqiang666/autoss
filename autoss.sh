@@ -3,9 +3,9 @@
 
 
 ##################### SSR Server ###########
-[  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
-&&[ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
-&&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
+#[  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
+#&&[ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
+#&&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
 url="https://www.youtube.com"
 
