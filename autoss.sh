@@ -32,17 +32,31 @@ wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss
 [ ! -s ss.txt ] && wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
 
 if [  -s ss.txt ] ; then
-sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
- | sed 's/}/}\n/g' \
+sed 's/{"container_port"/\n"container_port"/g' ss.txt \
+ | sed 's/}/\n/g' \
  | grep container_port \
  | grep -v '"container_port":22,' \
- | sed 's/"container_port"://g' \
- | sed 's/"service_port"://g'  \
- | sed 's/"host"://g' \
- | sed 's/{//g' \
- | sed 's/}//g' \
- | sed 's/"//g' \
- | awk -F"[-.,]" '{print $3"."$4"."$5"."$6":"$13":yzqyzq:rc4-md5"; }' >> ss.ini
+ | sed 's/"//g' | sed 's/,/\n/g'  | while read i  
+do
+var1=`echo $i|awk -F ':' '{print $1}'`
+var2=`echo $i|awk -F ':' '{print $2}'`
+case "$var1" in
+    "host")  Server="$var2"
+	resolveip=`/usr/bin/resolveip -4 -t 4 $Server `
+    Server=$resolveip
+    ;;
+    "service_port")  Port="$var2"
+    ;;
+esac
+
+if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]    ; then
+    echo $Server:$Port:yzqyzq:rc4-md5 >>ss.ini
+    Server=""
+    Port=""
+
+fi
+done
+
  
 echo "==========" >> ss.ini 
 fi
