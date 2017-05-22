@@ -42,7 +42,7 @@ sed 's/{"container_port"/\n{"container_port"/g' ss.txt \
  | sed 's/{//g' \
  | sed 's/}//g' \
  | sed 's/"//g' \
- | awk -F"[-.,]" '{print $4"."$5"."$6"."$7":"$2":yzqyzq:rc4-md5"; }' >> ss.ini
+ | awk -F"[-.,]" '{print $3"."$4"."$5"."$6":"$1":yzqyzq:rc4-md5"; }' >> ss.ini
  
 echo "==========" >> ss.ini 
 fi
