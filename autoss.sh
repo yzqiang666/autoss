@@ -243,6 +243,8 @@ cat ss.ini | while read str
 do
 [ $CC -ge $CC0 ] && break
 [ ${str:0:1} = "#" ] && continue 
+[ ${str:0:1} = "＝" ] && continue 
+
 
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
