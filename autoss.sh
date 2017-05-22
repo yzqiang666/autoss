@@ -128,14 +128,10 @@ wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
 
 if [ -s ss.txt ] ; then
-CCC=-1
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
 | tr -s ' ' | tr ' ' ':' | sed 's/ /:/g' \
 | sed 's/::/:/g'  | sed 's/256-cfb（/256-cfb:/g' | sed 's/chacha20-life（/chacha20-life:/g' | while read i  
 do
-
-  let CCC=$CCC+1
- # [ $CCC -ge 10 ] && echo "==========" >> ss.ini && CCC=0
   var1=`echo $i|awk -F ':' '{print $2}'`
   var2=`echo $i|awk -F ':' '{print $4}'`
   var3=`echo $i|awk -F ':' '{print $6}'`
@@ -143,6 +139,42 @@ do
   echo $var1:$var2:$var3:$var4 >> ss.ini
 done
 fi
+
+
+rm ss.txt > /dev/null 2>&1
+iss="https://freessr.xyz/"
+wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+if [ -s ss.txt ] ; then
+cat ss.txt | grep -E '服务器地址|端口|密码|加密方式' | sed 's/<[^<>]*>//g' | sed 's/ //g' | while read i 
+do
+var1=`echo $i|awk -F ':' '{print $1}'`
+var2=`echo $i|awk -F ':' '{print $2}'`
+case "$var1" in
+    "服务器地址")  Server="$var2"
+    ;;
+    "端口")  Port="$var2"
+    ;;
+    "密码")  Pass="$var2"
+    ;;
+    "加密方式")  Method="$var2"
+    ;;
+esac
+
+if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
+    echo $Server:$Port:$Pass:$Method >>ss.ini
+    Server=""
+    Port=""
+    Pass=""
+    Method=""
+fi
+done
+fi
+
+
 rm ss.txt
 echo "==========" >> ss.ini 
 }
