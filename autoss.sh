@@ -41,9 +41,7 @@ do
 var1=`echo $i|awk -F ':' '{print $1}'`
 var2=`echo $i|awk -F ':' '{print $2}'`
 case "$var1" in
-    "host")  Server="$var2"
-#    resolveip=`/usr/bin/resolveip -4 -t 4 $Server`
-#    Server=$resolveip
+    "host")  Server=`/usr/bin/resolveip -4 -t 4 $var2`
     ;;
     "service_port")  Port="$var2"
     ;;
