@@ -43,8 +43,7 @@ do
 var1=`echo $i|awk -F ':' '{print $1}'`
 var2=`echo $i|awk -F ':' '{print $2}'`
 case "$var1" in
-    "host")  Server=`/usr/bin/resolveip -4 -t 4 $var2 | grep -v : | sed -n '1p'`
-             [ -z "$Server" ] && Server＝$var2
+    "host")  Server＝"$var2"
     ;;
     "service_port")  Port="$var2"
     ;;
