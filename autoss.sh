@@ -32,8 +32,8 @@ wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss
 [ ! -s ss.txt ] && wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
 
 if [  -s ss.txt ] ; then
-Server＝""
-Port＝""
+Server=""
+Port=""
 sed 's/{"container_port"/\n"container_port"/g' ss.txt \
  | sed 's/}/\n/g' \
  | grep container_port \
