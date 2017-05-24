@@ -83,6 +83,7 @@ rm ss.txt > /dev/null 2>&1
 wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
+iss="http://ss.ishadowx.com/"
 [ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
 
