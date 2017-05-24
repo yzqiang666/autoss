@@ -353,7 +353,7 @@ if [ ! $time2 = "999.9" ]; then
     nvram commit
 fi
 
-
+mv syslog.log syslog.tmp
 nvram set ss_check=$ss_check
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
 killall -9  sh_sskeey_k.sh 2>/dev/null
@@ -361,5 +361,9 @@ nvram set ss_status=0
 nvram set ss_enable=1
 nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
+sleep 10
+mv syslog.tmp syslog.log
+
+
 
 
