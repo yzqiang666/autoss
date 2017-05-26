@@ -200,9 +200,9 @@ echo "==========" >> ss.ini
 cd /tmp
 rm ss.ini > /dev/null 2>&1
 get_from_arukas
-#get_from_ishadowsock
-#get_from_other
-#get_from_Alvin9999
+get_from_ishadowsock
+get_from_other
+get_from_Alvin9999
 [ ! -s ss.ini ] && exit 1
 
 ###################### set ss information ####################################
@@ -300,13 +300,13 @@ if [ -s /tmp/tmp.txt ] ; then
         fi
 
     fi
-    echo $str" =====  "$TIME $CC
-    logger $str" =====  "$TIME $CC
+    echo $str $TIME $CC
+    logger $str $TIME $CC
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	[ "$RES" = "1"  ] && let CC=$CC+1
 else
-    echo $str" =====  "$TIME" Fail"
-    logger $str" =====  "$TIME" Fail"
+    echo $str $TIME" Fail"
+    logger $str $TIME" Fail"
 
 fi
 done
