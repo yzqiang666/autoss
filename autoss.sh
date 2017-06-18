@@ -202,7 +202,7 @@ rm ss.ini > /dev/null 2>&1
 get_from_arukas
 get_from_ishadowsock
 get_from_other
-get_from_Alvin9999
+####get_from_Alvin9999
 [ ! -s ss.ini ] && exit 1
 
 ###################### set ss information ####################################
