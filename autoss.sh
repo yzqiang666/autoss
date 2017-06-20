@@ -199,6 +199,7 @@ echo "==========" >> ss.ini
 
 cd /tmp
 rm ss.ini > /dev/null 2>&1
+sleep 1
 get_from_arukas
 get_from_ishadowsock
 get_from_other
