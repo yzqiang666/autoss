@@ -6,11 +6,4 @@ ss6.ubox.co:8388:password:aes-256-cfb
 jp.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 us.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 hk.bilibilitv.pw:16862:namaho.org:aes-256-cfb
-#59.106.238.239:31886:ifuckgfw2016:rc4-md5::
-153.125.237.177:31935:ntdtv.com:aes-256-cfb
-153.125.237.176:31752:ntdtv.com:aes-256-cfb
-153.125.234.205:31301:ntdtv.com:aes-256-cfb
-153.125.234.173:31031:ntdtv.com:aes-256-cfb
-153.125.234.206:31602:ntdtv.com:aes-256-cfb
-153.125.234.210:31321:ntdtv.com:aes-256-cfb
-153.125.234.210:31751:ntdtv.com:aes-256-cfb
+#59.106.238.239:31886:ifuckgfw2016:rc4-md5
