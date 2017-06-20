@@ -115,8 +115,8 @@ esac
 
 
 
-if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
-    echo $Server:$Port:$Pass:$Method >>ss.ini
+if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Method" = "" ]  ; then
+    [ ! "$Pass" = "" ]  && echo $Server:$Port:$Pass:$Method >>ss.ini
     Server=""
     Port=""
     Pass=""
