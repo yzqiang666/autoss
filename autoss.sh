@@ -198,7 +198,7 @@ echo "==========" >> ss.ini
 #########################################
 
 cd /tmp
-rm ss.ini > /dev/null 2>&1
+rm ss.ini >/dev/null 2>&1
 sleep 1
 get_from_arukas
 get_from_ishadowsock
@@ -244,6 +244,7 @@ chmod a+x /tmp/killwget.sh
 cat ss.ini | while read str
 do
 [ $CC -ge $CC0 ] && break
+[ $str = "" ] && continue 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
 
@@ -266,7 +267,7 @@ ss-redir -c /tmp/ss-redir_3.json $options1 >/dev/null 2>&1 &
 ss_s1_ip=$ss_server1
 action_ssip=$ss_s1_ip
 BP_IP="$action_ssip"
-ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80,443' -o -O
+[ ! $ss_s1_ip ＝ "" ] && ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80,443' -o -O >/dev/null 2>&1
 
 rm /tmp/tmp.txt 2>/dev/null
 /tmp/killwget.sh &
