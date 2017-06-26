@@ -15,4 +15,3 @@ ss6.ubox.co:8388:password:aes-256-cfb
 #jp.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 47.74.128.250:2333:ntdtv.com:aes-256-cfb
 47.74.135.36:2334:ntdtv.com:aes-256-cfb
-
