@@ -144,7 +144,7 @@ wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
 
 if [ -s ss.txt ] ; then                                                                                     
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \             
-| tr -s ' ' | tr ' ' ':' | sed 's/ /:/g'  | sed 's/：/:/g' | sed 's/:(/(/g'\                                                          
+| tr -s ' ' | tr ' ' ':' | sed 's/ /:/g'  | sed 's/：/:/g' | sed 's/:(/(/g' \                                                          
 | sed 's/::/:/g'  | sed 's/256-cfb（/256-cfb:/g' | sed 's/chacha20-life（/chacha20-life:/g' | while read i           
 do 
   var1=`echo $i|awk -F ':' '{print $2}'`
