@@ -191,6 +191,55 @@ fi
 
 
 rm ss.txt
+
+
+rm ss.txt > /dev/null 2>&1
+iss="https://xsjs.yhyhd.org/free-ss"
+wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+if [ -s ss.txt ] ; then
+Server=""
+Port=""
+Pass=""
+Method=""
+sed 's/<div class="modal-body" id="ss-body">/\n/g'  ss.txt | sed 's/<div class="modal-footer">/\n/g' \
+| sed 's/<[^<>]*>//g'  | grep -E 'IP:&nbsp;|加密方式:&nbsp;' | sed 's/&nbsp;//g' | sed 's/&nbsp;//g' \
+| sed 's/ /:/g' | sed 's/,/:/g' | sed 's/端口号/Port/g' | sed 's/密码/Password/g' | sed 's/加密方式/Method/g' | sed 's/地址/IP/g' \
+| sed 's/Port/\nPort/g' | sed 's/Password/\nPassword/g' | sed 's/Method/\nMethod/g' | sed 's/IP/\nIP/g'  | while read i 
+do
+
+var1=`echo $i|awk -F ':' '{print $1}'`
+var2=`echo $i|awk -F ':' '{print $2}'`
+
+case "$var1" in
+    "IP")  Server="$var2"
+    ;;
+    "Port")  Port="$var2"
+    ;;
+    "Password")  Pass="$var2"
+    ;;
+    "Method")  Method="$var2"
+    ;;
+esac
+
+if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
+    echo $Server:$Port:$Pass:$Method >>ss.ini
+    Server=""
+    Port=""
+    Pass=""
+    Method=""
+fi
+done
+
+
+
+fi
+
+
+
 echo "==========" >> ss.ini 
 }
 
