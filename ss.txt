@@ -1,9 +1,5 @@
-#104.160.173.141:10691:doub.io10691:chacha20
-#216.189.158.147:10691:doub.io10691:chacha20
-ss1.ubox.co:8388:password:aes-256-cfb
-ss2.ubox.co:8388:password:aes-256-cfb
-ss6.ubox.co:8388:password:aes-256-cfb
-#59.106.238.239:31886:ifuckgfw2016:rc4-md5
+47.74.128.250:2333:ntdtv.com:aes-256-cfb
+47.74.132.157:2345:dongtaiwang.com:aes-256-cfb
 67.21.78.208:7493:dongtaiwang.com:aes-256-cfb
 104.160.185.150:6123:ntdtv.com:aes-256-cfb
 67.21.78.149:1978:dongtaiwang.com:aes-256-cfb
@@ -15,3 +11,5 @@ ss6.ubox.co:8388:password:aes-256-cfb
 #jp.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 47.74.128.250:2333:ntdtv.com:aes-256-cfb
 47.74.135.36:2334:ntdtv.com:aes-256-cfb
+47.74.128.250:2333:ntdtv.com:aes-256-cfb
+47.74.132.157:2345:dongtaiwang.com:aes-256-cfb
