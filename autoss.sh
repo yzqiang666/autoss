@@ -325,30 +325,36 @@ PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
 PID1=`ps|grep "sleep 11"|grep -v grep|awk -F" " '{print $1; }'`
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 wget  -q -O /tmp/tmp.txt  --no-check-certificate  -T 8 $url 2>/dev/null
-                                #KEY=`echo "" |openssl s_client   -connect www.youtube.com:443 -servername www.youtube.com 2>/dev/null|grep Master-Key|wc -L`
+#KEY=`echo "" |openssl s_client   -connect www.youtube.com:443 -servername www.youtube.com 2>/dev/null|grep Master-Key|wc -L`
 kill -9 $PID $PID1 >/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 if [ -s /tmp/tmp.txt ] ; then
-                                ###if [ $KEY -gt 5 ] ; then
+    ###if [ $KEY -gt 5 ] ; then
     RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
     if [ "$RES" = "1"  ] ; then
-        server2=$server1
-        time2=$time1
+		if [ $server1 != $server1 ] ; then
+			server2=$server1
+			time2=$time1
+			mv /tmp/server1.tmp /tmp/server2.tmp
+			mv /tmp/time1.tmp /tmp/time2.tmp
+		fi
+		
         server1=$str
         time1=$TIME
 
-        mv /tmp/server1.tmp /tmp/server2.tmp
-        mv /tmp/time1.tmp /tmp/time2.tmp
+
         echo $str >/tmp/server1.tmp
         echo $TIME >/tmp/time1.tmp
     else
         RES=`awk -v a=$TIME -v b=$time2  'BEGIN { print (a<=b)?"1":"0"'}`
         if [ "$RES" = "1"  ] ; then
-            server2=$str
-            time2=$TIME
-            echo $str >/tmp/server2.tmp
-            echo $TIME >/tmp/time2.tmp
+			if [ $server1 != $str ] ; then
+				server2=$str
+				time2=$TIME
+				echo $str >/tmp/server2.tmp
+				echo $TIME >/tmp/time2.tmp
+			fi
         fi
 
     fi
@@ -415,7 +421,3 @@ nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 sleep 10
 mv syslog.tmp syslog.log
-
-
-
-
