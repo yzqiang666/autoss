@@ -134,6 +134,49 @@ fi
 ########################  get from github.com/Alvin9999 不得已才用　########################
 get_from_Alvin9999()
 {
+
+
+rm ss.txt > /dev/null 2>&1
+iss="https://socks.zone/free/"
+wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+if [ -s ss.txt ] ; then
+Server=""
+Port=""
+Pass=""
+Method=""
+
+sed 's/<[^<>]*>//g' ss.txt | grep -E '服务器地址：|端口：|密码：|加密方式：' | sed 's/：/:/g' | while read i 
+do
+
+var1=`echo $i|awk -F ':' '{print $1}'`
+var2=`echo $i|awk -F ':' '{print $2}'`
+
+case "$var1" in
+    "服务器地址")  Server="$var2"
+    ;;
+    "端口")  Port="$var2"
+    ;;
+    "密码")  Pass="$var2"
+    ;;
+    "加密方式")  Method="$var2"
+    ;;
+esac
+
+if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
+    echo $Server:$Port:$Pass:$Method >>ss.ini
+    Server=""
+    Port=""
+    Pass=""
+    Method=""
+fi
+done
+fi
+
+
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
 wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
@@ -422,4 +465,3 @@ nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 sleep 10
 mv syslog.tmp syslog.log
-
