@@ -301,6 +301,10 @@ get_from_other
 [ ! -s ss.ini ] && exit 1
 
 ###################### set ss information ####################################
+
+echo '{' >gui-config.json
+echo '	"configs" : ['>>gui-config.json
+
 logger "get bestss server"
 
 options1=""
@@ -405,13 +409,72 @@ if [ -s /tmp/tmp.txt ] ; then
     echo $str $TIME $CC
     logger $str $TIME $CC
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
+	if [ "$RES" = "1"  ] ; then
+		[ ! "$CC" = "1" ] && echo '		},' >>gui-config.json
+		echo '		{' >>gui-config.json		
+		echo '			"remarks" : "'$CC'",' >>gui-config.json
+		echo '			"server" : "'$ss_s1_ip'",' >>gui-config.json
+		echo '			"server_port" : '$ss_s1_port',' >>gui-config.json
+		echo '			"server_udp_port" : 0,' >>gui-config.json
+		echo '			"password" : "'$ss_s1_key'",' >>gui-config.json
+		echo '			"method" : "'$ss_s1_method'",' >>gui-config.json
+		echo '			"protocol" : "origin",' >>gui-config.json
+		echo '			"protocolparam" : "",' >>gui-config.json
+		echo '			"obfs" : "plain",' >>gui-config.json
+		echo '			"obfsparam" : "",' >>gui-config.json
+		echo '			"group" : "",' >>gui-config.json
+		echo '			"enable" : true,' >>gui-config.json
+		echo '			"udp_over_tcp" : false' >>gui-config.json		
+	fi
+	
 	[ "$RES" = "1"  ] && let CC=$CC+1
+	
 else
     echo $str $TIME" Fail"
     logger $str $TIME" Fail"
 
 fi
 done
+echo '		}' >>gui-config.json	
+echo '	],' >>gui-config.json
+
+
+echo '	"random" : true,' >>gui-config.json
+echo '	"sysProxyMode" : 3,' >>gui-config.json
+echo '	"shareOverLan" : false,' >>gui-config.json
+echo '	"localAuthPassword" : "DQ2kXTHbgsCYmBPtwOrD",' >>gui-config.json
+echo '	"dns_server" : "",' >>gui-config.json
+echo '	"reconnectTimes" : 2,' >>gui-config.json
+echo '	"randomAlgorithm" : 0,' >>gui-config.json
+echo '	"randomInGroup" : false,' >>gui-config.json
+echo '	"TTL" : 0,' >>gui-config.json
+echo '	"connect_timeout" : 5,' >>gui-config.json
+echo '	"proxyRuleMode" : 0,' >>gui-config.json
+echo '	"pacDirectGoProxy" : false,' >>gui-config.json
+echo '	"proxyType" : 0,' >>gui-config.json
+echo '	"proxyHost" : null,' >>gui-config.json
+echo '	"proxyAuthUser" : null,' >>gui-config.json
+echo '	"proxyAuthPass" : null," : null,' >>gui-config.json
+echo '	"proxyUserAgent" : null,' >>gui-config.json
+echo '	"authUser" : null,' >>gui-config.json
+echo '	"authPass" : null,' >>gui-config.json
+echo '	"autoBan" : false,' >>gui-config.json
+echo '	"sameHostForSameTarget" : false,' >>gui-config.json
+echo '	"keepVisitTime" : 180,' >>gui-config.json
+echo '	"isHideTips" : false,' >>gui-config.json
+echo '	"nodeFeedURL" : "https://raw.githubusercontent.com/breakwa11/breakwa11.github.io/master/free/freenodeplain.txt",' >>gui-config.json
+echo '	"nodeFeedGroup" : "",' >>gui-config.json
+echo '	"nodeFeedAutoUpdate" : true,' >>gui-config.json
+echo '	"token" : {' >>gui-config.json
+echo '' >>gui-config.json
+echo '	},' >>gui-config.json
+echo '	"portMap" : {' >>gui-config.json
+echo '' >>gui-config.json
+echo '	}' >>gui-config.json
+echo '' >>gui-config.json
+echo '' >>gui-config.json
+
+echo '}' >>gui-config.json
 
 server1=`cat /tmp/server1.tmp`
 server2=`cat /tmp/server2.tmp`
