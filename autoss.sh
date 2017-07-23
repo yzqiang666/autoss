@@ -332,8 +332,8 @@ echo "NONO" >/tmp/server2.tmp
 echo "999.9" >/tmp/time1.tmp
 echo "999.9" >/tmp/time2.tmp
 CC=1
-CC0=21
-[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=99
+CC0=31
+[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
 
 echo "sleep 11" >/tmp/killwget.sh
 echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
@@ -410,16 +410,14 @@ if [ -s /tmp/tmp.txt ] ; then
     logger $str $TIME $CC
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	if [ "$RES" = "1"  ] ; then
-	
-###		echo $ss_s1_method:$ss_s1_key@$ss_s1_ip:$ss_s1_port |base64 >>ssr.txt
         PWD=`echo -n $ss_s1_key|base64`
-		SNO=`echo -n SSR$CC|base64`
-###		echo  $ss_s1_ip":"$ss_s1_port":"origin":"$ss_s1_method":plain:"$PWD"/?obfsparam=&remarks="$SNO"&group=U1NS" >>ssr.txt
-#		SSSS=`echo -n $ss_s1_ip":"$ss_s1_port":"origin":"$ss_s1_method":plain:"$PWD"/?remarks="$SNO"&group=U1NS"|base64`
+		TMPCC=$CC
+		[ ${#CC} = 1 ] && TMPCC="0"$TMPCC
+		TMPCC="0"$TMPCC
+		SNO=`echo -n $TMPCC|base64`
 		SSSS1=`echo -n $ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD|base64`
-#		       echo -n 153.125.231.178:31864:origin:rc4-md5:plain:eXpxeXpx|base64
-		SSSS2=`echo -n "/?obfsparam=&remarks=&group=RnJlZVNTUi1wdWJsaWM"|base64`
-#		       echo -n "/?obfsparam=&group=U1NS" |base64
+		SSSS2=`echo -n "/?obfsparam=&remarks="$SNO"&group=c3Ny"|base64`
+
 
 	    echo "ssr://"$SSSS1$SSSS2 >>ssr.txt
 		[ ! "$CC" = "1" ] && echo '		},' >>gui-config.json
@@ -449,7 +447,6 @@ fi
 done
 
 base64 ssr.txt >ssr.ini
-curl -T ssr.ini -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/ssr.ini
 cat >>gui-config.json <<GUICONFIG
 		}
 	],
