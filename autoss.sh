@@ -304,7 +304,7 @@ get_from_other
 
 echo '{' >gui-config.json
 echo '	"configs" : ['>>gui-config.json
-
+rm ssr.txt >/dev/null 2>&1
 logger "get bestss server"
 
 options1=""
@@ -332,8 +332,8 @@ echo "NONO" >/tmp/server2.tmp
 echo "999.9" >/tmp/time1.tmp
 echo "999.9" >/tmp/time2.tmp
 CC=1
-CC0=31
-[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=31
+CC0=21
+[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=99
 
 echo "sleep 11" >/tmp/killwget.sh
 echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
@@ -410,9 +410,21 @@ if [ -s /tmp/tmp.txt ] ; then
     logger $str $TIME $CC
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	if [ "$RES" = "1"  ] ; then
+	
+###		echo $ss_s1_method:$ss_s1_key@$ss_s1_ip:$ss_s1_port |base64 >>ssr.txt
+        PWD=`echo -n $ss_s1_key|base64`
+		SNO=`echo -n SSR$CC|base64`
+###		echo  $ss_s1_ip":"$ss_s1_port":"origin":"$ss_s1_method":plain:"$PWD"/?obfsparam=&remarks="$SNO"&group=U1NS" >>ssr.txt
+#		SSSS=`echo -n $ss_s1_ip":"$ss_s1_port":"origin":"$ss_s1_method":plain:"$PWD"/?remarks="$SNO"&group=U1NS"|base64`
+		SSSS1=`echo -n $ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD|base64`
+#		       echo -n 153.125.231.178:31864:origin:rc4-md5:plain:eXpxeXpx|base64
+		SSSS2=`echo -n "/?obfsparam=&remarks=&group=RnJlZVNTUi1wdWJsaWM"|base64`
+#		       echo -n "/?obfsparam=&group=U1NS" |base64
+
+	    echo "ssr://"$SSSS1$SSSS2 >>ssr.txt
 		[ ! "$CC" = "1" ] && echo '		},' >>gui-config.json
 		echo '		{' >>gui-config.json		
-		echo '			"remarks" : "'$CC'",' >>gui-config.json
+		echo '			"remarks" : "SSR'$CC'",' >>gui-config.json
 		echo '			"server" : "'$ss_s1_ip'",' >>gui-config.json
 		echo '			"server_port" : '$ss_s1_port',' >>gui-config.json
 		echo '			"server_udp_port" : 0,' >>gui-config.json
@@ -435,46 +447,55 @@ else
 
 fi
 done
-echo '		}' >>gui-config.json	
-echo '	],' >>gui-config.json
+
+base64 ssr.txt >ssr.ini
+cat >>gui-config.json <<GUICONFIG
+		}
+	],
+	"index" : 0,
+	"random" : true,
+	"sysProxyMode" : 2,
+	"shareOverLan" : false,
+	"localPort" : 1080,
+	"localAuthPassword" : "rwAujFGNptKX1ov1sVgp",
+	"dnsServer" : "",
+	"reconnectTimes" : 2,
+	"randomAlgorithm" : 2,
+	"randomInGroup" : false,
+	"TTL" : 0,
+	"connectTimeout" : 5,
+	"proxyRuleMode" : 2,
+	"proxyEnable" : false,
+	"pacDirectGoProxy" : false,
+	"proxyType" : 0,
+	"proxyHost" : "",
+	"proxyPort" : 0,
+	"proxyAuthUser" : "",
+	"proxyAuthPass" : "",
+	"proxyUserAgent" : "",
+	"authUser" : "",
+	"authPass" : "",
+	"autoBan" : false,
+	"sameHostForSameTarget" : false,
+	"keepVisitTime" : 180,
+	"isHideTips" : false,
+	"nodeFeedAutoUpdate" : true,
+	"serverSubscribes" : [
+		{
+			"URL" : "https://raw.githubusercontent.com/breakwa11/breakwa11.github.io/master/free/freenodeplain.txt",
+			"Group" : "FreeSSR-public"
+		}
+	],
+	"token" : {
+
+	},
+	"portMap" : {
+
+	}
+}
+GUICONFIG
 
 
-echo '	"random" : true,' >>gui-config.json
-echo '	"sysProxyMode" : 3,' >>gui-config.json
-echo '	"shareOverLan" : false,' >>gui-config.json
-echo '	"localAuthPassword" : "DQ2kXTHbgsCYmBPtwOrD",' >>gui-config.json
-echo '	"dns_server" : "",' >>gui-config.json
-echo '	"reconnectTimes" : 2,' >>gui-config.json
-echo '	"randomAlgorithm" : 0,' >>gui-config.json
-echo '	"randomInGroup" : false,' >>gui-config.json
-echo '	"TTL" : 0,' >>gui-config.json
-echo '	"connect_timeout" : 5,' >>gui-config.json
-echo '	"proxyRuleMode" : 0,' >>gui-config.json
-echo '	"pacDirectGoProxy" : false,' >>gui-config.json
-echo '	"proxyType" : 0,' >>gui-config.json
-echo '	"proxyHost" : null,' >>gui-config.json
-echo '	"proxyAuthUser" : null,' >>gui-config.json
-echo '	"proxyAuthPass" : null," : null,' >>gui-config.json
-echo '	"proxyUserAgent" : null,' >>gui-config.json
-echo '	"authUser" : null,' >>gui-config.json
-echo '	"authPass" : null,' >>gui-config.json
-echo '	"autoBan" : false,' >>gui-config.json
-echo '	"sameHostForSameTarget" : false,' >>gui-config.json
-echo '	"keepVisitTime" : 180,' >>gui-config.json
-echo '	"isHideTips" : false,' >>gui-config.json
-echo '	"nodeFeedURL" : "https://raw.githubusercontent.com/breakwa11/breakwa11.github.io/master/free/freenodeplain.txt",' >>gui-config.json
-echo '	"nodeFeedGroup" : "",' >>gui-config.json
-echo '	"nodeFeedAutoUpdate" : true,' >>gui-config.json
-echo '	"token" : {' >>gui-config.json
-echo '' >>gui-config.json
-echo '	},' >>gui-config.json
-echo '	"portMap" : {' >>gui-config.json
-echo '' >>gui-config.json
-echo '	}' >>gui-config.json
-echo '' >>gui-config.json
-echo '' >>gui-config.json
-
-echo '}' >>gui-config.json
 
 server1=`cat /tmp/server1.tmp`
 server2=`cat /tmp/server2.tmp`
