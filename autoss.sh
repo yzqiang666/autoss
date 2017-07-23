@@ -439,7 +439,7 @@ fi
 done
 
 base64 ssr.txt >ssr.ini
-
+curl -T ssr.ini -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/ssr.txt
 server1=`cat /tmp/server1.tmp`
 server2=`cat /tmp/server2.tmp`
 time1=`cat /tmp/time1.tmp`
