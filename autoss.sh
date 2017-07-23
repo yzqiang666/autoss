@@ -302,8 +302,6 @@ get_from_other
 
 ###################### set ss information ####################################
 
-echo '{' >gui-config.json
-echo '	"configs" : ['>>gui-config.json
 rm ssr.txt >/dev/null 2>&1
 logger "get bestss server"
 
@@ -354,7 +352,9 @@ ss_s1_method=`echo $str|awk -F ':' '{print $4}'`
 
 ss_server1=$ss_s1_ip
 resolveip=`/usr/bin/resolveip -4 -t 4 $ss_server1 | grep -v : | sed -n '1p'`
-[ -z "$resolveip" ] && resolveip=`nslookup $ss_server1 | awk 'NR==5{print $3}'` 
+
+#[ -z "$resolveip" ] && resolveip=`nslookup $ss_server1 | awk 'NR==5{print $3}'` 
+if [ -n "$resolveip" ] ; then
 ss_server1=$resolveip
 ss_s1_ip=$ss_server1
 
@@ -409,7 +409,13 @@ if [ -s /tmp/tmp.txt ] ; then
     echo $str $TIME $CC
     logger $str $TIME $CC
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
-	if [ "$RES" = "1"  ] ; then
+	if [ "$RES" = "1"  ] && [ `expr ${#ss_s1_key} % 3` = 0  ] ; then
+#	    PPP=$ss_s1_key
+#	    LNG=`expr ${#PPP} % 3`
+#		[ $LNG = 1 ] && PPP=$PPP"  "
+#		[ $LNG = 2 ] && PPP=$PPP" "
+#		PWD=`echo -n "$PPP"|base64`
+#	    echo $PPP$PWD
         PWD=`echo -n $ss_s1_key|base64`
 		TMPCC=$CC
 		[ ${#CC} = 1 ] && TMPCC="0"$TMPCC
@@ -417,24 +423,9 @@ if [ -s /tmp/tmp.txt ] ; then
 		SNO=`echo -n $TMPCC|base64`
 		SSSS1=`echo -n $ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD|base64`
 		SSSS2=`echo -n "/?obfsparam=&remarks="$SNO"&group=c3Ny"|base64`
-
-
 	    echo "ssr://"$SSSS1$SSSS2 >>ssr.txt
-		[ ! "$CC" = "1" ] && echo '		},' >>gui-config.json
-		echo '		{' >>gui-config.json		
-		echo '			"remarks" : "SSR'$CC'",' >>gui-config.json
-		echo '			"server" : "'$ss_s1_ip'",' >>gui-config.json
-		echo '			"server_port" : '$ss_s1_port',' >>gui-config.json
-		echo '			"server_udp_port" : 0,' >>gui-config.json
-		echo '			"password" : "'$ss_s1_key'",' >>gui-config.json
-		echo '			"method" : "'$ss_s1_method'",' >>gui-config.json
-		echo '			"protocol" : "origin",' >>gui-config.json
-		echo '			"protocolparam" : "",' >>gui-config.json
-		echo '			"obfs" : "plain",' >>gui-config.json
-		echo '			"obfsparam" : "",' >>gui-config.json
-		echo '			"group" : "",' >>gui-config.json
-		echo '			"enable" : true,' >>gui-config.json
-		echo '			"udp_over_tcp" : false' >>gui-config.json		
+	
+
 	fi
 	
 	[ "$RES" = "1"  ] && let CC=$CC+1
@@ -444,56 +435,10 @@ else
     logger $str $TIME" Fail"
 
 fi
+fi
 done
 
 base64 ssr.txt >ssr.ini
-cat >>gui-config.json <<GUICONFIG
-		}
-	],
-	"index" : 0,
-	"random" : true,
-	"sysProxyMode" : 2,
-	"shareOverLan" : false,
-	"localPort" : 1080,
-	"localAuthPassword" : "rwAujFGNptKX1ov1sVgp",
-	"dnsServer" : "",
-	"reconnectTimes" : 2,
-	"randomAlgorithm" : 2,
-	"randomInGroup" : false,
-	"TTL" : 0,
-	"connectTimeout" : 5,
-	"proxyRuleMode" : 2,
-	"proxyEnable" : false,
-	"pacDirectGoProxy" : false,
-	"proxyType" : 0,
-	"proxyHost" : "",
-	"proxyPort" : 0,
-	"proxyAuthUser" : "",
-	"proxyAuthPass" : "",
-	"proxyUserAgent" : "",
-	"authUser" : "",
-	"authPass" : "",
-	"autoBan" : false,
-	"sameHostForSameTarget" : false,
-	"keepVisitTime" : 180,
-	"isHideTips" : false,
-	"nodeFeedAutoUpdate" : true,
-	"serverSubscribes" : [
-		{
-			"URL" : "https://raw.githubusercontent.com/breakwa11/breakwa11.github.io/master/free/freenodeplain.txt",
-			"Group" : "FreeSSR-public"
-		}
-	],
-	"token" : {
-
-	},
-	"portMap" : {
-
-	}
-}
-GUICONFIG
-
-
 
 server1=`cat /tmp/server1.tmp`
 server2=`cat /tmp/server2.tmp`
