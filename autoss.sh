@@ -468,6 +468,7 @@ if [ ! $time1 = "999.9" ]; then
     nvram commit
 fi
 
+
 if [ ! $time2 = "999.9" ]; then
     ssinfo=$server2
     addr0=`echo $ssinfo | awk -F":" '{print $1"\n"; }'`
