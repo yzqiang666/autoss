@@ -301,8 +301,8 @@ get_from_other
 [ ! -s ss.ini ] && exit 1
 
 ###################### set ss information ####################################
-
-rm ssr.txt >/dev/null 2>&1
+ssr_url=`nvram get ssr_url`
+[ -n "$ssr_url" ] && rm ssr.txt >/dev/null 2>&1
 logger "get bestss server"
 
 options1=""
@@ -409,7 +409,7 @@ if [ -s /tmp/tmp.txt ] ; then
     echo $str $TIME $CC
     logger $str $TIME $CC
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
-	if [ "$RES" = "1"  ] && [ `expr ${#ss_s1_key} % 3` = 0  ] ; then
+	if [ -n "$ssr_url" ] && [ "$RES" = "1"  ] && [ `expr ${#ss_s1_key} % 3` = 0  ] ; then
 #	    PPP=$ss_s1_key
 #	    LNG=`expr ${#PPP} % 3`
 #		[ $LNG = 1 ] && PPP=$PPP"  "
@@ -437,9 +437,12 @@ else
 fi
 fi
 done
-
-base64 ssr.txt >ssr.ini
-curl -T ssr.ini -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/ssr.txt
+if [ -n "$ssr_url" ] ; then
+  mv ssr.txt ssr.ini
+  base64 ssr.ini >ssr.txt
+  curl -T ssr.txt $ssr_url"ssr.txt"
+  curl -T ssr.ini $ssr_url"ssr.ini"  
+fi
 server1=`cat /tmp/server1.tmp`
 server2=`cat /tmp/server2.tmp`
 time1=`cat /tmp/time1.tmp`
