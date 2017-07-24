@@ -302,6 +302,9 @@ get_from_other
 
 ###################### set ss information ####################################
 ssr_url=`nvram get ssr_url`
+# ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
+# nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
+# nvram commit
 [ -n "$ssr_url" ] && rm ssr.txt >/dev/null 2>&1
 logger "get bestss server"
 
