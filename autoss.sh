@@ -438,13 +438,13 @@ if [ -s /tmp/tmp.txt ] ; then
 #		SNO=`echo -n $TMPCC|base64`
 
 
-##		SSSS1=`echo -n $ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD|base64`
-##		SSSS2=`echo -n "/?obfsparam=&remarks="$SNO"&group=c3Ny"|base64`
-##	    echo $ssr"|ssr://"$SSSS1$SSSS2 >>ssr.txt
+		SSSS1=`echo -n $ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD|base64`
+		SSSS2=`echo -n "/?obfsparam=&remarks="$SNO"&group=c3Ny"|base64`
+	    echo $ssr"|ssr://"$SSSS1$SSSS2 >>ssr.txt
 	
-    	base64_str=$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD"/?obfsparam=&remarks="$SNO"&group=c3Ny"
-		base64_encode
-        echo $ssr"|ssr://"$base64_res >>ssr.txt		
+#    	base64_str=$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD"/?obfsparam=&remarks="$SNO"&group=c3Ny"
+#		base64_encode
+#       echo $ssr"|ssr://"$base64_res >>ssr.txt		
 	fi
 	
 	[ "$RES" = "1"  ] && let CC=$CC+1
@@ -460,7 +460,7 @@ if [ -n "$ssr_url" ] &&  [ -s ssr.txt ]; then
 #  mv ssr.txt ssr.ini
   sort ssr.txt | head -n 20 >ssr.ini
   sed -i 's/^....//g' ssr.ini  
-#  sed -i 's/=//g' ssr.ini 
+  sed -i 's/=//g' ssr.ini 
   base64 ssr.ini >ssr.txt
   curl -T ssr.txt $ssr_url"ssr.txt"
   curl -T ssr.ini $ssr_url"ssr.ini"  
