@@ -456,7 +456,7 @@ fi
 done
 if [ -n "$ssr_url" ] &&  [ -s ssr.txt ]; then
 #  mv ssr.txt ssr.ini
-  sort ssr.txt >ssr.ini
+  sort ssr.txt | head -n 20 >ssr.ini
   sed -i 's/^....//g' ssr.ini  
   sed -i 's/=//g' ssr.ini 
   base64 ssr.ini >ssr.txt
