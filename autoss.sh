@@ -286,6 +286,14 @@ fi
 echo "==========" >> ss.ini 
 }
 
+base64_str=""
+base64_res=""
+
+base64_encode() 
+{
+vvvv=`echo -n $base64_str|base64`
+base64_res=${vvvv//=/}
+}
 
 #########################################
 
@@ -299,6 +307,7 @@ get_from_ishadowsock
 get_from_other
 
 [ ! -s ss.ini ] && exit 1
+
 
 ###################### set ss information ####################################
 ssr_url=`nvram get ssr_url`
@@ -412,21 +421,26 @@ if [ -s /tmp/tmp.txt ] ; then
     echo $str $TIME $CC
     logger $str $TIME $CC
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
-	if [ -n "$ssr_url" ] && [ "$RES" = "1"  ] && [ `expr ${#ss_s1_key} % 3` = 0  ] ; then
-#	    PPP=$ss_s1_key
-#	    LNG=`expr ${#PPP} % 3`
-#		[ $LNG = 1 ] && PPP=$PPP"  "
-#		[ $LNG = 2 ] && PPP=$PPP" "
-#		PWD=`echo -n "$PPP"|base64`
-#	    echo $PPP$PWD
-        PWD=`echo -n $ss_s1_key|base64`
-		TMPCC=$CC
-		[ ${#CC} = 1 ] && TMPCC="0"$TMPCC
-		TMPCC="0"$TMPCC
-		SNO=`echo -n $TMPCC|base64`
+	if [ -n "$ssr_url" ] && [ "$RES" = "1"  ] ; then
+        base64_str=$ss_s1_key
+		base64_encode
+		PWD=$base64_res
+#        PWD=`echo -n $ss_s1_key|base64`
+        base64_str=$CC
+		base64_encode
+		SNO=$base64_res
+#		TMPCC=$CC
+#		[ ${#CC} = 1 ] && TMPCC="0"$TMPCC
+#		TMPCC="0"$TMPCC
+#		SNO=`echo -n $TMPCC|base64`
 		SSSS1=`echo -n $ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD|base64`
 		SSSS2=`echo -n "/?obfsparam=&remarks="$SNO"&group=c3Ny"|base64`
-	    echo "ssr://"$SSSS1$SSSS2 >>ssr.txt
+
+        ssr=${TIME//./}"000"
+		ssr=${ssr:0:3}
+
+		
+	    echo $ssr"|ssr://"$SSSS1$SSSS2 >>ssr.txt
 	
 
 	fi
@@ -440,8 +454,11 @@ else
 fi
 fi
 done
-if [ -n "$ssr_url" ] ; then
-  mv ssr.txt ssr.ini
+if [ -n "$ssr_url" ] &&  [ -s ssr.txt ]; then
+#  mv ssr.txt ssr.ini
+  sort ssr.txt >ssr.ini
+  sed -i 's/^....//g' ssr.ini  
+  sed -i 's/=//g' ssr.ini 
   base64 ssr.ini >ssr.txt
   curl -T ssr.txt $ssr_url"ssr.txt"
   curl -T ssr.ini $ssr_url"ssr.ini"  
