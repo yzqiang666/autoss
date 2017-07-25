@@ -429,22 +429,20 @@ if [ -s /tmp/tmp.txt ] ; then
         base64_str=$CC
 		base64_encode
 		SNO=$base64_res
-        ssr=${TIME//./}"000"
-		ssr=${ssr:0:3}
-		
 #		TMPCC=$CC
 #		[ ${#CC} = 1 ] && TMPCC="0"$TMPCC
 #		TMPCC="0"$TMPCC
 #		SNO=`echo -n $TMPCC|base64`
-
-
 		SSSS1=`echo -n $ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD|base64`
 		SSSS2=`echo -n "/?obfsparam=&remarks="$SNO"&group=c3Ny"|base64`
+
+        ssr=${TIME//./}"000"
+		ssr=${ssr:0:3}
+
+		
 	    echo $ssr"|ssr://"$SSSS1$SSSS2 >>ssr.txt
 	
-#    	base64_str=$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD"/?obfsparam=&remarks="$SNO"&group=c3Ny"
-#		base64_encode
-#       echo $ssr"|ssr://"$base64_res >>ssr.txt		
+
 	fi
 	
 	[ "$RES" = "1"  ] && let CC=$CC+1
