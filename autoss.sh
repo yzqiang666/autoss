@@ -460,6 +460,13 @@ if [ -n "$ssr_url" ] &&  [ -s ssr.txt ]; then
 #  mv ssr.txt ssr.ini
   sort ssr.txt | head -n 20 |sed 's/^....//g' >ssr.ini  
 #  sed -i 's/=//g' ssr.ini 
+
+#  sort ssr.txt | head -n 20 >ssr.ini
+#  sed -i 's/^....//g' ssr.ini  
+  sed -i 's/=//g' ssr.ini 
+  sed -i 's/$/\r/g' ssr.ini 
+  sed -i 's/\r\r/\r/g' ssr.ini
+  
   base64 ssr.ini >ssr.txt
   curl -T ssr.txt $ssr_url"ssr.txt"
   curl -T ssr.ini $ssr_url"ssr.ini"  
