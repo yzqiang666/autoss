@@ -291,8 +291,8 @@ base64_res=""
 
 base64_encode() 
 {
-vvvv=`echo -n $base64_str|base64`
-base64_res=${vvvv//=/}
+vvvvv=`echo -n $base64_str|base64|sed 's/=//g'`
+base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
 }
 
 #########################################
@@ -433,14 +433,16 @@ if [ -s /tmp/tmp.txt ] ; then
 #		[ ${#CC} = 1 ] && TMPCC="0"$TMPCC
 #		TMPCC="0"$TMPCC
 #		SNO=`echo -n $TMPCC|base64`
-		SSSS1=`echo -n $ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD|base64`
-		SSSS2=`echo -n "/?obfsparam=&remarks="$SNO"&group=c3Ny"|base64`
-
         ssr=${TIME//./}"000"
 		ssr=${ssr:0:3}
 
-		
-	    echo $ssr"|ssr://"$SSSS1$SSSS2 >>ssr.txt
+#		SSSS1=`echo -n $ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD|base64`
+#		SSSS2=`echo -n "/?obfsparam=&remarks="$SNO"&group=c3Ny"|base64`
+#	    echo $ssr"|ssr://"$SSSS1$SSSS2 >>ssr.txt
+
+        base64_str=$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD"/?obfsparam=&remarks="$SNO"&group=c3Ny"
+		base64_encode
+	    echo $ssr"|ssr://"$base64_res >>ssr.txt
 	
 
 	fi
@@ -456,9 +458,8 @@ fi
 done
 if [ -n "$ssr_url" ] &&  [ -s ssr.txt ]; then
 #  mv ssr.txt ssr.ini
-  sort ssr.txt | head -n 20 >ssr.ini
-  sed -i 's/^....//g' ssr.ini  
-  sed -i 's/=//g' ssr.ini 
+  sort ssr.txt | head -n 20 |sed 's/^....//g' >ssr.ini  
+#  sed -i 's/=//g' ssr.ini 
   base64 ssr.ini >ssr.txt
   curl -T ssr.txt $ssr_url"ssr.txt"
   curl -T ssr.ini $ssr_url"ssr.ini"  
@@ -516,3 +517,4 @@ nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 sleep 10
 mv syslog.tmp syslog.log
+
