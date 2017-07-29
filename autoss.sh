@@ -342,7 +342,7 @@ echo "NONO" >/tmp/server2.tmp
 echo "999.9" >/tmp/time1.tmp
 echo "999.9" >/tmp/time2.tmp
 CC=1
-CC0=31
+CC0=21
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
 
 echo "sleep 11" >/tmp/killwget.sh
