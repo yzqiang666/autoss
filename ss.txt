@@ -1,8 +1,6 @@
-167.160.180.8:8080:cvps.top:chacha20
 #us.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 #hk.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 #jp.bilibilitv.pw:16862:namaho.org:aes-256-cfb
-167.160.180.8:8080:cvps.top:chacha20
 167.160.180.8:8080:cvps.top:chacha20
 167.160.180.8:65080:cvps.top:chacha20
 167.160.180.8:3169:cvps.top:chacha20
@@ -12,3 +10,8 @@
 103.42.212.134:45754:yzqyzq:rc4-md5
 47.91.95.105:45754:yzqyzq:rc4-md5
 124.248.215.134:45754:yzqyzq:rc4-md5
+de1.due.pw:36670:yzqyzq:rc4-md5
+us4.due.pw:36670:yzqyzq:rc4-md5
+us5.due.pw:36670:yzqyzq:rc4-md5
+us1.due.pw:36670:yzqyzq:rc4-md5
+nl2.due.pw:36670:yzqyzq:rc4-md5
