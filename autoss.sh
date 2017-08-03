@@ -12,8 +12,8 @@ url="https://www.youtube.com"
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 $url 2>/dev/null 
-[ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 $url 2>/dev/null 
-[ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 $url 2>/dev/null 
+[ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 https://www.google.com 2>/dev/null 
+[ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 https://www.google.com 2>/dev/null 
 [ -s /tmp/tmp.txt ] && exit 0
 fi
 
@@ -291,7 +291,7 @@ base64_res=""
 
 base64_encode() 
 {
-vvvvv=`echo -n $base64_str|base64|sed 's/=//g'`
+vvvvv=`echo -n $base64_str|base64|sed 's/=//g'|sed 's/\//_/g'`
 base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
 }
 
@@ -302,7 +302,6 @@ rm ss.ini >/dev/null 2>&1
 sleep 1
 get_from_arukas
 get_from_Alvin9999
-#get_from_arukas
 get_from_ishadowsock
 get_from_other
 
@@ -332,17 +331,12 @@ action_port=1090
 lan_ipaddr=`nvram get lan_ipaddr`
 killall -9  sh_sskeey_k.sh 2>/dev/null
 killall -9  ss-redir 2>/dev/null
+rm ss.txt >/dev/null 2>&1
+rm ssr.inf >/dev/null 2>&1
+rm ssr.ini >/dev/null 2>&1
 
-server1="NONO"
-server2="NONO"
-time1=999.9
-time2=999.9
-echo "NONO" >/tmp/server1.tmp
-echo "NONO" >/tmp/server2.tmp
-echo "999.9" >/tmp/time1.tmp
-echo "999.9" >/tmp/time2.tmp
 CC=1
-CC0=21
+CC0=31
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
 
 echo "sleep 11" >/tmp/killwget.sh
@@ -391,62 +385,16 @@ endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 if [ -s /tmp/tmp.txt ] ; then
     ###if [ $KEY -gt 5 ] ; then
-    RES=`awk -v a=$TIME -v b=$time1  'BEGIN { print (a<=b)?1:0'}`
-    if [ "$RES" = "1"  ] ; then
-		if [ $server1 != $server1 ] ; then
-			server2=$server1
-			time2=$time1
-			mv /tmp/server1.tmp /tmp/server2.tmp
-			mv /tmp/time1.tmp /tmp/time2.tmp
-		fi
-		
-        server1=$str
-        time1=$TIME
 
-
-        echo $str >/tmp/server1.tmp
-        echo $TIME >/tmp/time1.tmp
-    else
-        RES=`awk -v a=$TIME -v b=$time2  'BEGIN { print (a<=b)?"1":"0"'}`
-        if [ "$RES" = "1"  ] ; then
-			if [ $server1 != $str ] ; then
-				server2=$str
-				time2=$TIME
-				echo $str >/tmp/server2.tmp
-				echo $TIME >/tmp/time2.tmp
-			fi
-        fi
-
-    fi
     echo $str $TIME $CC
     logger $str $TIME $CC
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
-	if [ -n "$ssr_url" ] && [ "$RES" = "1"  ] ; then
-        base64_str=$ss_s1_key
-		base64_encode
-		PWD=$base64_res
-#        PWD=`echo -n $ss_s1_key|base64`
-        base64_str=$CC
-		base64_encode
-		SNO=$base64_res
-#		TMPCC=$CC
-#		[ ${#CC} = 1 ] && TMPCC="0"$TMPCC
-#		TMPCC="0"$TMPCC
-#		SNO=`echo -n $TMPCC|base64`
+	if  [ "$RES" = "1"  ] ; then
         ssr=${TIME//./}"000"
 		ssr=${ssr:0:3}
-
-#		SSSS1=`echo -n $ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD|base64`
-#		SSSS2=`echo -n "/?obfsparam=&remarks="$SNO"&group=c3Ny"|base64`
-#	    echo $ssr"|ssr://"$SSSS1$SSSS2 >>ssr.txt
-
-        base64_str=$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD"/?obfsparam=&remarks="$SNO"&group=c3Ny"
-		base64_encode
-	    echo $ssr"|ssr://"$base64_res >>ssr.txt
-	
-
+        echo $ssr:$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method >>ss.txt
 	fi
-	
+		
 	[ "$RES" = "1"  ] && let CC=$CC+1
 	
 else
@@ -456,63 +404,69 @@ else
 fi
 fi
 done
-if [ -n "$ssr_url" ] &&  [ -s ssr.txt ]; then
-#  mv ssr.txt ssr.ini
-  sort ssr.txt | head -n 20 |sed 's/^....//g' >ssr.ini  
-#  sed -i 's/=//g' ssr.ini 
 
-#  sort ssr.txt | head -n 20 >ssr.ini
-#  sed -i 's/^....//g' ssr.ini  
+if [ -s ss.txt ]; then
+  sort ss.txt >ss.inf
+  CC=1
+
+  cat ss.inf | while read str
+  do  
+    TIME=`echo $str|awk -F ':' '{print $1}'`  	
+    ss_s1_ip=`echo $str|awk -F ':' '{print $2}'`  
+    ss_s1_port=`echo $str|awk -F ':' '{print $3}'`  
+    ss_s1_key=`echo $str|awk -F ':' '{print $4}'`  
+    ss_s1_method=`echo $str|awk -F ':' '{print $5}'`  
+    base64_str=$ss_s1_key
+	base64_encode
+	PWD=$base64_res	
+    base64_str=$CC
+	base64_encode
+	SNO=$base64_res	
+    base64_str=$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD"/?obfsparam=&remarks="$SNO"&group=c3Ny"
+	base64_encode
+	echo $base64_res >>ssr.ini	
+	
+    if [ $CC = 1 ] ; then
+    nvram set ss_server=$ss_s1_ip
+    nvram set ss_server_port=$ss_s1_port
+    nvram set ss_key=$ss_s1_key
+    nvram set ss_method=$ss_s1_method
+    nvram set ss_server1=$ss_s1_ip
+    nvram set ss_s1_port=$ss_s1_port
+    nvram set ss_s1_key=$ss_s1_key
+    nvram set ss_s1_method=$ss_s1_method
+    nvram commit
+
+    echo "The No1 server: "$ss_s1_ip::$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
+	logger "The No1 server: "$ss_s1_ip::$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
+    fi
+
+    if [ $CC = 2 ] ; then
+    nvram set ss_server2=$ss_s1_ip
+    nvram set ss_s2_port=$ss_s1_port
+    nvram set ss_s2_key=$ss_s1_key
+    nvram set ss_s2_method=$ss_s1_method
+    nvram commit
+
+    echo "The No2 server: "$ss_s1_ip::$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
+	logger "The No2 server: "$ss_s1_ip::$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
+    fi
+	
+	let CC=$CC+1
+  done
+fi
+
+if   [ -s ssr.ini ]; then
   sed -i 's/=//g' ssr.ini 
   sed -i 's/$/\r/g' ssr.ini 
   sed -i 's/\r\r/\r/g' ssr.ini
+  sed -i 's/^/ssr:\/\//g' ssr.ini 
   
   base64 ssr.ini >ssr.txt
   curl -T ssr.txt $ssr_url"ssr.txt"
   curl -T ssr.ini $ssr_url"ssr.ini"  
 fi
-server1=`cat /tmp/server1.tmp`
-server2=`cat /tmp/server2.tmp`
-time1=`cat /tmp/time1.tmp`
-time2=`cat /tmp/time2.tmp`
 
-echo "The No1 server: "$server1"  "$time1
-echo "The No2 server: "$server2"  "$time2
-logger "The No1 server: "$server1"  "$time1
-logger "The No2 server: "$server2"  "$time2
-
-if [ ! $time1 = "999.9" ]; then
-    ssinfo=$server1
-    addr0=`echo $ssinfo | awk -F":" '{print $1"\n"; }'`
-    port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
-    password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
-    method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
-
-    nvram set ss_server=$addr0
-    nvram set ss_server_port=$port0
-    nvram set ss_key=$password0
-    nvram set ss_method=$method0
-    nvram set ss_server1=$addr0
-    nvram set ss_s1_port=$port0
-    nvram set ss_s1_key=$password0
-    nvram set ss_s1_method=$method0
-    nvram commit
-fi
-
-
-if [ ! $time2 = "999.9" ]; then
-    ssinfo=$server2
-    addr0=`echo $ssinfo | awk -F":" '{print $1"\n"; }'`
-    port0=`echo $ssinfo | awk -F":" '{print $2"\n"; }'`
-    password0=`echo $ssinfo | awk -F":" '{print $3"\n"; }'`
-    method0=`echo $ssinfo | awk -F":" '{print $4"\n"; }'`
-		
-    nvram set ss_server2=$addr0
-    nvram set ss_s2_port=$port0
-    nvram set ss_s2_key=$password0
-    nvram set ss_s2_method=$method0
-    nvram commit
-fi
 
 mv syslog.log syslog.tmp
 nvram set ss_check=$ss_check
@@ -524,4 +478,3 @@ nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 sleep 10
 mv syslog.tmp syslog.log
-
