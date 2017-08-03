@@ -135,6 +135,49 @@ fi
 get_from_Alvin9999()
 {
 
+rm ss.txt > /dev/null 2>&1
+iss="https://raw.githubusercontent.com/Alvin9999/pac2/master/ssconfig.txt"
+wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+iss="https://coding.net/u/Alvin9999/p/ip/git/raw/master/ssconfig.txt"
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+if [ -s ss.txt ] ; then
+Server=""
+Port=""
+Pass=""
+Method=""
+
+base64 -d ss.txt|sed 's/"//g'|sed 's/,//g'|sed s/[[:space:]]//g| grep -E 'server:|server_port:|password:|method:'  | while read i 
+do
+
+var1=`echo $i|awk -F ':' '{print $1}'`
+var2=`echo $i|awk -F ':' '{print $2}'`
+
+case "$var1" in
+    "server")  Server="$var2"
+    ;;
+    "server_port")  Port="$var2"
+    ;;
+    "password")  Pass="$var2"
+    ;;
+    "method")  Method="$var2"
+    ;;
+esac
+
+if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
+    echo $Server:$Port:$Pass:$Method >>ss.ini
+    Server=""
+    Port=""
+    Pass=""
+    Method=""
+fi
+done
+fi
+
+
+
 
 rm ss.txt > /dev/null 2>&1
 iss="https://socks.zone/free/"
