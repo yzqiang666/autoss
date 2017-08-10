@@ -376,7 +376,7 @@ rm ssr.inf >/dev/null 2>&1
 rm ssr.ini >/dev/null 2>&1
 
 CC=1
-CC0=31
+CC0=61
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
 
 echo "sleep 11" >/tmp/killwget.sh
