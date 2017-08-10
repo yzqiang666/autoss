@@ -386,7 +386,7 @@ chmod a+x /tmp/killwget.sh
 cat ss.ini | while read str
 do
 [ $CC -ge $CC0 ] && break
-[ $str = "" ] && continue 
+[ "$str" = "" ] && continue 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
 
@@ -496,7 +496,7 @@ if [ -s ss.txt ]; then
   done
 fi
 
-if   [ -s ssr.ini ]; then
+if   [ -s ssr.ini ] ; then
   sed -i 's/=//g' ssr.ini 
   sed -i 's/$/\r/g' ssr.ini 
   sed -i 's/\r\r/\r/g' ssr.ini
