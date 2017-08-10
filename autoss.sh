@@ -396,6 +396,8 @@ ss_s1_port=`echo $str|awk -F ':' '{print $2}'`
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
 
+
+
 ss_server1=$ss_s1_ip
 resolveip=`/usr/bin/resolveip -4 -t 4 $ss_server1 | grep -v : | sed -n '1p'`
 
