@@ -434,7 +434,7 @@ if [ -s /tmp/tmp.txt ] ; then
 	if  [ "$RES" = "1"  ] ; then
         ssr=${TIME//./}"000"
 		ssr=${ssr:0:3}
-        echo $ssr:$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method >>ss.txt
+        echo $ssr:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method >>ss.txt
 	fi
 		
 	[ "$RES" = "1"  ] && let CC=$CC+1
