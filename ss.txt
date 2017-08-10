@@ -22,4 +22,5 @@ jp.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 47.91.95.105:47713:yzqyzq:rc4-md5
 103.42.212.134:47713:yzqyzq:rc4-md5
 124.248.215.134:47713:yzqyzq:rc4-md5
+144.168.62.246:443:7R4dJWUI3MSKtJT7:aes-256-cfb
 
