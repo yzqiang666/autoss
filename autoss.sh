@@ -9,11 +9,11 @@
 
 url="https://www.youtube.com"
 
-if [ ! "$1" = "refresh" ] ; then
+if [ ! "$1" = "refresh" ] && [  ! `nvram get ss_server` = `nvram get ss_server2` ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 $url 2>/dev/null 
-[ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 https://www.google.com 2>/dev/null 
-[ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 10 https://www.google.com 2>/dev/null 
+wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 $url 2>/dev/null 
+[ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 https://www.google.com 2>/dev/null 
+[ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 https://www.google.com 2>/dev/null 
 [ -s /tmp/tmp.txt ] && exit 0
 fi
 
@@ -276,9 +276,6 @@ done
 fi
 
 
-rm ss.txt
-
-
 rm ss.txt > /dev/null 2>&1
 iss="https://xsjs.yhyhd.org/free-ss"
 wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
@@ -480,8 +477,8 @@ if [ -s ss.txt ]; then
     nvram set ss_s1_method=$ss_s1_method
     nvram commit
 
-    echo "The No1 server: "$ss_s1_ip::$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
-	logger "The No1 server: "$ss_s1_ip::$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
+    echo "The No1 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
+	logger "The No1 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
     fi
 
     if [ $CC = 2 ] ; then
@@ -491,8 +488,8 @@ if [ -s ss.txt ]; then
     nvram set ss_s2_method=$ss_s1_method
     nvram commit
 
-    echo "The No2 server: "$ss_s1_ip::$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
-	logger "The No2 server: "$ss_s1_ip::$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
+    echo "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
+	logger "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
     fi
 	
 	let CC=$CC+1
@@ -506,8 +503,10 @@ if   [ -s ssr.ini ]; then
   sed -i 's/^/ssr:\/\//g' ssr.ini 
   
   base64 ssr.ini >ssr.txt
-  curl -T ssr.txt $ssr_url"ssr.txt"
-  curl -T ssr.ini $ssr_url"ssr.ini"  
+  if [ ! "$ssr_url" = "" ] ; then
+    curl -T ssr.txt $ssr_url"ssr.txt"
+    curl -T ssr.ini $ssr_url"ssr.ini"  
+  fi
 fi
 
 
