@@ -17,3 +17,4 @@ us1.due.pw:36670:yzqyzq:rc4-md5
 nl2.due.pw:36670:yzqyzq:rc4-md5
 47.88.217.215:47713:yzqyzq:rc4-md5
 104.224.163.22:47713:yzqyzq:rc4-md5
+64.137.225.141:46675:yexuuu:salsa20
