@@ -509,7 +509,8 @@ if   [ -s ssr.ini ] ; then
   if [ ! "$ssr_url" = "" ] ; then
     curl -T ssr.txt $ssr_url"ssr.txt"
     curl -T ssr.ini $ssr_url"ssr.ini"  
-    curl -T ss.txt $ssr_url"ss.txt"      
+    sed  -i  's/^..../ssr:\/\//'  ss.inf   
+    curl -T ss.inf $ssr_url"ss.txt"      
   fi
 fi
 
