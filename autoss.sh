@@ -131,9 +131,60 @@ fi
 
 }
 
+########################  get from tckssr　########################
+get_from_tckssr() 
+{
+rm ss.txt > /dev/null 2>&1
+nvram set tkcssr="link/FCgzUG7KGaSQFpLm"
+nvram commit
+tkcssr="`nvram get tkcssr`"
+
+iss="https://www.tkcssr.com/"$tkcssr
+wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
+if [ -s ss.txt ] ; then
+Server=""
+Port=""
+Pass=""
+Method=""
+
+sed 's/"//g' ss.txt| sed 's/nvram set //g' | grep -E 'rt_ss_server_|rt_ss_port_|rt_ss_password_|rt_ss_method_' | sed -r 's/\_x([0-9]|[0-9][0-9])=/=/g' | while read i 
+do
+
+var1=`echo $i|awk -F '=' '{print $1}'`
+var2=`echo $i|awk -F '=' '{print $2}'`
+
+case "$var1" in
+    "rt_ss_server")  Server="$var2"
+    ;;
+    "rt_ss_port")  Port="$var2"
+    ;;
+    "rt_ss_password")  Pass="$var2"
+    ;;
+    "rt_ss_method")  Method="$var2"
+    ;;
+esac
+
+if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
+    [ ! "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+    Server=""
+    Port=""
+    Pass=""
+    Method=""
+fi
+done
+fi
+echo "==========" >> ss.ini 
+}
+
 ########################  get from github.com/Alvin9999 不得已才用　########################
 get_from_Alvin9999()
 {
+
+
 
 rm ss.txt > /dev/null 2>&1
 iss="https://raw.githubusercontent.com/Alvin9999/pac2/master/ssconfig.txt"
@@ -340,6 +391,7 @@ base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
 cd /tmp
 rm ss.ini >/dev/null 2>&1
 sleep 1
+get_from_tckssr
 #get_from_arukas
 #get_from_Alvin9999
 get_from_ishadowsock
