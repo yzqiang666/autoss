@@ -1,8 +1,8 @@
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
-nvram set tkcssr="link/FCgzUG7KGaSQFpLm"
-nvram commit
+#nvram set tkcssr="link/FCgzUG7KGaSQFpLm"
+#nvram commit
 
 ##################### SSR Server ###########
 [  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
@@ -138,7 +138,7 @@ get_from_tckssr()
 {
 rm ss.txt > /dev/null 2>&1
 tkcssr="`nvram get tkcssr`"
-
+if [ ! "$tkcssr"x = "x"] ; then 
 iss="https://www.tkcssr.com/"$tkcssr
 wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
@@ -178,6 +178,7 @@ fi
 done
 fi
 echo "==========" >> ss.ini 
+fi
 }
 
 ########################  get from github.com/Alvin9999 不得已才用　########################
