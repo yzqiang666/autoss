@@ -1,3 +1,5 @@
+#nvram set tkcssr="link/FCgzUG7KGaSQFpLm"
+#nvram commit
 #us.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 #hk.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 #jp.bilibilitv.pw:16862:namaho.org:aes-256-cfb
