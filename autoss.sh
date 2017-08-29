@@ -1,8 +1,6 @@
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
-#nvram set tkcssr="link/FCgzUG7KGaSQFpLm"
-#nvram commit
 
 ##################### SSR Server ###########
 [  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
@@ -394,8 +392,10 @@ rm ss.ini >/dev/null 2>&1
 sleep 1
 get_from_tckssr
 #get_from_arukas
-get_from_Alvin9999
-get_from_ishadowsock
+tkcssr="`nvram get tkcssr`"
+[ ! "$tkcssr"x = "x" ] && get_from_Alvin9999 && get_from_ishadowsock
+#get_from_Alvin9999
+#get_from_ishadowsock
 get_from_other
 
 [ ! -s ss.ini ] && exit 1
