@@ -167,13 +167,20 @@ case "$var1" in
 esac
 
 if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
-    [ ! "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+    [  "${Server:0:2}" = "jp" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+    [  "${Server:0:2}" = "uk" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+    [  "${Server:0:2}" = "hk" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+    [  "${Server:0:2}" = "sg" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+
     Server=""
     Port=""
     Pass=""
     Method=""
 fi
 done
+sort ss.ini >sss.ini
+rm ss.ini
+mv sss.ini ss.ini
 fi
 echo "==========" >> ss.ini 
 fi
