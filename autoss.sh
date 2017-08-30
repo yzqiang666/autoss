@@ -400,7 +400,7 @@ sleep 1
 get_from_tckssr
 #get_from_arukas
 tkcssr="`nvram get tkcssr`"
-[ ! "$tkcssr"x = "x" ] && get_from_Alvin9999 
+[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
 #get_from_Alvin9999
 get_from_ishadowsock
 get_from_other
