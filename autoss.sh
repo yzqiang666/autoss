@@ -168,7 +168,7 @@ esac
 
 if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
     [  "${Server:0:2}" = "jp" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
-    [  "${Server:0:2}" = "uk" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
     [  "${Server:0:2}" = "hk" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
     [  "${Server:0:2}" = "sg" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
 
