@@ -1,4 +1,6 @@
-
+104.160.181.19:5902:ntdtv.com:aes-256-cfb
+104.160.185.150:1732:ntdtv.com:aes-256-cfb
+104.160.181.22:8356:dongtaiwang.com:aes-256-cfb
 #us.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 #hk.bilibilitv.pw:16862:namaho.org:aes-256-cfb
 #jp.bilibilitv.pw:16862:namaho.org:aes-256-cfb
