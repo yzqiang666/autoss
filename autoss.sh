@@ -14,7 +14,7 @@ rm /tmp/tmp.txt 2>/dev/null
 wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 $url 2>/dev/null 
 [ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 https://www.google.com.hk 2>/dev/null 
 [ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 https://www.google.com.hk 2>/dev/null 
-#### [ -s /tmp/tmp.txt ] && exit 0
+[ -s /tmp/tmp.txt ] && exit 0
 fi
 
 
@@ -403,7 +403,7 @@ get_from_tckssr
 tkcssr="`nvram get tkcssr`"
 [  "$tkcssr"x = "x" ] && get_from_Alvin9999 
 #get_from_Alvin9999
-get_from_ishadowsock
+#get_from_ishadowsock
 get_from_other
 
 [ ! -s ss.ini ] && exit 1
