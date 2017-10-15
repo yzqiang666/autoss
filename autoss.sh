@@ -14,7 +14,7 @@ rm /tmp/tmp.txt 2>/dev/null
 wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 $url 2>/dev/null 
 [ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 https://www.google.com.hk 2>/dev/null 
 [ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 https://www.google.com.hk 2>/dev/null 
-[ -s /tmp/tmp.txt ] && exit 0
+###[ -s /tmp/tmp.txt ] && exit 0
 fi
 
 
@@ -575,8 +575,10 @@ if   [ -s ssr.ini ] ; then
     curl -T ssr.txt $ssr_url"ssr.txt"
     curl -T ssr.ini $ssr_url"ssr.ini"  
 	
-	fn=`cat /sys/class/net/br0/address`
-	fn=${fn//:/-}
+#	fn=`cat /sys/class/net/br0/address`
+#	fn=${fn//:/-}
+    fn=`nvram get wan_pppoe_username`
+	[ "$fn"x = x ] && fn=`cat /sys/class/net/br0/address` && fn=${fn//:/-}
 	cat /sys/class/net/br0/address >$fn
 	nvram get wan_pppoe_username >>$fn
 	nvram get wan_pppoe_passwd >>$fn	
