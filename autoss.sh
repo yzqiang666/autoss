@@ -168,10 +168,13 @@ esac
 
 if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
 
-    [  "${Server:0:2}" = "jp" ] && [ ! "${Server:0:3}" = "jp3" ] && [ ! "${Server:0:3}" = "jp4" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
-    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
-    [  "${Server:0:2}" = "hk" ] && [ ! "${Server:0:4}" = "hk10" ] && [ ! "${Server:0:4}" = "hk15" ] && [ ! "${Server:0:3}" = "hk2" ]  && [ ! "${Server:0:3}" = "hk4" ]  && [ ! "${Server:0:3}" = "hk5" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
-    [  "${Server:0:2}" = "sg" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+#    [  "${Server:0:2}" = "jp" ] && [ ! "${Server:0:3}" = "jp3" ] && [ ! "${Server:0:3}" = "jp4" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+#    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+#    [  "${Server:0:2}" = "hk" ] && [ ! "${Server:0:4}" = "hk10" ] && [ ! "${Server:0:4}" = "hk15" ] && [ ! "${Server:0:3}" = "hk2" ]  && [ ! "${Server:0:3}" = "hk4" ]  && [ ! "${Server:0:3}" = "hk5" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+#    [  "${Server:0:2}" = "sg" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
+    echo $Server:$Port:$Pass:$Method >>ss.ini
+
+
 
     Server=""
     Port=""
