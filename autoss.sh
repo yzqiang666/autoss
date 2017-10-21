@@ -1,5 +1,3 @@
-exit
-
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
@@ -151,8 +149,8 @@ Server=""
 Port=""
 Pass=""
 Method=""
-
-sed 's/"//g' ss.txt| sed 's/nvram set //g' | grep -E 'rt_ss_server_|rt_ss_port_|rt_ss_password_|rt_ss_method_' | sed -r 's/\_x([0-9]|[0-9][0-9])=/=/g' | while read i 
+Usage=""
+sed 's/"//g' ss.txt| sed 's/nvram set //g' | grep -E 'rt_ss_server_|rt_ss_port_|rt_ss_password_|rt_ss_method_|rt_ss_usage_' | sed -r 's/\_x([0-9]|[0-9][0-9]|[0-9][0-9][0-9])=/=/g' | while read i 
 do
 
 var1=`echo $i|awk -F '=' '{print $1}'`
@@ -167,15 +165,24 @@ case "$var1" in
     ;;
     "rt_ss_method")  Method="$var2"
     ;;
+    "rt_ss_usage")  Usage="$var2"
+	                Usage=${Usage//:/：}
+				    Usage=${Usage// /　}
+    ;;
 esac
 
-if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
+if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  && [ ! "$Usage" = "" ] ; then
+#    [  "${Server:0:2}" = "jp" ] && [ ! "${Server:0:3}" = "jp3" ] && [ ! "${Server:0:3}" = "jp4" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "hk" ] && [ ! "${Server:0:4}" = "hk10" ] && [ ! "${Server:0:4}" = "hk15" ] && [ ! "${Server:0:3}" = "hk2" ]  && [ ! "${Server:0:3}" = "hk4" ]  && [ ! "${Server:0:3}" = "hk5" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "sg" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+	 
+    [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "hk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
-#    [  "${Server:0:2}" = "jp" ] && [ ! "${Server:0:3}" = "jp3" ] && [ ! "${Server:0:3}" = "jp4" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
-#    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
-#    [  "${Server:0:2}" = "hk" ] && [ ! "${Server:0:4}" = "hk10" ] && [ ! "${Server:0:4}" = "hk15" ] && [ ! "${Server:0:3}" = "hk2" ]  && [ ! "${Server:0:3}" = "hk4" ]  && [ ! "${Server:0:3}" = "hk5" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
-#    [  "${Server:0:2}" = "sg" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
-     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method >>ss.ini
 
 
 
@@ -185,6 +192,7 @@ if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$
     Method=""
 fi
 done
+
 sort ss.ini >sss.ini
 rm ss.ini
 mv sss.ini ss.ini
@@ -192,6 +200,8 @@ fi
 echo "==========" >> ss.ini 
 fi
 }
+
+
 
 ########################  get from github.com/Alvin9999 不得已才用　########################
 get_from_Alvin9999()
@@ -407,10 +417,10 @@ sleep 1
 get_from_tckssr
 #get_from_arukas
 tkcssr="`nvram get tkcssr`"
-[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
+#[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
 #get_from_Alvin9999
 #get_from_ishadowsock
-get_from_other
+#get_from_other
 
 [ ! -s ss.ini ] && exit 1
 
@@ -463,6 +473,10 @@ ss_s1=$ss_s1_ip
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
+ss_usage0=`echo $str|awk -F ':' '{print $5}'`  
+ss_usage=${ss_usage0//：/:}
+ss_usage=${ss_usage//　/ }
+ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
 
 
 
@@ -497,19 +511,19 @@ if [ -s /tmp/tmp.txt ] ; then
     ###if [ $KEY -gt 5 ] ; then
 
     echo $str $TIME $CC
-    logger $str $TIME $CC
+    logger "$str $TIME $CC"
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	if  [ "$RES" = "1"  ] ; then
         ssr=${TIME//./}"000"
 		ssr=${ssr:0:3}
-        echo $ssr:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method >>ss.txt
+        echo $ssr:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method:$ss_usage0 >>ss.txt
 	fi
 		
 	[ "$RES" = "1"  ] && let CC=$CC+1
 	
 else
     echo $str $TIME" Fail"
-    logger $str $TIME" Fail"
+    logger "$str" $TIME" Fail"
 
 fi
 fi
@@ -526,6 +540,11 @@ if [ -s ss.txt ]; then
     ss_s1_port=`echo $str|awk -F ':' '{print $3}'`  
     ss_s1_key=`echo $str|awk -F ':' '{print $4}'`  
     ss_s1_method=`echo $str|awk -F ':' '{print $5}'`  
+    ss_usage0=`echo $str|awk -F ':' '{print $6}'`  
+	ss_usage=${ss_usage0//：/:}
+	ss_usage=${ss_usage//　/ }
+    ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
+	
     base64_str=$ss_s1_key
 	base64_encode
 	PWD=$base64_res	
@@ -541,10 +560,12 @@ if [ -s ss.txt ]; then
     nvram set ss_server_port=$ss_s1_port
     nvram set ss_key=$ss_s1_key
     nvram set ss_method=$ss_s1_method
+	nvram set ss_usage=$ss_usage	
     nvram set ss_server1=$ss_s1_ip
     nvram set ss_s1_port=$ss_s1_port
     nvram set ss_s1_key=$ss_s1_key
     nvram set ss_s1_method=$ss_s1_method
+	nvram set ss_s1_usage=$ss_usage
     nvram commit
 
     echo "The No1 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
@@ -557,6 +578,7 @@ if [ -s ss.txt ]; then
     nvram set ss_s2_port=$ss_s1_port
     nvram set ss_s2_key=$ss_s1_key
     nvram set ss_s2_method=$ss_s1_method
+	nvram set ss_s2_usage=$ss_usage	
     nvram commit
 
     echo "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
