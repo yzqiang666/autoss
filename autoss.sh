@@ -138,6 +138,7 @@ rm ss.txt > /dev/null 2>&1
 tkcssr="`nvram get tkcssr`"
 if [ ! "$tkcssr"x = "x" ] ; then 
 iss="https://capsule.cf/"$tkcssr
+iss="https://capsule.cf/link/zdV3ynUZyEoBp5Pa?is_ss=0"
 wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
