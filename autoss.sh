@@ -1,4 +1,3 @@
-
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
@@ -168,7 +167,7 @@ case "$var1" in
     ;;
     "rt_ss_usage")  Usage="$var2"
 	                Usage=${Usage//:/：}
-				    Usage=${Usage// /　}
+#				    Usage=${Usage// /　}
     ;;
 esac
 
@@ -476,7 +475,7 @@ ss_s1_key=`echo $str|awk -F ':' '{print $3}'`
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
 ss_usage0=`echo $str|awk -F ':' '{print $5}'`  
 ss_usage=${ss_usage0//：/:}
-ss_usage=${ss_usage//　/ }
+#ss_usage=${ss_usage//　/ }
 ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
 
 
@@ -543,8 +542,9 @@ if [ -s ss.txt ]; then
     ss_s1_method=`echo $str|awk -F ':' '{print $5}'`  
     ss_usage0=`echo $str|awk -F ':' '{print $6}'`  
 	ss_usage=${ss_usage0//：/:}
-	ss_usage=${ss_usage//　/ }
+#	ss_usage=${ss_usage//　/ }
     ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
+
 	
     base64_str=$ss_s1_key
 	base64_encode
@@ -561,12 +561,12 @@ if [ -s ss.txt ]; then
     nvram set ss_server_port=$ss_s1_port
     nvram set ss_key=$ss_s1_key
     nvram set ss_method=$ss_s1_method
-    nvram set ss_usage="$ss_usage"	
+	nvram set ss_usage="$ss_usage"	
     nvram set ss_server1=$ss_s1_ip
     nvram set ss_s1_port=$ss_s1_port
     nvram set ss_s1_key=$ss_s1_key
     nvram set ss_s1_method=$ss_s1_method
-    nvram set ss_s1_usage="$ss_usage"
+	nvram set ss_s1_usage="$ss_usage"
     ss_type="1"
     [ "$ss_usage"x = ""x ] && ss_type="0"
     nvram set ss_type=$ss_type
@@ -582,7 +582,7 @@ if [ -s ss.txt ]; then
     nvram set ss_s2_port=$ss_s1_port
     nvram set ss_s2_key=$ss_s1_key
     nvram set ss_s2_method=$ss_s1_method
-    nvram set ss_s2_usage="$ss_usage"	
+	nvram set ss_s2_usage=$ss_usage	
     nvram commit
 
     echo "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
