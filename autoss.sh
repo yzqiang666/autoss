@@ -567,6 +567,9 @@ if [ -s ss.txt ]; then
     nvram set ss_s1_key=$ss_s1_key
     nvram set ss_s1_method=$ss_s1_method
     nvram set ss_s1_usage="$ss_usage"
+    ss_type="1"
+    [ "$ss_usage"x = ""x ] && ss_type="0"
+    nvram set ss_type=$ss_type
     nvram commit
 
     echo "The No1 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
