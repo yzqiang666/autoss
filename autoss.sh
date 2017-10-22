@@ -1,4 +1,4 @@
-exit
+
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
@@ -561,12 +561,12 @@ if [ -s ss.txt ]; then
     nvram set ss_server_port=$ss_s1_port
     nvram set ss_key=$ss_s1_key
     nvram set ss_method=$ss_s1_method
-	nvram set ss_usage=$ss_usage	
+    nvram set ss_usage="$ss_usage"	
     nvram set ss_server1=$ss_s1_ip
     nvram set ss_s1_port=$ss_s1_port
     nvram set ss_s1_key=$ss_s1_key
     nvram set ss_s1_method=$ss_s1_method
-	nvram set ss_s1_usage=$ss_usage
+    nvram set ss_s1_usage="$ss_usage"
     nvram commit
 
     echo "The No1 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
@@ -579,7 +579,7 @@ if [ -s ss.txt ]; then
     nvram set ss_s2_port=$ss_s1_port
     nvram set ss_s2_key=$ss_s1_key
     nvram set ss_s2_method=$ss_s1_method
-	nvram set ss_s2_usage=$ss_usage	
+    nvram set ss_s2_usage="$ss_usage"	
     nvram commit
 
     echo "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
