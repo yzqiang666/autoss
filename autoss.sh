@@ -464,6 +464,7 @@ chmod a+x /tmp/killwget.sh
 cat ss.ini | while read str
 do
 [ $CC -ge $CC0 ] && break
+[ $CC -ge 3 ] && break
 [ "$str" = "" ] && continue 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
@@ -546,7 +547,7 @@ if [ -s ss.txt ]; then
 #	ss_usage=${ss_usage//　/ }
 #    ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
 
-	
+    echo "$ss_usage"
     base64_str=$ss_s1_key
 	base64_encode
 	PWD=$base64_res	
