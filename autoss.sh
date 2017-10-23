@@ -546,7 +546,6 @@ if [ -s ss.txt ]; then
 #	ss_usage=${ss_usage//　/ }
     ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
 
-    echo "$ss_usage"
     base64_str=$ss_s1_key
 	base64_encode
 	PWD=$base64_res	
