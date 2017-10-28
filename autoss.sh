@@ -1,8 +1,8 @@
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
-nvram set ss_type=1
-nvram commit
+#nvram set ss_type=1
+#nvram commit
 ##################### SSR Server ###########
 [  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
 && [ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
@@ -167,8 +167,7 @@ case "$var1" in
     "rt_ss_method")  Method="$var2"
     ;;
     "rt_ss_usage")  Usage="$var2"
-	                Usage=${Usage//:/：}
-#				    Usage=${Usage// /　}
+	            Usage=${Usage//:/：}
     ;;
 esac
 
@@ -511,20 +510,20 @@ TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 if [ -s /tmp/tmp.txt ] ; then
     ###if [ $KEY -gt 5 ] ; then
 
-    echo $str $TIME $CC
-    logger "$str $TIME $CC"
+    echo $CC $TIME $str
+    logger "$CC $TIME $str"
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	if  [ "$RES" = "1"  ] ; then
         ssr=${TIME//./}"000"
-		ssr=${ssr:0:3}
+	ssr=${ssr:0:3}
         echo $ssr:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method:$ss_usage0 >>ss.txt
 	fi
 		
 	[ "$RES" = "1"  ] && let CC=$CC+1
 	
 else
-    echo $str $TIME" Fail"
-    logger "$str" $TIME" Fail"
+    echo "Fail" $TIME $str
+    logger "Fail" $TIME $str
 
 fi
 fi
@@ -542,12 +541,12 @@ if [ -s ss.txt ]; then
     ss_s1_key=`echo $str|awk -F ':' '{print $4}'`  
     ss_s1_method=`echo $str|awk -F ':' '{print $5}'`  
     ss_usage0=`echo $str|awk -F ':' '{print $6}'`  
-	ss_usage=${ss_usage0//：/:}
-#	ss_usage=${ss_usage//　/ }
+    ss_usage=${ss_usage0//：/:}
+#   ss_usage=${ss_usage//　/ }
     ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
 
     base64_str=$ss_s1_key
-	base64_encode
+    base64_encode
 	PWD=$base64_res	
     base64_str=$CC
 	base64_encode
@@ -587,8 +586,6 @@ if [ -s ss.txt ]; then
 
     echo "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
     echo "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME >>serverinfo
-	
-
 	logger "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
     fi
 	let CC=$CC+1
