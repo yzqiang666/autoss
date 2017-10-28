@@ -522,8 +522,8 @@ if [ -s /tmp/tmp.txt ] ; then
 	[ "$RES" = "1"  ] && let CC=$CC+1
 	
 else
-    echo "Fail" $TIME "$str"
-    logger "Fail" $TIME "$str"
+    [ $CC -ge 10 ] && echo "XX" $TIME "$str" && logger "XX" $TIME "$str"
+    [ $CC -le 9 ] && echo "X" $TIME "$str" && logger "X" $TIME "$str"
 
 fi
 fi
