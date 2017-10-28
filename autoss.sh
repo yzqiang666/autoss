@@ -507,11 +507,13 @@ wget  -q -O /tmp/tmp.txt  --no-check-certificate  -T 3 $url 2>/dev/null
 kill -9 $PID $PID1 >/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
+TIME0=$TIME
+[ ${#TIME0} = 3 ] && TIME0=$TIME0"0"
 if [ -s /tmp/tmp.txt ] ; then
     ###if [ $KEY -gt 5 ] ; then
 
-    echo $CC $TIME $str
-    logger "$CC $TIME $str"
+    [ $CC -ge 10 ] && echo $CC $TIME $str && logger "$CC $TIME0 $str"
+    [ $CC -lt 10 ] && echo 0$CC $TIME $str && logger "0$CC $TIME0 $str"
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	if  [ "$RES" = "1"  ] ; then
         ssr=${TIME//./}"000"
@@ -522,8 +524,9 @@ if [ -s /tmp/tmp.txt ] ; then
 	[ "$RES" = "1"  ] && let CC=$CC+1
 	
 else
-    [ $CC -ge 10 ] && echo "XX" $TIME "$str" && logger "XX" $TIME "$str"
-    [ $CC -le 9 ] && echo "X" $TIME "$str" && logger "X" $TIME "$str"
+	echo "XX" $TIME0 "$str" 
+	logger "XX" $TIME0 "$str"
+
 
 fi
 fi
