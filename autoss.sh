@@ -420,7 +420,7 @@ tkcssr="`nvram get tkcssr`"
 #[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
 #get_from_Alvin9999
 #get_from_ishadowsock
-#get_from_other
+get_from_other
 
 [ ! -s ss.ini ] && exit 1
 
