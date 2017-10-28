@@ -8,7 +8,7 @@ nvram commit
 && [ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
 &&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
-url="https://www.youtube.com"
+url="https://www.google.com.hk"
 
 if [ ! "$1" = "refresh" ] && [  ! `nvram get ss_server` = `nvram get ss_server2` ] ; then
 rm /tmp/tmp.txt 2>/dev/null
@@ -457,7 +457,7 @@ CC=1
 CC0=61
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
 
-echo "sleep 11" >/tmp/killwget.sh
+echo "sleep 6" >/tmp/killwget.sh
 echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
 chmod a+x /tmp/killwget.sh
 
@@ -501,9 +501,9 @@ BP_IP="$action_ssip"
 rm /tmp/tmp.txt 2>/dev/null
 /tmp/killwget.sh &
 PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
-PID1=`ps|grep "sleep 11"|grep -v grep|awk -F" " '{print $1; }'`
+PID1=`ps|grep "sleep 6"|grep -v grep|awk -F" " '{print $1; }'`
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-wget  -q -O /tmp/tmp.txt  --no-check-certificate  -T 8 $url 2>/dev/null
+wget  -q -O /tmp/tmp.txt  --no-check-certificate  -T 4 $url 2>/dev/null
 #KEY=`echo "" |openssl s_client   -connect www.youtube.com:443 -servername www.youtube.com 2>/dev/null|grep Master-Key|wc -L`
 kill -9 $PID $PID1 >/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
