@@ -1,35 +1,10 @@
-104.207.151.202:6734:ntdtv.com:aes-256-cfb
-45.63.87.224:443:dongtaiwang.com:aes-256-cfb
-45.32.202.197:6789:dongtaiwang.com:aes-256-cfb
-#us.bilibilitv.pw:16862:namaho.org:aes-256-cfb
-#hk.bilibilitv.pw:16862:namaho.org:aes-256-cfb
-#jp.bilibilitv.pw:16862:namaho.org:aes-256-cfb
-#167.160.180.8:8080:cvps.top:chacha20
-#167.160.180.8:65080:cvps.top:chacha20
-#167.160.180.8:3169:cvps.top:chacha20
-#167.160.180.8:6655:cvps.top:chacha20
-#163.44.173.66:8080:www.88yun.win:chacha20
-#104.224.163.22:45754:yzqyzq:rc4-md5
-#103.42.212.134:45754:yzqyzq:c4-md5
-#47.91.95.105:45754:yzqyzq:rc4-md5
-#124.248.215.134:45754:yzqyzq:rc4-md5
-#104.224.163.22:47713:yzqyzq:rc4-md5
-#47.88.217.215:47713:yzqyzq:rc4-md5
-#104.224.163.22:47713:yzqyzq:rc4-md5
-#47.88.55.145:47713:yzqyzq:rc4-md5
-#47.91.95.105:47713:yzqyzq:rc4-md5
-#103.42.212.134:47713:yzqyzq:rc4-md5
-#124.248.215.134:47713:yzqyzq:rc4-md5
-#144.168.62.246:443:7R4dJWUI3MSKtJT7:aes-256-cfb
-#64.137.225.141:50990:yexuuu:salsa20
-jp2.tkcssr.tk:10368:yzqyzq1234:rc4-md5
-uk8.tkcssr.tk:10368:yzqyzq1234:rc4-md5
-sg4.tkcssr.tk:10368:yzqyzq1234:rc4-md5
-hk6.tkcssr.tk:10368:yzqyzq1234:rc4-md5
-hk14.tkcssr.tk:10368:yzqyzq1234:rc4-md5
-at1.tkcssr.tk:10368:yzqyzq1234:rc4-md5
-#jp7.tkcssr.tk:10368:yzqyzq1234:rc4-md5
-#sg1.tkcssr.tk:10368:yzqyzq1234:rc4-md5
-#sg2.tkcssr.tk:10368:yzqyzq1234:rc4-md5
-#sg3.tkcssr.tk:10368:yzqyzq1234:rc4-md5
-#hk7.tkcssr.tk:10368:yzqyzq1234:rc4-md5
+hk2.tkcssr.tk:3389:9K8Asq:aes-256-cfb:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_md5 -G 7082：yzqyzq1234
+hk8.tkcssr.tk:8080:F4VqjN:aes-256-cfb:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
+hk2.tkcssr.tk:443:dHCrwF:aes-256-cfb:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
+hk7.tkcssr.tk:443:dHCrwF:aes-256-cfb:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
+hk10.tkcssr.tk:3389:9K8Asq:aes-256-cfb:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_md5 -G 7082：yzqyzq1234
+hk8.tkcssr.tk:3389:9K8Asq:aes-256-cfb:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_md5 -G 7082：yzqyzq1234
+hk9.tkcssr.tk:8080:F4VqjN:aes-256-cfb:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
+hk10.tkcssr.tk:8080:F4VqjN:aes-256-cfb:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
+hk8.tkcssr.tk:443:dHCrwF:aes-256-cfb:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
+hk9.tkcssr.tk:3389:9K8Asq:aes-256-cfb:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_md5 -G 7082：yzqyzq1234
