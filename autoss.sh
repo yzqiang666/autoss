@@ -420,7 +420,9 @@ tkcssr="`nvram get tkcssr`"
 #[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
 #get_from_Alvin9999
 #get_from_ishadowsock
-get_from_other
+[ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
+[ ! -s ss.ini ] && get_from_other
+
 
 [ ! -s ss.ini ] && exit 1
 
@@ -605,7 +607,8 @@ if   [ -s ssr.ini ] ; then
   if [ ! "$ssr_url" = "" ] ; then
     curl -T ssr.txt $ssr_url"ssr.txt"
     curl -T ssr.ini $ssr_url"ssr.ini"  
-	
+	cut ss.inf -c5-600 >s.inf
+    curl -T s.inf $ssr_url"ss.ini"  	
 #	fn=`cat /sys/class/net/br0/address`
 #	fn=${fn//:/-}
     fn=`nvram get wan_pppoe_username`
@@ -639,3 +642,4 @@ nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 sleep 10
 mv syslog.tmp syslog.log
+
