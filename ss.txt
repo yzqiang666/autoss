@@ -1,16 +1,1 @@
-hk1.tkcssr.tk:3389:9K8Asq:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_md5 -G 7082：yzqyzq1234
-hk10.tkcssr.tk:3389:9K8Asq:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_md5 -G 7082：yzqyzq1234
-hk11.tkcssr.tk:3389:9K8Asq:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_md5 -G 7082：yzqyzq1234
-hk11.tkcssr.tk:8080:F4VqjN:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
-hk1.tkcssr.tk:8080:F4VqjN:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
-hk11.tkcssr.tk:443:dHCrwF:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
-hk7.tkcssr.tk:443:dHCrwF:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
-hk1.tkcssr.tk:443:dHCrwF:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
-hk10.tkcssr.tk:443:dHCrwF:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
-hk7.tkcssr.tk:8080:F4VqjN:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
-hk10.tkcssr.tk:8080:F4VqjN:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
-sg4.tkcssr.tk:8080:F4VqjN:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
-sg4.tkcssr.tk:443:dHCrwF:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
-hk7.tkcssr.tk:3389:9K8Asq:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_md5 -G 7082：yzqyzq1234
-hk14.tkcssr.tk:8080:F4VqjN:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
-hk14.tkcssr.tk:443:dHCrwF:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
+
