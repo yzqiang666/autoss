@@ -10,7 +10,7 @@
 
 url="https://www.google.com.hk"
 
-if [ ! "$1" = "refresh" ] && [  ! `nvram get ss_server` = `nvram get ss_server2` ] ; then
+if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 $url 2>/dev/null 
 [ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 https://www.google.com.hk 2>/dev/null 
