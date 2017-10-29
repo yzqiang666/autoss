@@ -410,6 +410,10 @@ base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
 }
 
 #########################################
+ssr_url=`nvram get ssr_url`
+ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
+nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
+nvram commit
 
 cd /tmp
 rm ss.ini >/dev/null 2>&1
@@ -420,6 +424,7 @@ tkcssr="`nvram get tkcssr`"
 #[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
 #get_from_Alvin9999
 #get_from_ishadowsock
+
 [ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
 [ ! -s ss.ini ] && get_from_other
 
@@ -428,10 +433,7 @@ tkcssr="`nvram get tkcssr`"
 
 
 ###################### set ss information ####################################
-ssr_url=`nvram get ssr_url`
- ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
- nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
- nvram commit
+
 [ -n "$ssr_url" ] && rm ssr.txt >/dev/null 2>&1
 logger "get bestss server"
 
