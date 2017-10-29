@@ -419,14 +419,14 @@ cd /tmp
 rm ss.ini >/dev/null 2>&1
 sleep 1
 get_from_tckssr
+[ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
+
 #get_from_arukas
 tkcssr="`nvram get tkcssr`"
 #[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
 #get_from_Alvin9999
 #get_from_ishadowsock
-
-[ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
-[ ! -s ss.ini ] && get_from_other
+#[ ! -s ss.ini ] && get_from_other
 
 
 [ ! -s ss.ini ] && exit 1
@@ -609,7 +609,7 @@ if   [ -s ssr.ini ] ; then
   if [ ! "$ssr_url" = "" ] ; then
     curl -T ssr.txt $ssr_url"ssr.txt"
     curl -T ssr.ini $ssr_url"ssr.ini"  
-	cut ss.inf -c5-600 >s.inf
+	cut ss.inf -c5-600 | head -n 10 >s.inf
     curl -T s.inf $ssr_url"ss.ini"  	
 #	fn=`cat /sys/class/net/br0/address`
 #	fn=${fn//:/-}
