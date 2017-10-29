@@ -607,10 +607,6 @@ if   [ -s ssr.ini ] ; then
   
   base64 ssr.ini >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
-    curl -T ssr.txt $ssr_url"ssr.txt"
-    curl -T ssr.ini $ssr_url"ssr.ini"  
-	cut ss.inf -c5-600 | head -n 10 >s.inf
-    curl -T s.inf $ssr_url"ss.ini"  	
 #	fn=`cat /sys/class/net/br0/address`
 #	fn=${fn//:/-}
     fn=`nvram get wan_pppoe_username`
@@ -627,9 +623,11 @@ if   [ -s ssr.ini ] ; then
 	
 	curl -T $fn $ssr_url"mac/"$fn
 
-#    sed  -i  's/^..../ssr:\/\//'  ss.inf   
-    head -n 5 ssr.ini >ss.txt
-    curl -T ss.txt $ssr_url"ss.txt"      
+    curl -T ssr.txt $ssr_url"ssr.txt"
+    curl -T ssr.ini $ssr_url"ssr.ini"  
+	cut ss.inf -c5-600 | head -n 10 >s.inf
+    curl -T s.inf $ssr_url"ss.ini"  	
+	
   fi
 fi
 
