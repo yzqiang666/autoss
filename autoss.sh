@@ -442,9 +442,9 @@ options2=""
 ss_usage=""
 ss_usage_json=""
 
-#nvram set ss_status=1
-#nvram set ss_enable=0
-#nvram commit
+nvram set ss_status=1
+nvram set ss_enable=0
+nvram commit
 ss_link_1=`nvram get ss_link_2`
 ss_check=`nvram get ss_check`
 nvram set ss_check=0
