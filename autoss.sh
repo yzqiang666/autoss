@@ -79,12 +79,12 @@ wget   -O ss.txt  -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/mas
 ########################  get from ishadowsock ########################
 get_from_ishadowsock()
 {
-iss="http://www.ishadowsocks.org/"
+iss="http://ss.ishadowx.com/"
 rm ss.txt > /dev/null 2>&1
 wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
-iss="http://ss.ishadowx.com/"
+iss="http://www.ishadowsocks.org/"
 [ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
 [ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
 
@@ -181,7 +181,7 @@ if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$
     [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
     [  "${Server:0:2}" = "hk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
     [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-    [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
 
 
@@ -420,12 +420,11 @@ rm ss.ini >/dev/null 2>&1
 sleep 1
 get_from_tckssr
 [ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
-
+get_from_ishadowsock
 #get_from_arukas
 tkcssr="`nvram get tkcssr`"
 #[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
 #get_from_Alvin9999
-#get_from_ishadowsock
 #[ ! -s ss.ini ] && get_from_other
 
 
