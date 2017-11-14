@@ -1,5 +1,8 @@
 sed -i '/WAN!capsule.cf/d' /etc/storage/shadowsocks_ss_spec_wan.sh
 echo "WAN!capsule.cf">>/etc/storage/shadowsocks_ss_spec_wan.sh
+sed -i '/WAN!ss.ishadowx.com/d' /etc/storage/shadowsocks_ss_spec_wan.sh
+echo "WAN!ss.ishadowx.com">>/etc/storage/shadowsocks_ss_spec_wan.sh
+
 mtd_storage.sh save
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
