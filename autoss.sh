@@ -1,7 +1,11 @@
-sed -i '/WAN!capsule.cf/d' /etc/storage/shadowsocks_ss_spec_wan.sh
-echo "WAN!capsule.cf">>/etc/storage/shadowsocks_ss_spec_wan.sh
-sed -i '/WAN!ss.ishadowx.com/d' /etc/storage/shadowsocks_ss_spec_wan.sh
-echo "WAN!ss.ishadowx.com">>/etc/storage/shadowsocks_ss_spec_wan.sh
+sed -i '/###custom by yzqiang/,$d' /etc/storage/shadowsocks_ss_spec_wan.sh
+
+cat >>/etc/storage/shadowsocks_ss_spec_wan.sh <<EOF
+###custom by yzqiang
+WAN!capsule.cf
+WAN!ss.ishadowx.com
+WAN!go.ishadowx.net
+EOF
 
 mtd_storage.sh save
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
@@ -182,11 +186,11 @@ if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$
 #    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "hk" ] && [ ! "${Server:0:4}" = "hk10" ] && [ ! "${Server:0:4}" = "hk15" ] && [ ! "${Server:0:3}" = "hk2" ]  && [ ! "${Server:0:3}" = "hk4" ]  && [ ! "${Server:0:3}" = "hk5" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "sg" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 	 
-#    [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-#    [  "${Server:0:2}" = "hk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-#    [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "hk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
 
