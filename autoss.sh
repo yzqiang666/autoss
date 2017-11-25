@@ -17,7 +17,7 @@ mtd_storage.sh save
 && [ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
 &&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
-url="https://www.youtube.com"
+url="https://www.google.com.hk"
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
