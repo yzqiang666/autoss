@@ -490,9 +490,7 @@ ss_usage=${ss_usage0//：/:}
 #ss_usage=${ss_usage//　/ }
 ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
 
-
-
-ss_server1=$ss_s1_ip
+ss_server1=$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method
 resolveip=`/usr/bin/resolveip -4 -t 4 $ss_server1 | grep -v : | sed -n '1p'`
 
 #[ -z "$resolveip" ] && resolveip=`nslookup $ss_server1 | awk 'NR==5{print $3}'` 
@@ -524,8 +522,8 @@ TIME0=$TIME
 if [ -s /tmp/tmp.txt ] ; then
     ###if [ $KEY -gt 5 ] ; then
 
-    [ $CC -ge 10 ] && echo $CC $TIME $str && logger "$CC $TIME0 $str"
-    [ $CC -lt 10 ] && echo 0$CC $TIME $str && logger "0$CC $TIME0 $str"
+    [ $CC -ge 10 ] && echo $CC $TIME $ss_server1 && logger "$CC $TIME0 $ss_server1"
+    [ $CC -lt 10 ] && echo 0$CC $TIME $ss_server1 && logger "0$CC $TIME0 $ss_server1"
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	if  [ "$RES" = "1"  ] ; then
         ssr=${TIME//./}"000"
@@ -536,8 +534,8 @@ if [ -s /tmp/tmp.txt ] ; then
 	[ "$RES" = "1"  ] && let CC=$CC+1
 	
 else
-	echo "XX" $TIME0 "$str" 
-	logger "XX" $TIME0 "$str"
+	echo "XX" $TIME0 "$ss_server1" 
+	logger "XX" $TIME0 "$ss_server1"
 
 
 fi
