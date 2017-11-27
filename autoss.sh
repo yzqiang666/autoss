@@ -1,12 +1,13 @@
-sed -i '/###custom by yzqiang/,$d' /etc/storage/shadowsocks_ss_spec_wan.sh
-cat >>/etc/storage/shadowsocks_ss_spec_wan.sh <<EOF
+#sed -i '/###custom by yzqiang/,$d' /etc/storage/shadowsocks_ss_spec_wan.sh
+#cat >>/etc/storage/shadowsocks_ss_spec_wan.sh <<EOF
 ###custom by yzqiang
-WAN!capsule.cf
-WAN!ss.ishadowx.com
-WAN!go.ishadowx.net
-EOF
+#WAN!capsule.cf
+#WAN!ss.ishadowx.com
+#WAN!go.ishadowx.net
+#EOF
 
-mtd_storage.sh save
+#mtd_storage.sh save
+
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
@@ -419,10 +420,12 @@ base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
 }
 
 #########################################
-ssr_url=`nvram get ssr_url`
-ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
-nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
-nvram commit
+
+
+#ssr_url=`nvram get ssr_url`
+#ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
+#nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
+#nvram commit
 
 cd /tmp
 rm ss.ini >/dev/null 2>&1
@@ -450,12 +453,13 @@ options2=""
 ss_usage=""
 ss_usage_json=""
 
-nvram set ss_status=1
-nvram set ss_enable=0
-nvram commit
+#nvram set ss_status=1
+#nvram set ss_enable=0
+#nvram set ss_check=0
+#nvram commit
+
 ss_link_1=`nvram get ss_link_2`
 ss_check=`nvram get ss_check`
-nvram set ss_check=0
 action_port=1090
 lan_ipaddr=`nvram get lan_ipaddr`
 killall -9  sh_sskeey_k.sh 2>/dev/null
@@ -518,6 +522,8 @@ kill -9 $PID $PID1 >/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 TIME0=$TIME
+[ ${#TIME0} = 1 ] && TIME0=$TIME0"0"
+[ ${#TIME0} = 2 ] && TIME0=$TIME0"0"
 [ ${#TIME0} = 3 ] && TIME0=$TIME0"0"
 if [ -s /tmp/tmp.txt ] ; then
     ###if [ $KEY -gt 5 ] ; then
@@ -639,9 +645,9 @@ fi
 
 
 mv syslog.log syslog.tmp
-nvram set ss_check=$ss_check
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
 killall -9  sh_sskeey_k.sh 2>/dev/null
+nvram set ss_check=$ss_check
 nvram set ss_status=0
 nvram set ss_enable=1
 nvram commit
