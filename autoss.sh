@@ -9,7 +9,7 @@
 && [ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
 &&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
-url="https://www.youtube.com/yts/img/favicon_32-vflOogEID.png"
+url="https://www.youtube.com/yts/jsbin/www-prepopulator-vfl8hLntF/www-prepopulator.js"
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
