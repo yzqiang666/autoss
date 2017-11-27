@@ -522,7 +522,7 @@ kill -9 $PID $PID1 >/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 TIME0=$TIME
-[ ${#TIME0} = 1 ] && TIME0=$TIME0"0"
+[ ${#TIME0} = 1 ] && TIME0=$TIME0".0"
 [ ${#TIME0} = 2 ] && TIME0=$TIME0"0"
 [ ${#TIME0} = 3 ] && TIME0=$TIME0"0"
 if [ -s /tmp/tmp.txt ] ; then
