@@ -1,12 +1,4 @@
-#sed -i '/###custom by yzqiang/,$d' /etc/storage/shadowsocks_ss_spec_wan.sh
-#cat >>/etc/storage/shadowsocks_ss_spec_wan.sh <<EOF
-###custom by yzqiang
-#WAN!capsule.cf
-#WAN!ss.ishadowx.com
-#WAN!go.ishadowx.net
-#EOF
 
-#mtd_storage.sh save
 
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
@@ -421,10 +413,8 @@ base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
 #########################################
 
 
-#ssr_url=`nvram get ssr_url`
-#ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
-#nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
-#nvram commit
+###加入私有SSR
+
 
 cd /tmp
 rm ss.ini >/dev/null 2>&1
@@ -456,6 +446,7 @@ ss_usage_json=""
 #nvram set ss_enable=0
 #nvram set ss_check=0
 nvram set ss_type=1
+nvram set ss_working_port="1090"
 nvram commit
 
 
@@ -465,6 +456,8 @@ action_port=1090
 lan_ipaddr=`nvram get lan_ipaddr`
 killall -9  sh_sskeey_k.sh 2>/dev/null
 killall -9  ss-redir 2>/dev/null
+killall -9  ss-local 2>/dev/null
+
 rm ss.txt >/dev/null 2>&1
 rm ssr.inf >/dev/null 2>&1
 rm ssr.ini >/dev/null 2>&1
