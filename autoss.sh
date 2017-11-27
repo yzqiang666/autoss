@@ -9,9 +9,8 @@
 && [ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
 &&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
-#url="https://www.youtube.com/yts/jsbin/www-prepopulator-vfl8hLntF/www-prepopulator.js"
+url="https://www.youtube.com"
 
-url＝"https://www.youtube.com"
 
 
 if [ ! "$1" = "refresh" ] ; then
