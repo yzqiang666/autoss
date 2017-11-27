@@ -521,8 +521,8 @@ TIME0=$TIME
 if [ -s /tmp/tmp.txt ] ; then
     ###if [ $KEY -gt 5 ] ; then
 
-    [ $CC -ge 10 ] && echo $CC $TIME $ss_server0 && logger "$CC $TIME0 $ss_server0"
-    [ $CC -lt 10 ] && echo 0$CC $TIME $ss_server0 && logger "0$CC $TIME0 $ss_server0"
+    [ $CC -ge 10 ] && echo $CC $TIME0 $ss_server0 && logger "$CC $TIME0 $ss_server0"
+    [ $CC -lt 10 ] && echo 0$CC $TIME0 $ss_server0 && logger "0$CC $TIME0 $ss_server0"
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	if  [ "$RES" = "1"  ] ; then
         ssr=${TIME//./}"000"
