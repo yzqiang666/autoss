@@ -11,8 +11,7 @@
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
-#nvram set ss_type=1
-#nvram commit
+
 ##################### SSR Server ###########
 [  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
 && [ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
@@ -456,7 +455,9 @@ ss_usage_json=""
 #nvram set ss_status=1
 #nvram set ss_enable=0
 #nvram set ss_check=0
-#nvram commit
+nvram set ss_type=1
+nvram commit
+
 
 ss_link_1=`nvram get ss_link_2`
 ss_check=`nvram get ss_check`
@@ -654,5 +655,4 @@ nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 sleep 10
 mv syslog.tmp syslog.log
-
 
