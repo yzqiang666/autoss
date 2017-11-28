@@ -5,20 +5,17 @@
 
 
 ##################### SSR Server ###########
-[  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
-&& [ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
-&&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
+#[  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
+#&& [ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
+#&&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
 url="https://www.youtube.com"
 
-##curl -o /tmp/tmp.txt -s -k -m 4 $url 2>/dev/null
-## [  "$?" = "0" ] && exit 0
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 $url 2>/dev/null 
-[ ! -s /tmp/tmp.txt ] && wget  -q  -O /tmp/tmp.txt  --no-check-certificate   -T 4 $url 2>/dev/null 
-[ -s /tmp/tmp.txt ] && exit 0
+curl -o /tmp/tmp.txt -s -k -m 6 $url 2>/dev/null
+[  "$?" = "0" ] &&  exit 0
 fi
 
 
@@ -29,13 +26,9 @@ token="e39ed54e-18ee-4eae-b372-41b4e05721f3"
 secret="eoZ9cCkTpM0d6Rb7BEtXl5luBcqZyVeiNLZuKUxGjgOFnB1tqTChz3Wr8JKS2kJY"
 
 rm ss.txt > /dev/null 2>&1
-wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget   -O ss.txt  -T 10 https://$token:$secret@app.arukas.io/api/containers >>ss.log 2>>ss.log
 
-if [  -s ss.txt ] ; then
+curl -o ss.txt -s -k  -m 5 https://$token:$secret@app.arukas.io/api/containers 2>/dev/null
+if [  "$?" = "0" ] ; then
 Server=""
 Port=""
 sed 's/{"container_port"/\n"container_port"/g' ss.txt \
@@ -70,13 +63,8 @@ fi
 get_from_other()
 {
 rm ss.txt > /dev/null 2>&1
-wget   -O ss.txt  -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
-#[ ! -s ss.txt ] && wget   -O ss.txt  -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
-#[ ! -s ss.txt ] && wget   -O ss.txt  -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
-#[ ! -s ss.txt ] && wget   -O ss.txt  -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
-#[ ! -s ss.txt ] && wget   -O ss.txt  -T 10  https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt >>ss.log 2>>ss.log 
-
-[  -s ss.txt ] && cat ss.txt >>ss.ini && echo "==========" >> ss.ini 
+curl -o ss.txt -s -k  -m 5 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt 2>/dev/null
+[  "$?" = "0" ] ] && cat ss.txt >>ss.ini && echo "==========" >> ss.ini 
 }
 
 ########################  get from ishadowsock ########################
@@ -84,14 +72,8 @@ get_from_ishadowsock()
 {
 iss="http://ss.ishadowx.com/"
 rm ss.txt > /dev/null 2>&1
-wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
-iss="http://www.ishadowsocks.org/"
-[ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt  -T 10  $iss >>ss.log 2>>ss.log
-
-if [  -s ss.txt ] ; then
+curl -o ss.txt -s -k  -m 10 $iss 2>/dev/null
+if [  "$?" = "0" ] ; then
 cp /dev/null  ssss.ini
 Server=""
 Port=""
@@ -143,12 +125,8 @@ tkcssr="`nvram get tkcssr`"
 if [ ! "$tkcssr"x = "x" ] ; then 
 iss="https://capsule.cf/"$tkcssr
 iss="https://capsule.cf/link/zdV3ynUZyEoBp5Pa?is_ss=0"
-wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-if [ -s ss.txt ] ; then
+curl -o ss.txt -s -k  -m 10 $iss 2>/dev/null
+if [  "$?" = "0" ] ; then
 Server=""
 Port=""
 Pass=""
@@ -214,13 +192,8 @@ get_from_Alvin9999()
 
 rm ss.txt > /dev/null 2>&1
 iss="https://raw.githubusercontent.com/Alvin9999/pac2/master/ssconfig.txt"
-wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-iss="https://coding.net/u/Alvin9999/p/ip/git/raw/master/ssconfig.txt"
-[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-if [ -s ss.txt ] ; then
+curl -o ss.txt -s -k  -m 5 $iss 2>/dev/null
+if [  "$?" = "0" ] ; then
 Server=""
 Port=""
 Pass=""
@@ -258,12 +231,8 @@ fi
 
 rm ss.txt > /dev/null 2>&1
 iss="https://socks.zone/free/"
-wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-if [ -s ss.txt ] ; then
+curl -o ss.txt -s -k  -m 5 $iss 2>/dev/null
+if [  "$?" = "0" ] ; then
 Server=""
 Port=""
 Pass=""
@@ -299,13 +268,8 @@ fi
 
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-
-if [ -s ss.txt ] ; then                                                                                     
+curl -o ss.txt -s -k  -m 5 $iss 2>/dev/null
+if [  "$?" = "0" ] ; then                                                                                   
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
 | tr -s ' ' | tr ' ' ':' | sed 's/ /:/g'  | sed 's/：/:/g' | sed 's/:(/(/g' | sed 's/::/:/g'  \
 | sed 's/256-cfb（/256-cfb:/g' | sed 's/chacha20-life（/chacha20-life:/g' | while read i
@@ -321,12 +285,8 @@ fi
 
 rm ss.txt > /dev/null 2>&1
 iss="https://freessr.xyz/"
-wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-if [ -s ss.txt ] ; then
+curl -o ss.txt -s -k  -m 5 $iss 2>/dev/null
+if [  "$?" = "0" ] ; then
 cat ss.txt | grep -E '服务器地址|端口|密码|加密方式' | sed 's/<[^<>]*>//g' | sed 's/ //g' | while read i 
 do
 var1=`echo $i|awk -F ':' '{print $1}'`
@@ -355,12 +315,8 @@ fi
 
 rm ss.txt > /dev/null 2>&1
 iss="https://xsjs.yhyhd.org/free-ss"
-wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-#[ ! -s ss.txt ] && wget  -O ss.txt -T 10 $iss >>ss.log 2>>ss.log
-if [ -s ss.txt ] ; then
+curl -o ss.txt -s -k  -m 5 $iss 2>/dev/null
+if [  "$?" = "0" ] ; then
 Server=""
 Port=""
 Pass=""
@@ -468,9 +424,9 @@ CC=1
 CC0=61
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
 
-echo "sleep 4" >/tmp/killwget.sh
-echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
-chmod a+x /tmp/killwget.sh
+####echo "sleep 4" >/tmp/killwget.sh
+####echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
+####chmod a+x /tmp/killwget.sh
 
 cat ss.ini | while read str
 do
@@ -508,38 +464,41 @@ BP_IP="$action_ssip"
 [ ! $ss_s1_ip = "" ] && ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80,443' -o -O >/dev/null 2>&1
 
 rm /tmp/tmp.txt 2>/dev/null
-/tmp/killwget.sh &
-PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
-PID1=`ps|grep "sleep 4"|grep -v grep|awk -F" " '{print $1; }'`
+####/tmp/killwget.sh &
+####PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
+####PID1=`ps|grep "sleep 4"|grep -v grep|awk -F" " '{print $1; }'`
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-wget  -q -O /tmp/tmp.txt  --no-check-certificate  -T 3 $url 2>/dev/null
-#KEY=`echo "" |openssl s_client   -connect www.youtube.com:443 -servername www.youtube.com 2>/dev/null|grep Master-Key|wc -L`
-kill -9 $PID $PID1 >/dev/null 2>&1
+curl -o /tmp/tmp.txt -s -k -m 3 $url 2>/dev/null
+CODE="$?"
+
+####kill -9 $PID $PID1 >/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
+
+if [  $CODE = "28" ] ; then
+if  [  -s /tmp/tmp.txt ] ; then
+ CODE="0"
+ endtime=$(wc -c /tmp/tmp.txt | cut -d" " -f1)
+ TIME=`awk  -v y=$endtime 'BEGIN {printf 10-y/100000}'`
+ TIME=${TIME:0:4}
+fi
+fi
 TIME0=$TIME
 [ ${#TIME0} = 1 ] && TIME0=$TIME0".0"
 [ ${#TIME0} = 2 ] && TIME0=$TIME0"0"
 [ ${#TIME0} = 3 ] && TIME0=$TIME0"0"
-if [ -s /tmp/tmp.txt ] ; then
-    ###if [ $KEY -gt 5 ] ; then
-
+if [  $CODE = "0" ] ; then
     [ $CC -ge 10 ] && echo $CC $TIME0 $ss_server0 && logger "$CC $TIME0 $ss_server0"
     [ $CC -lt 10 ] && echo 0$CC $TIME0 $ss_server0 && logger "0$CC $TIME0 $ss_server0"
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	if  [ "$RES" = "1"  ] ; then
-        ssr=${TIME//./}"000"
-	ssr=${ssr:0:3}
-        echo $ssr:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method:$ss_usage0 >>ss.txt
-	fi
-		
+        echo $TIME0:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method:$ss_usage0 >>ss.txt
+	fi		
 	[ "$RES" = "1"  ] && let CC=$CC+1
 	
 else
 	echo "XX" $TIME0 "$ss_server0" 
 	logger "XX" $TIME0 "$ss_server0"
-
-
 fi
 fi
 done
