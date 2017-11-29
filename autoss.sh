@@ -20,7 +20,7 @@ url="https://www.youtube.com"
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-curl -o /tmp/tmp.txt -s -k -m 3 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -m 5 $url 2>/dev/null
 CODE="$?"
 [  "$CODE" = "0" ]  &&  exit 0
 [  "$CODE" = "28" ]  &&  exit 0
@@ -489,7 +489,7 @@ rm /tmp/tmp.txt 2>/dev/null
 ####PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
 ####PID1=`ps|grep "sleep 4"|grep -v grep|awk -F" " '{print $1; }'`
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-curl -o /tmp/tmp.txt -s -k -m 3 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -m 5 $url 2>/dev/null
 CODE="$?"
 
 ####kill -9 $PID $PID1 >/dev/null 2>&1
