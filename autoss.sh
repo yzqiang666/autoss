@@ -585,17 +585,7 @@ if [ -s ss.txt ] ; then
     fi
 	let CC=$CC+1
   done
-else
 
-#  /etc/storage/script/Sh15_ss.sh stop >/dev/null 2>/dev/null
-
-  killall -9  sh_sskeey_k.sh 2>/dev/null
-  killall -9  ss-redir 2>/dev/null
-  killall -9  ss-local 2>/dev/null
-  killall -9  Sh15_ss.sh 2>/dev/null 
-#  /etc/storage/script/Sh15_ss.sh flush >/dev/null 2>/dev/null
-  nvram set ss_enable=1
-  nvram commit
 
 fi
 
