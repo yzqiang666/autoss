@@ -78,10 +78,12 @@ curl -o ss.txt -s -k  -m 5 https://raw.githubusercontent.com/yzqiang666/autoss/m
 ########################  get from ishadowsock ########################
 get_from_ishadowsock()
 {
-iss="http://ss.ishadowx.com/"
+iss="https://ss.ishadowx.com/"
 rm ss.txt > /dev/null 2>&1
 curl -o ss.txt -s -k  -m 10 $iss 2>/dev/null
-if [  "$?" = "0" ] ; then
+[ -s ss.txt ] && [ "`cat ss.txt|grep "<h4>IP Address"|wc -l`" = "0" ] && rm ss.txt && iss="https://go.ishadowx.net/" && curl -o ss.txt -s -k  -m 10 $iss 2>/dev/null
+
+if [ -s ss.txt ] ; then
 cp /dev/null  ssss.ini
 Server=""
 Port=""
