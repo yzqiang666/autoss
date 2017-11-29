@@ -444,6 +444,9 @@ do
 [ ${str:0:1} = "=" ] && continue 
 
 
+killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
+killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
+
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1=$ss_s1_ip
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
