@@ -427,7 +427,7 @@ killall -9  sh_sskeey_k.sh 2>/dev/null
 killall -9  ss-redir 2>/dev/null
 killall -9  ss-local 2>/dev/null
 killall -9  Sh15_ss.sh 2>/dev/null 
-
+/etc/storage/script/Sh15_ss.sh rules >/dev/null 2>/dev/null
 CC=1
 CC0=61
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
@@ -580,7 +580,7 @@ else
   killall -9  ss-redir 2>/dev/null
   killall -9  ss-local 2>/dev/null
   killall -9  Sh15_ss.sh 2>/dev/null 
-  
+ /etc/storage/script/Sh15_ss.sh flush >/dev/null 2>/dev/null
   nvram set ss_enable=1
   nvram commit
 
