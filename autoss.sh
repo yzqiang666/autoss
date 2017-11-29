@@ -427,7 +427,7 @@ killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 killall -9  ss-redir 2>/dev/null
 killall -9  ss-local 2>/dev/null
 ##killall -9  Sh15_ss.sh 2>/dev/null 
-/etc/storage/script/Sh15_ss.sh rules >/dev/null 2>/dev/null
+#/etc/storage/script/Sh15_ss.sh rules >/dev/null 2>/dev/null
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 sleep 2
 PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1`
