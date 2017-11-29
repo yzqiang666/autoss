@@ -429,8 +429,8 @@ rm ssr.inf >/dev/null 2>&1
 rm ssr.ini >/dev/null 2>&1
 
 #/etc/storage/script/Sh15_ss.sh start >/dev/null 2>/dev/null &
-#sleep 6
-/etc/storage/script/Sh15_ss.sh rules >/dev/null 2>/dev/null
+sleep 6
+
 killall -9  ss-redir 2>/dev/null
 killall -9  ss-local 2>/dev/null
 ##killall -9  Sh15_ss.sh 2>/dev/null 
@@ -587,13 +587,13 @@ if [ -s ss.txt ] ; then
   done
 else
 
-  /etc/storage/script/Sh15_ss.sh stop >/dev/null 2>/dev/null
+#  /etc/storage/script/Sh15_ss.sh stop >/dev/null 2>/dev/null
 
   killall -9  sh_sskeey_k.sh 2>/dev/null
   killall -9  ss-redir 2>/dev/null
   killall -9  ss-local 2>/dev/null
   killall -9  Sh15_ss.sh 2>/dev/null 
-  /etc/storage/script/Sh15_ss.sh flush >/dev/null 2>/dev/null
+#  /etc/storage/script/Sh15_ss.sh flush >/dev/null 2>/dev/null
   nvram set ss_enable=1
   nvram commit
 
