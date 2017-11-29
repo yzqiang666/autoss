@@ -429,6 +429,9 @@ killall -9  ss-local 2>/dev/null
 ##killall -9  Sh15_ss.sh 2>/dev/null 
 /etc/storage/script/Sh15_ss.sh rules >/dev/null 2>/dev/null
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
+sleep 2
+PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1`
+kill -9 $PID >/dev/null 2>/dev/null
 CC=1
 CC0=61
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
@@ -634,5 +637,7 @@ nvram commit
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 sleep 10
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
+PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1`
+kill -9 $PID >/dev/null 2>/dev/null
 mv syslog.tmp syslog.log
 
