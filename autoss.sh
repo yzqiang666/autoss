@@ -377,6 +377,7 @@ base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
 cd /tmp
 rm ss.ini >/dev/null 2>&1
 sleep 1
+ssr_url="`nvram get ssr_url`"
 get_from_tckssr
 [ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
 get_from_ishadowsock
