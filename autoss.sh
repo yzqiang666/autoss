@@ -421,13 +421,14 @@ rm ss.txt >/dev/null 2>&1
 rm ssr.inf >/dev/null 2>&1
 rm ssr.ini >/dev/null 2>&1
 
-/etc/storage/script/Sh15_ss.sh start >/dev/null 2>/dev/null &
+#/etc/storage/script/Sh15_ss.sh start >/dev/null 2>/dev/null &
 sleep 6
-killall -9  sh_sskeey_k.sh 2>/dev/null
+killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 killall -9  ss-redir 2>/dev/null
 killall -9  ss-local 2>/dev/null
 ##killall -9  Sh15_ss.sh 2>/dev/null 
-##/etc/storage/script/Sh15_ss.sh rules >/dev/null 2>/dev/null
+/etc/storage/script/Sh15_ss.sh rules >/dev/null 2>/dev/null
+killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 CC=1
 CC0=61
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
@@ -444,8 +445,7 @@ do
 [ ${str:0:1} = "=" ] && continue 
 
 
-killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
-killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
+
 
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1=$ss_s1_ip
@@ -624,14 +624,15 @@ fi
 
 mv syslog.log syslog.tmp
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
-killall -9  sh_sskeey_k.sh 2>/dev/null
+killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
+killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
 nvram set ss_check=$ss_check
 nvram set ss_status=0
 nvram set ss_enable=1
 nvram commit
+
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 sleep 10
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
-killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
 mv syslog.tmp syslog.log
 
