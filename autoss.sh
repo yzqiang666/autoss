@@ -80,8 +80,8 @@ get_from_ishadowsock()
 {
 iss="https://ss.ishadowx.com/"
 rm ss.txt > /dev/null 2>&1
-curl -o ss.txt -s -k  -m 10 $iss 2>/dev/null
-[ -s ss.txt ] && [ "`cat ss.txt|grep "<h4>IP Address"|wc -l`" = "0" ] && rm ss.txt && iss="https://go.ishadowx.net/" && curl -o ss.txt -s -k  -m 10 $iss 2>/dev/null
+curl -o ss.txt -s -k -L  -m 10 $iss 2>/dev/null
+#[ -s ss.txt ] && [ "`cat ss.txt|grep "<h4>IP Address"|wc -l`" = "0" ] && rm ss.txt && iss="https://go.ishadowx.net/" && curl -o ss.txt -s -k  -m 10 $iss 2>/dev/null
 
 if [ -s ss.txt ] ; then
 cp /dev/null  ssss.ini
