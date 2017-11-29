@@ -416,13 +416,17 @@ ss_link_1=`nvram get ss_link_2`
 ss_check=`nvram get ss_check`
 action_port=1090
 lan_ipaddr=`nvram get lan_ipaddr`
-killall -9  sh_sskeey_k.sh 2>/dev/null
-killall -9  ss-redir 2>/dev/null
-killall -9  ss-local 2>/dev/null
 
 rm ss.txt >/dev/null 2>&1
 rm ssr.inf >/dev/null 2>&1
 rm ssr.ini >/dev/null 2>&1
+
+/etc/storage/script/Sh15_ss.sh start >/dev/null 2>/dev/null &
+sleep 6
+killall -9  sh_sskeey_k.sh 2>/dev/null
+killall -9  ss-redir 2>/dev/null
+killall -9  ss-local 2>/dev/null
+killall -9  Sh15_ss.sh 2>/dev/null 
 
 CC=1
 CC0=61
@@ -569,15 +573,16 @@ if [ -s ss.txt ] ; then
 	let CC=$CC+1
   done
 else
-  nvram set ss_enable=0
-  nvram commit 
+
   /etc/storage/script/Sh15_ss.sh stop >/dev/null 2>/dev/null
-  sleep 10
-  killall -9 Sh15_ss.sh
-  pidof ss-redir  >/dev/null 2>&1 && killall ss-redir  && killall -9 ss-redir 2>/dev/null
+
   killall -9  sh_sskeey_k.sh 2>/dev/null
+  killall -9  ss-redir 2>/dev/null
+  killall -9  ss-local 2>/dev/null
+  killall -9  Sh15_ss.sh 2>/dev/null 
+  
   nvram set ss_enable=1
-  nvram commit 
+  nvram commit
 
 fi
 
