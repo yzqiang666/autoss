@@ -21,7 +21,8 @@ url="https://www.youtube.com"
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 curl -o /tmp/tmp.txt -s -k -m 3 $url 2>/dev/null
-[  "$?" = "0" ] || [  "$?" = "28" ] &&  exit 0
+[  "$?" = "0" ]  &&  exit 0
+[  "$?" = "28" ]  &&  exit 0
 fi
 
 
