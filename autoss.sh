@@ -161,16 +161,17 @@ case "$var1" in
 esac
 
 if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  && [ ! "$Usage" = "" ] ; then
+
 #    [  "${Server:0:2}" = "jp" ] && [ ! "${Server:0:3}" = "jp3" ] && [ ! "${Server:0:3}" = "jp4" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "hk" ] && [ ! "${Server:0:4}" = "hk10" ] && [ ! "${Server:0:4}" = "hk15" ] && [ ! "${Server:0:3}" = "hk2" ]  && [ ! "${Server:0:3}" = "hk4" ]  && [ ! "${Server:0:3}" = "hk5" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "sg" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-#     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 	 
-    [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-    [  "${Server:0:2}" = "hk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-    [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-    [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "hk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
 
 
@@ -428,8 +429,8 @@ rm ssr.inf >/dev/null 2>&1
 rm ssr.ini >/dev/null 2>&1
 
 #/etc/storage/script/Sh15_ss.sh start >/dev/null 2>/dev/null &
-sleep 6
-
+#sleep 6
+/etc/storage/script/Sh15_ss.sh rules >/dev/null 2>/dev/null
 killall -9  ss-redir 2>/dev/null
 killall -9  ss-local 2>/dev/null
 ##killall -9  Sh15_ss.sh 2>/dev/null 
@@ -592,7 +593,7 @@ else
   killall -9  ss-redir 2>/dev/null
   killall -9  ss-local 2>/dev/null
   killall -9  Sh15_ss.sh 2>/dev/null 
- /etc/storage/script/Sh15_ss.sh flush >/dev/null 2>/dev/null
+  /etc/storage/script/Sh15_ss.sh flush >/dev/null 2>/dev/null
   nvram set ss_enable=1
   nvram commit
 
@@ -642,8 +643,8 @@ nvram commit
 
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 sleep 10
-#killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
-#PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1,2|cut -d" " -f1`
-#kill -9 $PID >/dev/null 2>/dev/null
+killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
+PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1,2|cut -d" " -f1`
+kill -9 $PID >/dev/null 2>/dev/null
 mv syslog.tmp syslog.log
 
