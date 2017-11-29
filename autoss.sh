@@ -3,9 +3,9 @@
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
-#killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
-#PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1,2|cut -d" " -f1`
-#kill -9 $PID >/dev/null 2>/dev/null
+killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
+PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1,2|cut -d" " -f1`
+kill -9 $PID >/dev/null 2>/dev/null
 
 DNS="`nvram get ss_DNS_Redirect`"
 [ "$DNS" = "1" ] && nvram set ss_DNS_Redirect=0 && nvram commit
@@ -20,8 +20,8 @@ url="https://www.youtube.com"
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-curl -o /tmp/tmp.txt -s -k -m 6 $url 2>/dev/null
-[  "$?" = "0" ] &&  exit 0
+curl -o /tmp/tmp.txt -s -k -m 3 $url 2>/dev/null
+[  "$?" = "0" ] || [  "$?" = "28" ] &&  exit 0
 fi
 
 
