@@ -3,6 +3,8 @@
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
+DNS="`nvram get ss_DNS_Redirect`"
+[ "$DNS" = "1" ] && nvram set ss_DNS_Redirect=0 && nvram commit
 
 ##################### SSR Server ###########
 #[  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
@@ -378,8 +380,7 @@ cd /tmp
 rm ss.ini >/dev/null 2>&1
 sleep 1
 ssr_url="`nvram get ssr_url`"
-DNS="`nvram get ss_DNS_Redirect`"
-[ "$DNS" = "1" ] && nvram set ss_DNS_Redirect=0 && nvram commit
+
 get_from_tckssr
 [ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
 get_from_ishadowsock
