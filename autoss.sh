@@ -496,7 +496,7 @@ rm /tmp/tmp.txt 2>/dev/null
 ####PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
 ####PID1=`ps|grep "sleep 4"|grep -v grep|awk -F" " '{print $1; }'`
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-curl -o /tmp/tmp.txt -s -k -L  -m 5 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -L  -m 3 $url 2>/dev/null
 CODE="$?"
 
 ####kill -9 $PID $PID1 >/dev/null 2>&1
@@ -507,7 +507,7 @@ if [  $CODE = "28" ] ; then
 if  [  -s /tmp/tmp.txt ] ; then
  CODE="0"
  endtime=$(wc -c /tmp/tmp.txt | cut -d" " -f1)
- TIME=`awk  -v y=$endtime 'BEGIN {printf 10-y/100000}'`
+ TIME=`awk  -v y=$endtime 'BEGIN {printf 8-y/100000}'`
  TIME=${TIME:0:4}
 fi
 fi
@@ -622,7 +622,7 @@ if   [ -s ssr.ini ] ; then
 
     curl -T ssr.txt $ssr_url"ssr.txt"
     curl -T ssr.ini $ssr_url"ssr.ini"  
-	cut ss.inf -c5-600 | head -n 10 >s.inf
+	cut ss.inf -c6-600 | head -n 10 >s.inf
     curl -T s.inf $ssr_url"ss.ini"  	
 	
   fi
@@ -640,7 +640,7 @@ nvram commit
 
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 sleep 10
-rm cron_ss.lock 2>/dev/null
+rm -f cron_ss.lock 2>/dev/null
 #killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 #PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
 #PID=${PID:0:10}
