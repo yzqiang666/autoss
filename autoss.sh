@@ -644,25 +644,20 @@ nvram set ss_enable=1
 nvram commit
 
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
-cat > "/tmp/delay40.sh" <<-\SSJSONSH  
-echo "FINISH SS"
-sleep 60
+
+
+
+cat >/tmp/delay40.sh <<-ABCDEF
+sleep 100
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
-PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
-PID=${PID:0:10}
-kill -9 $PID >/dev/null 2>/dev/null
+PID=\`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '\`
+PID=\${PID:0:10}
+kill -9 \$PID >/dev/null 2>/dev/null
 rm -f cron_ss.lock 2>/dev/null
-mv syslog.tmp syslog.log
-echo "KILLED PID"
-SSJSONSH  
+mv syslog.tmp syslog.log 2>/dev/null
+ABCDEF
 
 sh /tmp/delay40.sh &
 
-#sleep 10
-#killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
-#PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
-#PID=${PID:0:10}
-#kill -9 $PID >/dev/null 2>/dev/null
-#rm -f cron_ss.lock 2>/dev/null
-#mv syslog.tmp syslog.log
+
 
