@@ -5,6 +5,7 @@
 
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1,2`
+PID=${PID/admin/}
 kill -9 $PID >/dev/null 2>/dev/null
 
 DNS="`nvram get ss_DNS_Redirect`"
@@ -20,7 +21,7 @@ url="https://www.youtube.com"
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-curl -o /tmp/tmp.txt -s -k -m 5 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -L  -m 5 $url 2>/dev/null
 CODE="$?"
 [  "$CODE" = "0" ]  &&  exit 0
 [  "$CODE" = "28" ]  &&  exit 0
@@ -35,7 +36,7 @@ secret="eoZ9cCkTpM0d6Rb7BEtXl5luBcqZyVeiNLZuKUxGjgOFnB1tqTChz3Wr8JKS2kJY"
 
 rm ss.txt > /dev/null 2>&1
 
-curl -o ss.txt -s -k  -m 5 https://$token:$secret@app.arukas.io/api/containers 2>/dev/null
+curl -o ss.txt -s -k -L   -m 5 https://$token:$secret@app.arukas.io/api/containers 2>/dev/null
 if [  "$?" = "0" ] ; then
 Server=""
 Port=""
@@ -71,7 +72,7 @@ fi
 get_from_other()
 {
 rm ss.txt > /dev/null 2>&1
-curl -o ss.txt -s -k  -m 5 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt 2>/dev/null
+curl -o ss.txt -s -k -L   -m 5 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt 2>/dev/null
 [  "$?" = "0" ] ] && cat ss.txt >>ss.ini && echo "==========" >> ss.ini 
 }
 
@@ -80,8 +81,8 @@ get_from_ishadowsock()
 {
 iss="https://ss.ishadowx.com/"
 rm ss.txt > /dev/null 2>&1
-curl -o ss.txt -s -k -L  -m 10 $iss 2>/dev/null
-#[ -s ss.txt ] && [ "`cat ss.txt|grep "<h4>IP Address"|wc -l`" = "0" ] && rm ss.txt && iss="https://go.ishadowx.net/" && curl -o ss.txt -s -k  -m 10 $iss 2>/dev/null
+curl -o ss.txt -s -k   -L  -m 10 $iss 2>/dev/null
+#[ -s ss.txt ] && [ "`cat ss.txt|grep "<h4>IP Address"|wc -l`" = "0" ] && rm ss.txt && iss="https://go.ishadowx.net/" && curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
 
 if [ -s ss.txt ] ; then
 cp /dev/null  ssss.ini
@@ -135,7 +136,7 @@ tkcssr="`nvram get tkcssr`"
 if [ ! "$tkcssr"x = "x" ] ; then 
 iss="https://capsule.cf/"$tkcssr
 iss="https://capsule.cf/link/zdV3ynUZyEoBp5Pa?is_ss=0"
-curl -o ss.txt -s -k  -m 10 $iss 2>/dev/null
+curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
 if [  "$?" = "0" ] ; then
 Server=""
 Port=""
@@ -203,7 +204,7 @@ get_from_Alvin9999()
 
 rm ss.txt > /dev/null 2>&1
 iss="https://raw.githubusercontent.com/Alvin9999/pac2/master/ssconfig.txt"
-curl -o ss.txt -s -k  -m 5 $iss 2>/dev/null
+curl -o ss.txt -s -k -L   -m 5 $iss 2>/dev/null
 if [  "$?" = "0" ] ; then
 Server=""
 Port=""
@@ -242,7 +243,7 @@ fi
 
 rm ss.txt > /dev/null 2>&1
 iss="https://socks.zone/free/"
-curl -o ss.txt -s -k  -m 5 $iss 2>/dev/null
+curl -o ss.txt -s -k -L   -m 5 $iss 2>/dev/null
 if [  "$?" = "0" ] ; then
 Server=""
 Port=""
@@ -279,7 +280,7 @@ fi
 
 rm ss.txt > /dev/null 2>&1
 iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-curl -o ss.txt -s -k  -m 5 $iss 2>/dev/null
+curl -o ss.txt -s -k -L   -m 5 $iss 2>/dev/null
 if [  "$?" = "0" ] ; then                                                                                   
 cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
 | tr -s ' ' | tr ' ' ':' | sed 's/ /:/g'  | sed 's/：/:/g' | sed 's/:(/(/g' | sed 's/::/:/g'  \
@@ -296,7 +297,7 @@ fi
 
 rm ss.txt > /dev/null 2>&1
 iss="https://freessr.xyz/"
-curl -o ss.txt -s -k  -m 5 $iss 2>/dev/null
+curl -o ss.txt -s -k -L   -m 5 $iss 2>/dev/null
 if [  "$?" = "0" ] ; then
 cat ss.txt | grep -E '服务器地址|端口|密码|加密方式' | sed 's/<[^<>]*>//g' | sed 's/ //g' | while read i 
 do
@@ -326,7 +327,7 @@ fi
 
 rm ss.txt > /dev/null 2>&1
 iss="https://xsjs.yhyhd.org/free-ss"
-curl -o ss.txt -s -k  -m 5 $iss 2>/dev/null
+curl -o ss.txt -s -k -L   -m 5 $iss 2>/dev/null
 if [  "$?" = "0" ] ; then
 Server=""
 Port=""
@@ -440,6 +441,7 @@ killall -9  ss-local 2>/dev/null
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 sleep 2
 PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1,2`
+PID=${PID/admin/}
 kill -9 $PID >/dev/null 2>/dev/null
 CC=1
 CC0=61
@@ -491,7 +493,7 @@ rm /tmp/tmp.txt 2>/dev/null
 ####PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
 ####PID1=`ps|grep "sleep 4"|grep -v grep|awk -F" " '{print $1; }'`
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-curl -o /tmp/tmp.txt -s -k -m 5 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -L  -m 5 $url 2>/dev/null
 CODE="$?"
 
 ####kill -9 $PID $PID1 >/dev/null 2>&1
@@ -637,6 +639,7 @@ nvram commit
 sleep 10
 #killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 #PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1,2`
+#PID=${PID/admin/}
 #kill -9 $PID >/dev/null 2>/dev/null
 mv syslog.tmp syslog.log
 
