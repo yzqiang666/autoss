@@ -5,7 +5,7 @@
 
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1,2`
-PID=${PID/admin/}
+PID=${PID:0:6}
 kill -9 $PID >/dev/null 2>/dev/null
 
 DNS="`nvram get ss_DNS_Redirect`"
@@ -441,7 +441,7 @@ killall -9  ss-local 2>/dev/null
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 sleep 2
 PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1,2`
-PID=${PID/admin/}
+PID=${PID:0:6}
 kill -9 $PID >/dev/null 2>/dev/null
 CC=1
 CC0=61
@@ -639,7 +639,7 @@ nvram commit
 sleep 10
 #killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 #PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|cut -d" " -f1,2`
-#PID=${PID/admin/}
+#PID=${PID:0:6}
 #kill -9 $PID >/dev/null 2>/dev/null
 mv syslog.tmp syslog.log
 
