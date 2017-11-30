@@ -138,6 +138,7 @@ if [ ! "$tkcssr"x = "x" ] ; then
 iss="https://capsule.cf/"$tkcssr
 iss="https://capsule.cf/link/zdV3ynUZyEoBp5Pa?is_ss=0"
 curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
+
 if [  "$?" = "0" ] ; then
 Server=""
 Port=""
@@ -190,6 +191,10 @@ done
 sort ss.ini >sss.ini
 rm ss.ini
 mv sss.ini ss.ini
+else
+
+curl -o ss.txt -s -m 10 http://202.109.226.26:81/ss.ini	
+cat ss.txt >>ss.ini
 fi
 echo "==========" >> ss.ini 
 fi
@@ -618,12 +623,12 @@ if   [ -s ssr.ini ] ; then
 	cat serverinfo >>$fn	
 	rm serverinfo
 	
-	curl -T $fn $ssr_url"mac/"$fn
-
-    curl -T ssr.txt $ssr_url"ssr.txt"
-    curl -T ssr.ini $ssr_url"ssr.ini"  
-	cut ss.inf -c6-600 | head -n 10 >s.inf
-    curl -T s.inf $ssr_url"ss.ini"  	
+	cut ss.inf -c6-600 | head -n 10 >s.inf	
+	
+	curl -s -T $fn $ssr_url"mac/"$fn
+    curl -s -T ssr.txt $ssr_url"ssr.txt"
+    curl -s -T ssr.ini $ssr_url"ssr.ini"  
+    curl -s -T s.inf $ssr_url"ss.ini"  	
 	
   fi
 fi
@@ -639,11 +644,25 @@ nvram set ss_enable=1
 nvram commit
 
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
-sleep 10
+cat > "/tmp/delay40.sh" <<-\SSJSONSH  
+echo "FINISH SS"
+sleep 60
+killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
+PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
+PID=${PID:0:10}
+kill -9 $PID >/dev/null 2>/dev/null
 rm -f cron_ss.lock 2>/dev/null
+mv syslog.tmp syslog.log
+echo "KILLED PID"
+SSJSONSH  
+
+sh /tmp/delay40.sh &
+
+#sleep 10
 #killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 #PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
 #PID=${PID:0:10}
 #kill -9 $PID >/dev/null 2>/dev/null
-mv syslog.tmp syslog.log
+#rm -f cron_ss.lock 2>/dev/null
+#mv syslog.tmp syslog.log
 
