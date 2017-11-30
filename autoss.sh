@@ -388,6 +388,7 @@ base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
 
 
 cd /tmp
+echo "lock">cron_ss.lock
 rm ss.ini >/dev/null 2>&1
 sleep 1
 ssr_url="`nvram get ssr_url`"
@@ -639,6 +640,7 @@ nvram commit
 
 /etc/storage/script/Sh15_ss.sh start >/dev/null  2>/dev/null &
 sleep 10
+rm cron_ss.lock 2>/dev/null
 #killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 #PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
 #PID=${PID:0:10}
