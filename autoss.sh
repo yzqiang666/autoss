@@ -22,7 +22,7 @@ url="https://www.youtube.com"
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-curl -o /tmp/tmp.txt -s -k -L  -m 5 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -L  -m 10 $url 2>/dev/null
 CODE="$?"
 [  "$CODE" = "0" ]  &&  exit 0
 [  "$CODE" = "28" ]  &&  exit 0
