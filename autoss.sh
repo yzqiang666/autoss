@@ -17,7 +17,7 @@ DNS="`nvram get ss_DNS_Redirect`"
 #&& [ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
 #&&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
 
-url="https://www.youtube.com"
+url="https://www.youtube.com/intl/zh-CN/yt/about/"
 
 
 if [ ! "$1" = "refresh" ] ; then
@@ -25,7 +25,7 @@ rm /tmp/tmp.txt 2>/dev/null
 curl -o /tmp/tmp.txt -s -k -L  -m 5 $url 2>/dev/null
 CODE="$?"
 [  "$CODE" = "0" ]  &&  exit 0
-[  "$CODE" = "28" ]  &&  exit 0
+#[  "$CODE" = "28" ]  &&  exit 0
 fi
 
 
@@ -512,7 +512,7 @@ if [  $CODE = "28" ] ; then
 if  [  -s /tmp/tmp.txt ] ; then
  CODE="0"
  endtime=$(wc -c /tmp/tmp.txt | cut -d" " -f1)
- TIME=`awk  -v y=$endtime 'BEGIN {printf 8-y/100000}'`
+ TIME=`awk  -v y=$endtime 'BEGIN {printf 8-y/10000}'`
  TIME=${TIME:0:4}
 fi
 fi
