@@ -4,7 +4,7 @@
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
-
+killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
 PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
 PID=${PID:0:10}
 kill -9 $PID >/dev/null 2>/dev/null
@@ -22,19 +22,10 @@ url="https://www.youtube.com"
 
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-curl -o /tmp/tmp.txt -s -k -L  -m 10 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -L  -m 5 $url 2>/dev/null
 CODE="$?"
 [  "$CODE" = "0" ]  &&  exit 0
 [  "$CODE" = "28" ]  &&  exit 0
-
-if [ ! "$CODE" = "0" ] && [ ! "$CODE" = "28" ] ; then
-rm /tmp/tmp.txt 2>/dev/null
-curl -o /tmp/tmp.txt -s -k -L -m 10 $url 2>/dev/null
-[ "$CODE" = "0" ] && exit 0
-[ "$CODE" = "28" ] && exit 0
-
-fi
-
 fi
 
 
@@ -659,6 +650,7 @@ nvram commit
 cat >/tmp/delay40.sh <<-ABCDEF
 sleep 100
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
+killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
 PID=\`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '\`
 PID=\${PID:0:10}
 kill -9 \$PID >/dev/null 2>/dev/null
