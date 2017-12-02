@@ -511,7 +511,7 @@ TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 
 
 #####  重试一次
-if  [  ! $CODE  = "0" ] &&  [  ! $CODE = "28" ] ; tben
+if  [  ! $CODE  = "0" ] &&  [  ! $CODE = "28" ] ; then
   starttime=$(cat /proc/uptime | cut -d" " -f1)
   curl -o /tmp/tmp.txt -s -k -L -r 0-49999 -m 3 $url 2>/dev/null
   CODE="$?"
