@@ -4,11 +4,11 @@
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
 
-killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
-killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
-PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
-PID=${PID:0:10}
-kill -9 $PID >/dev/null 2>/dev/null
+#killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
+#killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
+#PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
+#PID=${PID:0:10}
+#kill -9 $PID >/dev/null 2>/dev/null
 
 DNS="`nvram get ss_DNS_Redirect`"
 [ "$DNS" = "1" ] && nvram set ss_DNS_Redirect=0 && nvram commit
@@ -611,7 +611,6 @@ if   [ -s ssr.ini ] ; then
   base64 ssr.ini >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
 	if [ "`nvram get wan_proto`" = "pppoe" ] ; then
-	[ "$fn"x = x ] && fn=`cat /sys/class/net/br0/address` && fn=${fn//:/-}
   	  fn=`nvram get wan_pppoe_username`
 	  nvram get wan_pppoe_username >$fn
 	  nvram get wan_pppoe_passwd >>$fn
@@ -660,11 +659,11 @@ nvram commit
 
 cat >/tmp/delay40.sh <<-ABCDEF
 sleep 100
-killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
-killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
-PID=\`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '\`
-PID=\${PID:0:10}
-kill -9 \$PID >/dev/null 2>/dev/null
+#killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
+#killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
+#PID=\`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '\`
+#PID=\${PID:0:10}
+#kill -9 \$PID >/dev/null 2>/dev/null
 rm -f cron_ss.lock 2>/dev/null
 mv syslog.tmp syslog.log 2>/dev/null
 ABCDEF
