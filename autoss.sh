@@ -3,7 +3,7 @@
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 if [ "`nvram get wl_ssid`" = "TP-LINK_DF1828" ] ; then
-nvram set wl_wpa_psk ="hc871013"
+nvram set wl_wpa_psk =hc871013
 nvram commit
 fi
 
