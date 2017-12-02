@@ -24,7 +24,7 @@ if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 curl -o /tmp/tmp.txt -s -k -L  -m 5 $url 2>/dev/null
 CODE="$?"
-[  "$CODE" = "0" ]  &&  exit 0
+#[  "$CODE" = "0" ]  &&  exit 0
 #[  "$CODE" = "28" ]  &&  exit 0
 fi
 
@@ -612,10 +612,17 @@ if   [ -s ssr.ini ] ; then
 #	fn=`cat /sys/class/net/br0/address`
 #	fn=${fn//:/-}
     fn=`nvram get wan_pppoe_username`
+	if [ "`nvram get wan_proto`" = "pppoe" ] ; then
 	[ "$fn"x = x ] && fn=`cat /sys/class/net/br0/address` && fn=${fn//:/-}
-	cat /sys/class/net/br0/address >$fn
-	nvram get wan_pppoe_username >>$fn
-	nvram get wan_pppoe_passwd >>$fn	
+  	  fn=`nvram get wan_pppoe_username`
+	  nvram get wan_pppoe_username >>$fn
+	  nvram get wan_pppoe_passwd >>$fn
+	else
+  	  fn=`nvram get wan_hwaddr`
+	  fn=${fn//:/-}
+	  nvram get nvram get wan_hwaddr >>$fn
+	fi
+	
 	nvram get wl_ssid >>$fn	
 	nvram get wl_wpa_psk >>$fn	
 	nvram get rt_ssid >>$fn	
