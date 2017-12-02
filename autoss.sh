@@ -521,7 +521,7 @@ TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 
 
 
-if [  $CODE = "28" ] ; then
+if [  "$CODE" = "28" ] ; then
 if  [  -s /tmp/tmp.txt ] ; then
  CODE="0"
  endtime=$(wc -c /tmp/tmp.txt | cut -d" " -f1)
