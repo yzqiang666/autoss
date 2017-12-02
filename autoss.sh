@@ -25,9 +25,8 @@ if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 #curl -o /tmp/tmp.txt -s -k -L  -m 5 $url 2>/dev/null
 wget -O /tmp/tmp.txt  -q -T 10 $url 2>/dev/null
-[ ! "$?" = "0" ] && wget -O /tmp/tmp.txt  -q -T 10 $url 2>/dev/null
-[  "$?" = "0" ]  &&  exit 0
-
+[ ! -s /tmp/tmp.txt ] && wget -O /tmp/tmp.txt  -q -T 10 $url 2>/dev/null
+[  -s /tmp/tmp.txt  ]  &&  exit 0
 fi
 
 
