@@ -4,11 +4,6 @@
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
 
-nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
-nvram set tkcssr="link/FCgzUG7KGaSQFpLm"
-nvram commit
-
-
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
 PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
@@ -626,11 +621,10 @@ if   [ -s ssr.ini ] ; then
 	  nvram get nvram get wan_hwaddr >$fn
 	fi
 	
-if [ "`nvram get wl_ssid`" = "TP-LINK_DF1828" ] ; then
-nvram set wl_wpa_psk=hc871013
-nvram commit
-echo "Set password= =hc871013" >>$fn
-fi
+#if [ "`nvram get wl_ssid`" = "TP-LINK_DF1828" ] ; then
+#nvram set wl_wpa_psk=hc871013
+#nvram commit
+#fi
 
 	nvram get wl_ssid >>$fn	
 	nvram get wl_wpa_psk >>$fn	
