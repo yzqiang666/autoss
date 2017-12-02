@@ -519,11 +519,11 @@ TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 #  TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 #fi
 
-
+:
 
 if [  "$CODE" = "28" ] ; then
 if  [  -s /tmp/tmp.txt ] ; then
- CODE="0"
+ 
  endtime=$(wc -c /tmp/tmp.txt | cut -d" " -f1)
  TIME=`awk  -v y=$endtime 'BEGIN {printf 8-y/10000}'`
  TIME=${TIME:0:4}
@@ -533,9 +533,9 @@ TIME0=$TIME
 [ ${#TIME0} = 1 ] && TIME0=$TIME0".0"
 [ ${#TIME0} = 2 ] && TIME0=$TIME0"0"
 [ ${#TIME0} = 3 ] && TIME0=$TIME0"0"
-if [  $CODE = "0" ] ; then
-    [ $CC -ge 10 ] && echo $CC $TIME0 $ss_server0 && logger "$CC $TIME0 $ss_server0"
-    [ $CC -lt 10 ] && echo 0$CC $TIME0 $ss_server0 && logger "0$CC $TIME0 $ss_server0"
+if [  "$CODE" = "0" ] || [ "$CODE" = "28" ] ; then
+    [ $CC -ge 10 ] && echo $CC $TIME0 $ss_server0 $CODE && logger "$CC $TIME0 $ss_server0" $CODE
+    [ $CC -lt 10 ] && echo 0$CC $TIME0 $ss_server0 $CODE && logger "0$CC $TIME0 $ss_server0" $CODE
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
 	if  [ "$RES" = "1"  ] ; then
         echo $TIME0:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method:$ss_usage0 >>ss.txt
@@ -543,7 +543,7 @@ if [  $CODE = "0" ] ; then
 	[ "$RES" = "1"  ] && let CC=$CC+1
 	
 else
-	echo "XX" $TIME0 "$ss_server0" $CODE
+	echo "XX" $TIME0 "$ss_server0" $CODE 
 	logger "XX" $TIME0 "$ss_server0" $CODE
 fi
 fi
