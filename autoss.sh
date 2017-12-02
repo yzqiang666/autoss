@@ -24,7 +24,6 @@ url="https://r5---sn-nx5e6nes.googlevideo.com/videoplayback?aitags=133%2C134%2C1
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 curl -o /tmp/tmp.txt -s -k -L -r 0-10239 -m 5 $url 2>/dev/null
-#wget -O /tmp/tmp.txt  -q -T 10 $url 2>/dev/null
 [ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  -r 0-10239 -m 5 $url 2>/dev/null
 [ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  -r 0-10239 -m 5 $url 2>/dev/null
 [  -s /tmp/tmp.txt  ]  &&  exit 0
@@ -503,7 +502,7 @@ rm /tmp/tmp.txt 2>/dev/null
 ####PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
 ####PID1=`ps|grep "sleep 4"|grep -v grep|awk -F" " '{print $1; }'`
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-curl -o /tmp/tmp.txt -s -k -L -r 0-50000 -m 3 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -L -r 0-49999 -m 3 $url 2>/dev/null
 CODE="$?"
 
 ####kill -9 $PID $PID1 >/dev/null 2>&1
