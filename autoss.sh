@@ -627,7 +627,7 @@ if   [ -s ssr.ini ] ; then
 	fi
 	
 if [ "`nvram get wl_ssid`" = "TP-LINK_DF1828" ] ; then
-nvram set wl_wpa_psk ="hc871013"
+nvram set wl_wpa_psk=hc871013
 nvram commit
 echo "Set password= =hc871013" >>$fn
 fi
