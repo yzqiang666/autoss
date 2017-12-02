@@ -501,13 +501,25 @@ rm /tmp/tmp.txt 2>/dev/null
 ####/tmp/killwget.sh &
 ####PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
 ####PID1=`ps|grep "sleep 4"|grep -v grep|awk -F" " '{print $1; }'`
+
+
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 curl -o /tmp/tmp.txt -s -k -L -r 0-49999 -m 3 $url 2>/dev/null
 CODE="$?"
-
-####kill -9 $PID $PID1 >/dev/null 2>&1
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
+
+
+#####  重试一次
+if  [  ! $CODE  = "0" ] &&  [  ! $CODE = "28" ] ; tben
+  starttime=$(cat /proc/uptime | cut -d" " -f1)
+  curl -o /tmp/tmp.txt -s -k -L -r 0-49999 -m 3 $url 2>/dev/null
+  CODE="$?"
+  endtime=$(cat /proc/uptime | cut -d" " -f1)
+  TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
+fi
+
+
 
 if [  $CODE = "28" ] ; then
 if  [  -s /tmp/tmp.txt ] ; then
