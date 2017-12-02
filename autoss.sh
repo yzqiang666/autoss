@@ -399,11 +399,11 @@ rm ss.ini >/dev/null 2>&1
 sleep 1
 ssr_url="`nvram get ssr_url`"
 
+tkcssr="`nvram get tkcssr`"
 get_from_tckssr
 [ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
 get_from_ishadowsock
 #get_from_arukas
-tkcssr="`nvram get tkcssr`"
 #[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
 #get_from_Alvin9999
 #[ ! -s ss.ini ] && get_from_other
