@@ -1,5 +1,7 @@
 
-
+nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
+nvram set tkcssr="link/FCgzUG7KGaSQFpLm"
+nvram commit
 
 #加入私有SSR
 #ssr_url=`nvram get ssr_url`
