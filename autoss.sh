@@ -23,9 +23,9 @@ url="https://www.youtube.com/intl/zh-CN/yt/about/"
 url="https://r5---sn-nx5e6nes.googlevideo.com/videoplayback?aitags=133%2C134%2C135%2C136%2C160%2C242%2C243%2C244%2C247%2C278&ipbits=0&pl=18&ei=ga8iWtiPFMXX4AKc8rS4Ag&source=youtube&signature=173C6DE920C36DD8BE90C92E95180DA8AAB58BF0.53BA82B491EC3479A4EA2F82C60F1129DAD79391&id=o-AOc2kcLEt8lUlZM-rEfTMcHMOsA8RSMvfskmOS10xFg-&gir=yes&clen=281976205&sparams=aitags,clen,dur,ei,expire,gir,id,initcwndbps,ip,ipbits,ipbypass,itag,keepalive,lmt,mime,mip,mm,mn,ms,mv,pl,requiressl,source&mime=video%2Fwebm&key=cms1&expire=1512244193&dur=2389.440&lmt=1512108626870858&keepalive=yes&ip=47.74.134.248&itag=247&requiressl=yes&ratebypass=yes&redirect_counter=1&rm=sn-npolz76&req_id=408830fd46a5a3ee&cms_redirect=yes&ipbypass=yes&mip=52.237.77.211&mm=31&mn=sn-nx5e6nes&ms=au&mt=1512222640&mv=m"
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
-curl -o /tmp/tmp.txt -s -k -L -r 0-10239 -m 5 $url 2>/dev/null
-[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  -r 0-10239 -m 5 $url 2>/dev/null
-[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  -r 0-10239 -m 5 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -L -r 0-10239 --retry 3 -m 5 $url 2>/dev/null
+#[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  -r 0-10239 --retry 2 -m 5 $url 2>/dev/null
+#[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  -r 0-10239 --retry 2 -m 5 $url 2>/dev/null
 [  -s /tmp/tmp.txt  ]  &&  exit 0
 fi
 
@@ -504,7 +504,7 @@ rm /tmp/tmp.txt 2>/dev/null
 
 #sleep 1
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-curl -o /tmp/tmp.txt -s -k -L -r 0-49999  -retry 2 -m 3 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -L -r 0-49999  --retry 2 -m 3 $url 2>/dev/null
 CODE="$?"
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
@@ -513,7 +513,7 @@ TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
 #####  重试一次
 #if  [  ! $CODE  = "0" ] &&  [  ! $CODE = "28" ] ; then
 #  starttime=$(cat /proc/uptime | cut -d" " -f1)
-#  curl -o /tmp/tmp.txt -s -k -L -r 0-49999 -retry 2 -m 3 $url 2>/dev/null
+#  curl -o /tmp/tmp.txt -s -k -L -r 0-49999 --retry 2 -m 3 $url 2>/dev/null
 #  CODE="$?"
 # endtime=$(cat /proc/uptime | cut -d" " -f1)
 #  TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
@@ -681,3 +681,6 @@ mv syslog.tmp syslog.log 2>/dev/null
 ABCDEF
 
 sh /tmp/delay40.sh &
+
+
+
