@@ -503,7 +503,7 @@ rm /tmp/tmp.txt 2>/dev/null
 ####PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
 ####PID1=`ps|grep "sleep 4"|grep -v grep|awk -F" " '{print $1; }'`
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-curl -o /tmp/tmp.txt -s -k -L  -m 3 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -L -r 0-10239 -m 3 $url 2>/dev/null
 CODE="$?"
 
 ####kill -9 $PID $PID1 >/dev/null 2>&1
@@ -514,7 +514,7 @@ if [  $CODE = "28" ] ; then
 if  [  -s /tmp/tmp.txt ] ; then
  CODE="0"
  endtime=$(wc -c /tmp/tmp.txt | cut -d" " -f1)
- TIME=`awk  -v y=$endtime 'BEGIN {printf 8-y/10000}'`
+ TIME=`awk  -v y=$endtime 'BEGIN {printf 8-y/2000}'`
  TIME=${TIME:0:4}
 fi
 fi
