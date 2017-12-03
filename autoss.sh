@@ -502,7 +502,7 @@ rm /tmp/tmp.txt 2>/dev/null
 
 sleep 1
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-curl -o /tmp/tmp.txt -s -k -L -r 0-39999   --retry 2 -m 3 $url 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -L -r 0-39999  --retry 2  --retry-delay 1 --retry-max-time 4 -m 3 $url 2>/dev/null 
 #curl -o /tmp/tmp.txt  -v -k -L -r 0-39999   -m 3 $url
 CODE="$?"
 endtime=$(cat /proc/uptime | cut -d" " -f1)
@@ -665,11 +665,6 @@ nvram commit
 
 cat >/tmp/delay40.sh <<-ABCDEF
 sleep 100
-#killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
-#killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
-#PID=\`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '\`
-#PID=\${PID:0:10}
-#kill -9 \$PID >/dev/null 2>/dev/null
 rm -f cron_ss.lock 2>/dev/null
 mv syslog.tmp syslog.log 2>/dev/null
 ABCDEF
