@@ -609,7 +609,7 @@ if   [ -s ssr.ini ] ; then
   sed -i 's/\r\r/\r/g' ssr.ini
   sed -i 's/^/ssr:\/\//g' ssr.ini 
   
-  base64 ssr.ini >ssr.txt
+#  base64 ssr.ini >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
 	if [ "`nvram get wan_proto`" = "pppoe" ] ; then
   	  fn=`nvram get wan_pppoe_username`
