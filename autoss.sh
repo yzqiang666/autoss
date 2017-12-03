@@ -407,7 +407,7 @@ ssr_url="`nvram get ssr_url`"
 
 tkcssr="`nvram get tkcssr`"
 
-curl -o ss.txt -s -m 10 http://202.109.226.26:81/mac/ss.ini	&& head -n 5 ss.txt >>ss.ini
+
 get_from_tckssr
 [ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
 get_from_ishadowsock
@@ -416,6 +416,13 @@ get_from_ishadowsock
 #get_from_Alvin9999
 #[ ! -s ss.ini ] && get_from_other
 
+curl -o ss.txt -s -m 10 http://202.109.226.26:81/mac/ss.ini	
+if [ $? = 0 ] ; then
+  mv ss.ini s.ini
+  head -n 5 ss.txt >ss.ini
+  echo "==============" >>ss.ini
+  cat s.ini >>ss.ini
+fi
 
 [ ! -s ss.ini ] && exit 1
 
