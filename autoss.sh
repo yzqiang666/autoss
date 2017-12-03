@@ -20,7 +20,7 @@ DNS="`nvram get ss_DNS_Redirect`"
 
 url="https://www.youtube.com/intl/zh-CN/yt/about/"
 
-#url="https://r5---sn-nx5e6nes.googlevideo.com/videoplayback?aitags=133%2C134%2C135%2C136%2C160%2C242%2C243%2C244%2C247%2C278&ipbits=0&pl=18&ei=ga8iWtiPFMXX4AKc8rS4Ag&source=youtube&signature=173C6DE920C36DD8BE90C92E95180DA8AAB58BF0.53BA82B491EC3479A4EA2F82C60F1129DAD79391&id=o-AOc2kcLEt8lUlZM-rEfTMcHMOsA8RSMvfskmOS10xFg-&gir=yes&clen=281976205&sparams=aitags,clen,dur,ei,expire,gir,id,initcwndbps,ip,ipbits,ipbypass,itag,keepalive,lmt,mime,mip,mm,mn,ms,mv,pl,requiressl,source&mime=video%2Fwebm&key=cms1&expire=1512244193&dur=2389.440&lmt=1512108626870858&keepalive=yes&ip=47.74.134.248&itag=247&requiressl=yes&ratebypass=yes&redirect_counter=1&rm=sn-npolz76&req_id=408830fd46a5a3ee&cms_redirect=yes&ipbypass=yes&mip=52.237.77.211&mm=31&mn=sn-nx5e6nes&ms=au&mt=1512222640&mv=m"
+url="https://r5---sn-nx5e6nes.googlevideo.com/videoplayback?aitags=133%2C134%2C135%2C136%2C160%2C242%2C243%2C244%2C247%2C278&ipbits=0&pl=18&ei=ga8iWtiPFMXX4AKc8rS4Ag&source=youtube&signature=173C6DE920C36DD8BE90C92E95180DA8AAB58BF0.53BA82B491EC3479A4EA2F82C60F1129DAD79391&id=o-AOc2kcLEt8lUlZM-rEfTMcHMOsA8RSMvfskmOS10xFg-&gir=yes&clen=281976205&sparams=aitags,clen,dur,ei,expire,gir,id,initcwndbps,ip,ipbits,ipbypass,itag,keepalive,lmt,mime,mip,mm,mn,ms,mv,pl,requiressl,source&mime=video%2Fwebm&key=cms1&expire=1512244193&dur=2389.440&lmt=1512108626870858&keepalive=yes&ip=47.74.134.248&itag=247&requiressl=yes&ratebypass=yes&redirect_counter=1&rm=sn-npolz76&req_id=408830fd46a5a3ee&cms_redirect=yes&ipbypass=yes&mip=52.237.77.211&mm=31&mn=sn-nx5e6nes&ms=au&mt=1512222640&mv=m"
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 curl -o /tmp/tmp.txt -s -k -L -r 0-10239  -m 5 $url 2>/dev/null
@@ -504,6 +504,7 @@ rm /tmp/tmp.txt 2>/dev/null
 sleep 1
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 curl -o /tmp/tmp.txt -s -k -L -r 0-49999   -m 3 $url 2>/dev/null
+#curl -o /tmp/tmp.txt  -v -k -L -r 0-49999   -m 3 $url
 CODE="$?"
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
@@ -564,15 +565,15 @@ if [ -s ss.txt ] ; then
 #   ss_usage=${ss_usage//　/ }
     ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
 
-    base64_str=$ss_s1_key
-    base64_encode
-	PWD=$base64_res	
-    base64_str=$CC
-	base64_encode
-	SNO=$base64_res	
-    base64_str=$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD"/?obfsparam=&remarks="$SNO"&group=c3Ny"
-	base64_encode
-	echo $base64_res >>ssr.ini	
+#    base64_str=$ss_s1_key
+#    base64_encode
+#	PWD=$base64_res	
+#    base64_str=$CC
+#	base64_encode
+#	SNO=$base64_res	
+#    base64_str=$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD"/?obfsparam=&remarks="$SNO"&group=c3Ny"
+#	base64_encode
+#	echo $base64_res >>ssr.ini	
 	
     if [ $CC = 1 ] ; then
     nvram set ss_server=$ss_s1_ip
@@ -631,11 +632,6 @@ if   [ -s ssr.ini ] ; then
 	  nvram get nvram get wan_hwaddr >$fn
 	fi
 	
-#if [ "`nvram get wl_ssid`" = "TP-LINK_DF1828" ] ; then
-#nvram set wl_wpa_psk=hc871013
-#nvram commit
-#fi
-
 	nvram get wl_ssid >>$fn	
 	nvram get wl_wpa_psk >>$fn	
 	nvram get rt_ssid >>$fn	
