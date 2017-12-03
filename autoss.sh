@@ -462,16 +462,13 @@ PID=${PID:0:10}
 kill -9 $PID >/dev/null 2>/dev/null
 echo "lock">cron_ss.lock
 CC=1
-CC0=61
+BESTTIME=0
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
-CC0=99
-####echo "sleep 4" >/tmp/killwget.sh
-####echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
-####chmod a+x /tmp/killwget.sh
+CC0=90
 HOST1=""
 cat ss.ini | while read str
 do
-[ $CC -ge $CC0 ] && break
+[ $CC -ge $CC0 ] && [ $BESTTIME -ge 5 ] && break
 [ "$str" = "" ] && continue 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
@@ -486,13 +483,10 @@ ss_s1_key=`echo $str|awk -F ':' '{print $3}'`
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
 ss_usage0=`echo $str|awk -F ':' '{print $5}'`  
 ss_usage=${ss_usage0//：/:}
-#ss_usage=${ss_usage//　/ }
 ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
 ss_server0=$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method
 ss_server1=$ss_s1_ip
 resolveip=`/usr/bin/resolveip -4 -t 4 $ss_server1 | grep -v : | sed -n '1p'`
-
-#[ -z "$resolveip" ] && resolveip=`nslookup $ss_server1 | awk 'NR==5{print $3}'` 
 if [ -n "$resolveip" ] ; then
 ss_server1=$resolveip
 ss_s1_ip=$ss_server1
@@ -500,26 +494,17 @@ ss_s1_ip=$ss_server1
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
 /tmp/SSJSON.sh -f /tmp/ss-redir_3.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1090 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
 ss-redir -c /tmp/ss-redir_3.json $options1 >/dev/null 2>&1 &
-
 ss_s1_ip=$ss_server1
 action_ssip=$ss_s1_ip
 BP_IP="$action_ssip"
 [ ! $ss_s1_ip = "" ] && ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80,443' -o -O >/dev/null 2>&1
 
 rm /tmp/tmp.txt 2>/dev/null
-####/tmp/killwget.sh &
-####PID=`ps|grep killwget.sh|grep -v grep|awk -F" " '{print $1; }'`
-####PID1=`ps|grep "sleep 4"|grep -v grep|awk -F" " '{print $1; }'`
-
-sleep 1
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-#curl -o /tmp/tmp.txt -s -k -L -r 0-39999  --retry 2  --retry-delay 1 --retry-max-time 5 -m 3 $url 2>/dev/null 
 curl -o /tmp/tmp.txt -s -k -L -r 0-39999  -m 4 $url 2>/dev/null 
-
 CODE="$?"
 endtime=$(cat /proc/uptime | cut -d" " -f1)
 TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
-
 
 if [  $CODE = "28" ] ; then
 if  [  -s /tmp/tmp.txt ] ; then
@@ -529,24 +514,24 @@ if  [  -s /tmp/tmp.txt ] ; then
  TIME=${TIME:0:4}
 fi
 fi
+
 TIME0=$TIME
 [ ${#TIME0} = 1 ] && TIME0=$TIME0".0"
 [ ${#TIME0} = 2 ] && TIME0=$TIME0"0"
 [ ${#TIME0} = 3 ] && TIME0=$TIME0"0"
+
+[ "${TIME0:0:1}" = "0" ] && BESTTIME=$BESTTIME+1	
 if [  $CODE = "0" ] ; then
     [ $CC -ge 10 ] && echo $CC $TIME0 $ss_server0 && logger "$CC $TIME0 $ss_server0"
     [ $CC -lt 10 ] && echo 0$CC $TIME0 $ss_server0 && logger "0$CC $TIME0 $ss_server0"
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
-	if  [ "$RES" = "1"  ] ; then
-        echo $TIME0:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method:$ss_usage0 >>ss.txt
-	fi		
-	[ "$RES" = "1"  ] && let CC=$CC+1
-	
+	[ "$RES" = "1"  ] && echo $TIME0:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method:$ss_usage0 >>ss.txt && let CC=$CC+1	
 else
     HOST1=$HOST2
 	echo "XX" $TIME0 "$ss_server0" $CODE
 	logger "XX" $TIME0 "$ss_server0" $CODE
 fi
+
 fi
 done
 
@@ -563,18 +548,17 @@ if [ -s ss.txt ] ; then
     ss_s1_method=`echo $str|awk -F ':' '{print $5}'`  
     ss_usage0=`echo $str|awk -F ':' '{print $6}'`  
     ss_usage=${ss_usage0//：/:}
-#   ss_usage=${ss_usage//　/ }
-    ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
+#    ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
 
 #    base64_str=$ss_s1_key
 #    base64_encode
-#	PWD=$base64_res	
+#	 PWD=$base64_res	
 #    base64_str=$CC
-#	base64_encode
-#	SNO=$base64_res	
+#	 base64_encode
+#	 SNO=$base64_res	
 #    base64_str=$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD"/?obfsparam=&remarks="$SNO"&group=c3Ny"
-#	base64_encode
-#	echo $base64_res >>ssr.ini	
+#	 base64_encode
+#	 echo $base64_res >>ssr.ini	
 	
     if [ $CC = 1 ] ; then
     nvram set ss_server=$ss_s1_ip
