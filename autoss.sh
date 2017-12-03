@@ -543,8 +543,8 @@ if [  $CODE = "0" ] ; then
 	
 else
     HOST1=$HOST2
-	echo "XX" $TIME0 "$ss_server0" 
-	logger "XX" $TIME0 "$ss_server0"
+	echo "XX" $TIME0 "$ss_server0" $CODE
+	logger "XX" $TIME0 "$ss_server0" $CODE
 fi
 fi
 done
