@@ -475,7 +475,7 @@ CC0=90
 HOST1=""
 cat ss.ini | while read str
 do
-[ $CC -ge $CC0 ] || [ $BESTTIME -ge 5 ] && break
+[ $CC -ge $CC0 ] || [ $BESTTIME -ge 7 ] && break
 [ "$str" = "" ] && continue 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
