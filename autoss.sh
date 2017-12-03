@@ -475,7 +475,7 @@ CC0=90
 HOST1=""
 cat ss.ini | while read str
 do
-[ $CC -ge $CC0 ] && [ $BESTTIME -ge 5 ] && break
+[ $CC -ge $CC0 ] || [ $BESTTIME -ge 5 ] && break
 [ "$str" = "" ] && continue 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
@@ -527,7 +527,7 @@ TIME0=$TIME
 [ ${#TIME0} = 2 ] && TIME0=$TIME0"0"
 [ ${#TIME0} = 3 ] && TIME0=$TIME0"0"
 
-[ "${TIME0:0:1}" = "0" ] && BESTTIME=$BESTTIME+1	
+[ "${TIME0:0:1}" = "0" ] && let BESTTIME=$BESTTIME+1	
 if [  $CODE = "0" ] ; then
     [ $CC -ge 10 ] && echo $CC $TIME0 $ss_server0 && logger "$CC $TIME0 $ss_server0"
     [ $CC -lt 10 ] && echo 0$CC $TIME0 $ss_server0 && logger "0$CC $TIME0 $ss_server0"
