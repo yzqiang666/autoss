@@ -616,11 +616,11 @@ if [ -s ss.txt ] ; then
 
 fi
 
-if   [ -s ssr.ini ] ; then
-  sed -i 's/=//g' ssr.ini 
-  sed -i 's/$/\r/g' ssr.ini 
-  sed -i 's/\r\r/\r/g' ssr.ini
-  sed -i 's/^/ssr:\/\//g' ssr.ini 
+if   [ -s ss.inf ] ; then
+#  sed -i 's/=//g' ssr.ini 
+#  sed -i 's/$/\r/g' ssr.ini 
+#  sed -i 's/\r\r/\r/g' ssr.ini
+#  sed -i 's/^/ssr:\/\//g' ssr.ini 
   
 #  base64 ssr.ini >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
@@ -645,8 +645,8 @@ if   [ -s ssr.ini ] ; then
 	cut ss.inf -c6-600 | head -n 10 >s.inf	
 	
 	curl -s -T $fn $ssr_url"mac/"$fn
-    curl -s -T ssr.txt $ssr_url"ssr.txt"
-    curl -s -T ssr.ini $ssr_url"ssr.ini"  
+ #   curl -s -T ssr.txt $ssr_url"ssr.txt"
+ #   curl -s -T ssr.ini $ssr_url"ssr.ini"  
     curl -s -T s.inf $ssr_url"ss.ini"  	
 	
   fi
