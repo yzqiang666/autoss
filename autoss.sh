@@ -406,10 +406,10 @@ sleep 1
 ssr_url="`nvram get ssr_url`"
 
 tkcssr="`nvram get tkcssr`"
-
-get_from_ishadowsock
 get_from_tckssr
-[ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
+get_from_ishadowsock
+
+#[ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
 
 #get_from_arukas
 #[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
@@ -507,7 +507,7 @@ ss_s1_ip=$ss_server1
 action_ssip=$ss_s1_ip
 BP_IP="$action_ssip"
 [ ! $ss_s1_ip = "" ] && ss-rules -s "$action_ssip" -l "$action_port" -b $BP_IP -d "RETURN" -a "g,$lan_ipaddr" -e '-m multiport --dports 80,443' -o -O >/dev/null 2>&1
-
+sleep 1
 rm /tmp/tmp.txt 2>/dev/null
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 curl -o /tmp/tmp.txt -s -k -L -r 0-39999  -m 4 $url 2>/dev/null 
