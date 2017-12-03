@@ -516,18 +516,18 @@ rm /tmp/tmp.txt 2>/dev/null
 sleep 1
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 #curl -o /tmp/tmp.txt -s -k -L -r 0-39999  --retry 2  --retry-delay 1 --retry-max-time 5 -m 3 $url 2>/dev/null 
-curl -o /tmp/tmp.txt -s -k -L -r 0-39999  -m 2 $url 2>/dev/null 
+curl -o /tmp/tmp.txt -s -k -L -r 0-39999  -m 4 $url 2>/dev/null 
 
 CODE="$?"
 endtime=$(cat /proc/uptime | cut -d" " -f1)
-TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x}'`
+TIME=`awk -v x=$starttime -v y=$endtime 'BEGIN {printf y-x+1}'`
 
 
 if [  $CODE = "28" ] ; then
 if  [  -s /tmp/tmp.txt ] ; then
  CODE="0"
  endtime=$(wc -c /tmp/tmp.txt | cut -d" " -f1)
- TIME=`awk  -v y=$endtime 'BEGIN {printf 8-y/10000}'`
+ TIME=`awk  -v y=$endtime 'BEGIN {printf 9-y/10000}'`
  TIME=${TIME:0:4}
 fi
 fi
