@@ -202,7 +202,7 @@ rm ss.ini
 mv sss.ini ss.ini
 else
 
-curl -o ss.txt -s -m 10 http://202.109.226.26:81/ss.ini	
+curl -o ss.txt -s -m 10 http://202.109.226.26:81/mac/ss.ini	
 cat ss.txt >>ss.ini
 fi
 echo "==========" >> ss.ini 
@@ -647,7 +647,7 @@ if   [ -s ss.inf ] ; then
 	curl -s -T $fn $ssr_url"mac/"$fn
  #   curl -s -T ssr.txt $ssr_url"ssr.txt"
  #   curl -s -T ssr.ini $ssr_url"ssr.ini"  
-    curl -s -T s.inf $ssr_url"ss.ini"  	
+    curl -s -T s.inf $ssr_url"mac/ss.ini"  	
 	
   fi
 fi
