@@ -451,6 +451,7 @@ sleep 2
 PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
 PID=${PID:0:10}
 kill -9 $PID >/dev/null 2>/dev/null
+echo "lock">cron_ss.lock
 CC=1
 CC0=61
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
@@ -466,6 +467,7 @@ do
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
 
+echo "lock">cron_ss.lock
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 [ "$ss_s1_ip" = "$HOST1" ] && continue 
 HOST2=$ss_s1_ip
