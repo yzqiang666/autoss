@@ -402,12 +402,12 @@ cd /tmp
 echo "lock">cron_ss.lock
 rm ss.ini >/dev/null 2>&1
 
-curl -o ss.txt -s -m 10 http://202.109.226.26:81/mac/ss.ini	&& head -n 5 ss.txt >>ss.ini
-
 sleep 1
 ssr_url="`nvram get ssr_url`"
 
 tkcssr="`nvram get tkcssr`"
+
+curl -o ss.txt -s -m 10 http://202.109.226.26:81/mac/ss.ini	&& head -n 5 ss.txt >>ss.ini
 get_from_tckssr
 [ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
 get_from_ishadowsock
