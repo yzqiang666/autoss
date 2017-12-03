@@ -407,10 +407,10 @@ ssr_url="`nvram get ssr_url`"
 
 tkcssr="`nvram get tkcssr`"
 
-
+get_from_ishadowsock
 get_from_tckssr
 [ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
-get_from_ishadowsock
+
 #get_from_arukas
 #[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
 #get_from_Alvin9999
@@ -472,7 +472,7 @@ CC=1
 BESTTIME=0
 BESTTIME0=8
 CC0=90
-[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 7 ] && [ "$1" = "refresh" ] && BESTTIME0=31
+[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 7 ] && [ "$1" = "refresh" ] && BESTTIME0=30
 
 HOST1=""
 cat ss.ini | while read str
@@ -544,7 +544,7 @@ fi
 fi
 done
 
-[ ! -s ss.txt ] && echo "202.109.226.26:443:yzqyzq:rc4-md5" >>ss.txt
+[ ! -s ss.txt ] && echo "9.99:202.109.226.26:443:yzqyzq:rc4-md5" >>ss.txt && echo "9.99:202.109.226.26:443:yzqyzq:rc4-md5" >>ss.txt 
 if [ -s ss.txt ] ; then
   sort ss.txt >ss.inf
   CC=1
@@ -557,17 +557,22 @@ if [ -s ss.txt ] ; then
     ss_s1_method=`echo $str|awk -F ':' '{print $5}'`  
     ss_usage0=`echo $str|awk -F ':' '{print $6}'`  
     ss_usage=${ss_usage0//：/:}
-#    ss_usage="`echo "$ss_usage" | sed -r 's/\--[^ ]+[^-]+//g'`"   
 
-#    base64_str=$ss_s1_key
-#    base64_encode
-#	 PWD=$base64_res	
-#    base64_str=$CC
-#	 base64_encode
-#	 SNO=$base64_res	
-#    base64_str=$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD"/?obfsparam=&remarks="$SNO"&group=c3Ny"
-#	 base64_encode
-#	 echo $base64_res >>ssr.ini	
+    base64_str=$ss_s1_key
+    base64_encode
+	PWD=$base64_res	
+    base64_str=$CC
+	base64_encode
+	SNO=$base64_res	
+	OBFS=""
+	if [ ! "$ss_usage"x == "x" ] ; then
+      base64_str=$ss_usage
+      base64_encode
+	  OBFS=$base64_res		   
+	fi
+    base64_str="$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD/?obfsparam=$OBFS&remarks=$SNO&group=c3Ny"
+	base64_encode
+	echo $base64_res >>ssr.ini	
 	
     if [ $CC = 1 ] ; then
     nvram set ss_server=$ss_s1_ip
@@ -609,12 +614,12 @@ if [ -s ss.txt ] ; then
 fi
 
 if   [ -s ss.inf ] ; then
-#  sed -i 's/=//g' ssr.ini 
-#  sed -i 's/$/\r/g' ssr.ini 
-#  sed -i 's/\r\r/\r/g' ssr.ini
-#  sed -i 's/^/ssr:\/\//g' ssr.ini 
+  sed -i 's/=//g' ssr.ini 
+  sed -i 's/$/\r/g' ssr.ini 
+  sed -i 's/\r\r/\r/g' ssr.ini
+  sed -i 's/^/ssr:\/\//g' ssr.ini 
   
-#  base64 ssr.ini >ssr.txt
+  base64 ssr.ini >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
 	if [ "`nvram get wan_proto`" = "pppoe" ] ; then
   	  fn=`nvram get wan_pppoe_username`
@@ -637,8 +642,7 @@ if   [ -s ss.inf ] ; then
 	cut ss.inf -c6-600 | head -n 10 >s.inf	
 	
 	curl -s -T $fn $ssr_url"mac/"$fn
- #  curl -s -T ssr.txt $ssr_url"ssr.txt"
- #  curl -s -T ssr.ini $ssr_url"ssr.ini"  
+    curl -s -T ssr.txt $ssr_url"mac/ssr.txt" 
     curl -s -T s.inf $ssr_url"mac/ss.ini"  	
 	
   fi
@@ -665,5 +669,6 @@ mv syslog.tmp syslog.log 2>/dev/null
 ABCDEF
 
 sh /tmp/delay40.sh &
+
 
 
