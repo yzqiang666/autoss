@@ -6,7 +6,7 @@
 
 
 sed -e '/autoss.sh refresh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
-echo "8 0,6,12,18  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh refresh" >> /etc/storage/cron/crontabs/admin.1
+echo "8 0,6,12,14,18  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh refresh" >> /etc/storage/cron/crontabs/admin.1
 mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
 mtd_storage.sh save
 killall crond && crond 
