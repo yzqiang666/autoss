@@ -452,9 +452,9 @@ PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' ' 
 PID=${PID:0:10}
 kill -9 $PID >/dev/null 2>/dev/null
 CC=1
-CC0=610
-[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=980
-
+CC0=61
+[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
+CC0=99
 ####echo "sleep 4" >/tmp/killwget.sh
 ####echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
 ####chmod a+x /tmp/killwget.sh
