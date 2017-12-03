@@ -470,9 +470,9 @@ kill -9 $PID >/dev/null 2>/dev/null
 echo "lock">cron_ss.lock
 CC=1
 BESTTIME=0
-BESTTIME0=7
+BESTTIME0=8
 CC0=90
-[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 7 ] && [ "$1" = "refresh" ] && BESTTIME0=30
+[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 7 ] && [ "$1" = "refresh" ] && BESTTIME0=31
 
 HOST1=""
 cat ss.ini | while read str
