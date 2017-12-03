@@ -507,7 +507,7 @@ rm /tmp/tmp.txt 2>/dev/null
 sleep 1
 starttime=$(cat /proc/uptime | cut -d" " -f1)
 #curl -o /tmp/tmp.txt -s -k -L -r 0-39999  --retry 2  --retry-delay 1 --retry-max-time 5 -m 3 $url 2>/dev/null 
-curl -o /tmp/tmp.txt -s -k -L -r 0-39999  -m 3 $url 2>/dev/null 
+curl -o /tmp/tmp.txt -s -k -L -r 0-39999  -m 2 $url 2>/dev/null 
 
 CODE="$?"
 endtime=$(cat /proc/uptime | cut -d" " -f1)
