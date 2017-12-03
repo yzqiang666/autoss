@@ -2,7 +2,7 @@
 
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
-
+[ -f /tmp/cron_ss.lock ]  && exit 1
 
 #killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 #killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
