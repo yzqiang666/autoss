@@ -452,8 +452,8 @@ PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' ' 
 PID=${PID:0:10}
 kill -9 $PID >/dev/null 2>/dev/null
 CC=1
-CC0=61
-[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=98
+CC0=610
+[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 8 ] && [ "$1" = "refresh" ] && CC0=980
 
 ####echo "sleep 4" >/tmp/killwget.sh
 ####echo "killall -9 wget  >/dev/null 2>&1" >>/tmp/killwget.sh
@@ -502,7 +502,7 @@ rm /tmp/tmp.txt 2>/dev/null
 
 sleep 1
 starttime=$(cat /proc/uptime | cut -d" " -f1)
-curl -o /tmp/tmp.txt -s -k -L -r 0-39999  --retry 2  --retry-delay 1 --retry-max-time 4 -m 3 $url 2>/dev/null 
+curl -o /tmp/tmp.txt -s -k -L -r 0-39999  --retry 2  --retry-delay 1 --retry-max-time 5 -m 3 $url 2>/dev/null 
 #curl -o /tmp/tmp.txt  -v -k -L -r 0-39999   -m 3 $url
 CODE="$?"
 endtime=$(cat /proc/uptime | cut -d" " -f1)
