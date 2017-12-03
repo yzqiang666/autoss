@@ -417,8 +417,6 @@ get_from_ishadowsock
 #[ ! -s ss.ini ] && get_from_other
 
 
-echo "202.109.226.26:443:yzqyzq:rc4-md5" >>ss.ini
-
 [ ! -s ss.ini ] && exit 1
 
 
@@ -552,6 +550,7 @@ fi
 fi
 done
 
+[ ! -s ss.txt ] && echo "202.109.226.26:443:yzqyzq:rc4-md5" >>ss.txt
 if [ -s ss.txt ] ; then
   sort ss.txt >ss.inf
   CC=1
@@ -645,8 +644,8 @@ if   [ -s ss.inf ] ; then
 	cut ss.inf -c6-600 | head -n 10 >s.inf	
 	
 	curl -s -T $fn $ssr_url"mac/"$fn
- #   curl -s -T ssr.txt $ssr_url"ssr.txt"
- #   curl -s -T ssr.ini $ssr_url"ssr.ini"  
+ #  curl -s -T ssr.txt $ssr_url"ssr.txt"
+ #  curl -s -T ssr.ini $ssr_url"ssr.ini"  
     curl -s -T s.inf $ssr_url"mac/ss.ini"  	
 	
   fi
