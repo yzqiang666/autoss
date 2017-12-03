@@ -408,7 +408,7 @@ get_from_ishadowsock
 #[ ! -s ss.ini ] && get_from_other
 
 
-echo "202.109.226.26:443:rc4-md5:yzqyzq" >>ss.ini
+echo "202.109.226.26:443:yzqyzq:rc4-md5" >>ss.ini
 
 [ ! -s ss.ini ] && exit 1
 
