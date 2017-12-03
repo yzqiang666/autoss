@@ -477,7 +477,7 @@ CC0=90
 HOST1=""
 cat ss.ini | while read str
 do
-[ $CC -ge $CC0 ] || [ $BESTTIME -ge BESTTIME0 ] && break
+[ $CC -ge $CC0 ] || [ $BESTTIME -ge $BESTTIME0 ] && break
 [ "$str" = "" ] && continue 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
@@ -665,6 +665,5 @@ mv syslog.tmp syslog.log 2>/dev/null
 ABCDEF
 
 sh /tmp/delay40.sh &
-
 
 
