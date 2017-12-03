@@ -1,5 +1,5 @@
 
-
+reboot
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 [ -f /tmp/cron_ss.lock ]  && exit 1
