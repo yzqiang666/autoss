@@ -1,1 +1,4 @@
-
+hk14.tkcssr.tk:443:dHCrwF:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
+hk14.tkcssr.tk:8080:F4VqjN:chacha20-ietf:-o tls1.2_ticket_auth -g 58d407082.baidu.com -O auth_aes128_sha1 -G 7082：yzqyzq1234
+a.isxb.bid:14485:29994953:aes-256-cfb
+b.isxb.bid:18242:17308057:aes-256-cfb
