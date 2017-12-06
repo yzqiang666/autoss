@@ -543,7 +543,6 @@ fi
 fi
 done
 
-[ ! -s ss.txt ] && echo "9.99:202.109.226.26:443:yzqyzq:rc4-md5" >>ss.txt && echo "9.99:202.109.226.26:443:yzqyzq:rc4-md5" >>ss.txt 
 if [ -s ss.txt ] ; then
   sort ss.txt >ss.inf
   CC=1
