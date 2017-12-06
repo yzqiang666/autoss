@@ -181,7 +181,7 @@ if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$
 #    [  "${Server:0:2}" = "sg" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 	 
-    [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
     [  "${Server:0:2}" = "hk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
     [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
     [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
