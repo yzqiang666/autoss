@@ -28,13 +28,13 @@ DNS="`nvram get ss_DNS_Redirect`"
 
 url="https://www.youtube.com/intl/zh-CN/yt/about/"
 
-#if [ ! "$1" = "refresh" ] ; then
-#rm /tmp/tmp.txt 2>/dev/null
-#curl -o /tmp/tmp.txt -s -k -L --retry 3 -r 0-10239  -m 10 $url 2>/dev/null
-##[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239 -m 5 $url 2>/dev/null
-##[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239  -m 8 $url 2>/dev/null
-#[  -s /tmp/tmp.txt  ]  &&  exit 0
-#fi
+if [ ! "$1" = "refresh" ] ; then
+rm /tmp/tmp.txt 2>/dev/null
+curl -o /tmp/tmp.txt -s -k -L --retry 3 -r 0-10239  -m 10 $url 2>/dev/null
+#[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239 -m 5 $url 2>/dev/null
+#[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239  -m 8 $url 2>/dev/null
+[  -s /tmp/tmp.txt  ]  &&  exit 0
+fi
 
 
 ########################  get from arukas ########################
@@ -483,12 +483,15 @@ CC0=90
 [ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 7 ] && [ "$1" = "refresh" ] && BESTTIME0=30
 
 HOST1=""
-cat ss.ini | while read str
+HOST0=""
+sort ss.ini | while read str
 do
 [ $CC -ge $CC0 ] || [ $BESTTIME -ge $BESTTIME0 ] && break
+[ "$HOST0" = "$str" ] && continue 
 [ "$str" = "" ] && continue 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
+HOST0="$str"
 
 echo "lock">cron_ss.lock
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
