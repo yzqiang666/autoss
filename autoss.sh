@@ -82,7 +82,7 @@ get_from_other()
 {
 rm ss.txt > /dev/null 2>&1
 curl -o ss.txt -s -k -L   -m 5 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt 2>/dev/null
-[  "$?" = "0" ] ] && cat ss.txt >>ss.ini && echo "==========" >> ss.ini 
+[  "$?" = "0" ]  && cat ss.txt >>ss.ini && echo "==========" >> ss.ini 
 }
 
 ########################  get from ishadowsock ########################
@@ -91,7 +91,8 @@ get_from_ishadowsock()
 iss="https://ss.ishadowx.com/"
 rm ss.txt > /dev/null 2>&1
 curl -o ss.txt -s -k   -L  -m 10 $iss 2>/dev/null
-#[ -s ss.txt ] && [ "`cat ss.txt|grep "<h4>IP Address"|wc -l`" = "0" ] && rm ss.txt && iss="https://go.ishadowx.net/" && curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
+iss="http://www.myshadowsocks.me/"
+[ -s ss.txt ]  && iss="https://go.ishadowx.net/" && curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
 
 if [ -s ss.txt ] ; then
 cp /dev/null  ssss.ini
