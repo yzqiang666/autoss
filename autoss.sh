@@ -92,7 +92,7 @@ iss="https://ss.ishadowx.com/"
 rm ss.txt > /dev/null 2>&1
 curl -o ss.txt -s -k   -L  -m 10 $iss 2>/dev/null
 iss="http://www.myshadowsocks.me/"
-[ -s ss.txt ]  && iss="https://go.ishadowx.net/" && curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
+[ -s ss.txt ]  &&  curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
 
 if [ -s ss.txt ] ; then
 cp /dev/null  ssss.ini
