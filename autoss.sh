@@ -387,15 +387,6 @@ fi
 echo "==========" >> ss.ini 
 }
 
-base64_str=""
-base64_res=""
-
-base64_encode() 
-{
-vvvvv=`echo -n $base64_str|base64|sed 's/=//g'|sed 's/\//_/g'`
-base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
-}
-
 #########################################
 
 
@@ -629,10 +620,9 @@ if [ -s ss.txt ] ; then
     ss_usage0=`echo $str|awk -F ':' '{print $6}'`  
     ss_usage=${ss_usage0//：/:}	
 
-
+    /tmp/setssr.sh -r $CC -z ssr -s $ss_s1_ip -p $ss_s1_port -m $ss_s1_method -k $ss_s1_key $ss_usage
 	
     if [ $CC = 1 ] ; then
-	/tmp/setssr.sh -r $CC -z ssr -s $ss_s1_ip -p $ss_s1_port -m $ss_s1_method -k $ss_s1_key $ss_usage
     nvram set ss_server=$ss_s1_ip
     nvram set ss_server_port=$ss_s1_port
     nvram set ss_key=$ss_s1_key
@@ -654,7 +644,6 @@ if [ -s ss.txt ] ; then
     fi
 
     if [ $CC = 2 ] ; then
-	/tmp/setssr.sh -r $CC -z ssr -s $ss_s1_ip -p $ss_s1_port -m $ss_s1_method -k $ss_s1_key $ss_usage
     nvram set ss_server2=$ss_s1_ip
     nvram set ss_s2_port=$ss_s1_port
     nvram set ss_s2_key=$ss_s1_key
@@ -673,12 +662,8 @@ if [ -s ss.txt ] ; then
 fi
 
 if   [ -s ss.inf ] ; then
-  sed -i 's/=//g' ssr.ini 
-  sed -i 's/$/\r/g' ssr.ini 
-  sed -i 's/\r\r/\r/g' ssr.ini
-#  sed -i 's/^/ssr:\/\//g' ssr.ini 
-  
-  base64 ssr.ini  | sed ":a;N;s/\n//g;ta" >ssr.txt
+  head -n 5 ssr.ini |  base64   | sed ":a;N;s/\n//g;ta" >ssr.txt
+#  base64 ssr.ini  | sed ":a;N;s/\n//g;ta" >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
 	if [ "`nvram get wan_proto`" = "pppoe" ] ; then
   	  fn=`nvram get wan_pppoe_username`
