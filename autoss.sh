@@ -33,7 +33,7 @@ rm /tmp/tmp.txt 2>/dev/null
 curl -o /tmp/tmp.txt -s -k -L --retry 3 -r 0-10239  -m 10 $url 2>/dev/null
 #[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239 -m 5 $url 2>/dev/null
 #[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239  -m 8 $url 2>/dev/null
-#[  -s /tmp/tmp.txt  ]  &&  exit 0
+[  -s /tmp/tmp.txt  ]  &&  exit 0
 fi
 
 
@@ -180,22 +180,19 @@ if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$
 #    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "hk" ] && [ ! "${Server:0:4}" = "hk10" ] && [ ! "${Server:0:4}" = "hk15" ] && [ ! "${Server:0:3}" = "hk2" ]  && [ ! "${Server:0:3}" = "hk4" ]  && [ ! "${Server:0:3}" = "hk5" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "sg" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "us" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "uk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "fr" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-	 
+
+	
     [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-#    [  "${Server:0:3}" = "hk3" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-    [  "${Server:0:3}" = "hk6" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-#    [  "${Server:0:3}" = "hk7" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-#    [  "${Server:0:3}" = "hk8" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-    [  "${Server:0:4}" = "hk14" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini	
     [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
     [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-    [  "${Server:0:2}" = "us" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-    [  "${Server:0:2}" = "uk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-    [  "${Server:0:2}" = "fr" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "hk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
-
-
+#    [  "${Server:0:3}" = "hk6" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:4}" = "hk14" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini	
 
     Server=""
     Port=""
@@ -434,6 +431,71 @@ fi
 [ ! -s ss.ini ] && exit 1
 
 
+cat > "/tmp/setssr.sh" <<-\SETSSR
+
+base64_str=""
+base64_res=""
+
+base64_encode() 
+{
+vvvvv=`echo -n $base64_str|base64|sed 's/=//g'|sed 's/\//_/g'`
+base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
+}
+
+while getopts "s:p:m:k:o:O:g:G:r:z:" arg; do
+case "$arg" in
+s)
+server="$OPTARG"
+;;
+p)
+server_port="$OPTARG"
+;;
+k)
+base64_str="$OPTARG"
+base64_encode
+password="$base64_res"
+;;
+m)
+method="$OPTARG"
+;;
+o)
+obfs="$OPTARG"
+;;
+O)
+protocol="$OPTARG"
+;;
+g)
+base64_str="$OPTARG"
+base64_encode
+obfs_param="$base64_res"
+;;
+G)
+base64_str="$OPTARG"
+base64_encode
+protocol_param="$base64_res"
+;;
+r)
+base64_str="$OPTARG"
+base64_encode
+remark="$base64_res"
+;;
+z)
+base64_str="$OPTARG"
+base64_encode
+group="$base64_res"
+;;
+esac
+done
+
+base64_str=$server:$server_port:$protocol:$method:$obfs:$password"/?obfsparam="$obfs_param"&protoparam="$protocol_param"&remarks="$remark"&group="$group
+base64_encode
+echo "ssr://"$base64_res >>ssr.ini
+SETSSR
+chmod 755 /tmp/setssr.sh
+
+
+
+
 ###################### set ss information ####################################
 
 [ -n "$ssr_url" ] && rm ssr.txt >/dev/null 2>&1
@@ -567,21 +629,23 @@ if [ -s ss.txt ] ; then
     ss_usage0=`echo $str|awk -F ':' '{print $6}'`  
     ss_usage=${ss_usage0//：/:}
 
-    base64_str=$ss_s1_key
-    base64_encode
-	PWD=$base64_res	
-    base64_str=$CC
-	base64_encode
-	SNO=$base64_res	
-	OBFS=""
-	if [ ! "$ss_usage"x == "x" ] ; then
-      base64_str=$ss_usage
-      base64_encode
-	  OBFS=$base64_res		   
-	fi
-    base64_str="$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD/?obfsparam=$OBFS&remarks=$SNO&group=c3Ny"
-	base64_encode
-	echo $base64_res >>ssr.ini	
+#    base64_str=$ss_s1_key
+#    base64_encode
+#	PWD=$base64_res	
+#    base64_str=$CC
+#	base64_encode
+#	SNO=$base64_res	
+#	OBFS=""
+#	if [ ! "$ss_usage"x == "x" ] ; then
+#      base64_str=$ss_usage
+#      base64_encode
+#	  OBFS=$base64_res		   
+#	fi
+#   base64_str="$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD/?obfsparam=$OBFS&remarks=$SNO&group=c3Ny"
+#	base64_encode
+#	echo $base64_res >>ssr.ini	
+
+    /tmp/setssr.sh -r $CC -z ssr -s $ss_s1_ip -p $ss_s1_port -m $ss_s1_method -k $ss_s1_key $ss_usage
 	
     if [ $CC = 1 ] ; then
     nvram set ss_server=$ss_s1_ip
@@ -626,9 +690,9 @@ if   [ -s ss.inf ] ; then
   sed -i 's/=//g' ssr.ini 
   sed -i 's/$/\r/g' ssr.ini 
   sed -i 's/\r\r/\r/g' ssr.ini
-  sed -i 's/^/ssr:\/\//g' ssr.ini 
+#  sed -i 's/^/ssr:\/\//g' ssr.ini 
   
-  base64 ssr.ini >ssr.txt
+  base64 ssr.ini  | sed ":a;N;s/\n//g;ta" >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
 	if [ "`nvram get wan_proto`" = "pppoe" ] ; then
   	  fn=`nvram get wan_pppoe_username`
@@ -678,3 +742,6 @@ mv syslog.tmp syslog.log 2>/dev/null
 ABCDEF
 
 sh /tmp/delay40.sh &
+
+
+
