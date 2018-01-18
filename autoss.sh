@@ -33,7 +33,7 @@ rm /tmp/tmp.txt 2>/dev/null
 curl -o /tmp/tmp.txt -s -k -L --retry 3 -r 0-10239  -m 10 $url 2>/dev/null
 #[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239 -m 5 $url 2>/dev/null
 #[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239  -m 8 $url 2>/dev/null
-[  -s /tmp/tmp.txt  ]  &&  exit 0
+#[  -s /tmp/tmp.txt  ]  &&  exit 0
 fi
 
 
@@ -180,16 +180,19 @@ if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$
 #    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "hk" ] && [ ! "${Server:0:4}" = "hk10" ] && [ ! "${Server:0:4}" = "hk15" ] && [ ! "${Server:0:3}" = "hk2" ]  && [ ! "${Server:0:3}" = "hk4" ]  && [ ! "${Server:0:3}" = "hk5" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "sg" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 	 
-#    [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:3}" = "hk3" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-#    [  "${Server:0:3}" = "hk6" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:3}" = "hk6" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:3}" = "hk7" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:3}" = "hk8" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-#    [  "${Server:0:4}" = "hk14" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini	
-#    [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-#    [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:4}" = "hk14" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini	
+    [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "us" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "uk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+    [  "${Server:0:2}" = "fr" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
 
 
