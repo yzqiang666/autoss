@@ -627,27 +627,12 @@ if [ -s ss.txt ] ; then
     ss_s1_key=`echo $str|awk -F ':' '{print $4}'`  
     ss_s1_method=`echo $str|awk -F ':' '{print $5}'`  
     ss_usage0=`echo $str|awk -F ':' '{print $6}'`  
-    ss_usage=${ss_usage0//：/:}
+    ss_usage=${ss_usage0//：/:}	
 
-#    base64_str=$ss_s1_key
-#    base64_encode
-#	PWD=$base64_res	
-#    base64_str=$CC
-#	base64_encode
-#	SNO=$base64_res	
-#	OBFS=""
-#	if [ ! "$ss_usage"x == "x" ] ; then
-#      base64_str=$ss_usage
-#      base64_encode
-#	  OBFS=$base64_res		   
-#	fi
-#   base64_str="$ss_s1_ip:$ss_s1_port:origin:$ss_s1_method:plain:$PWD/?obfsparam=$OBFS&remarks=$SNO&group=c3Ny"
-#	base64_encode
-#	echo $base64_res >>ssr.ini	
 
-    /tmp/setssr.sh -r $CC -z ssr -s $ss_s1_ip -p $ss_s1_port -m $ss_s1_method -k $ss_s1_key $ss_usage
 	
     if [ $CC = 1 ] ; then
+	/tmp/setssr.sh -r $CC -z ssr -s $ss_s1_ip -p $ss_s1_port -m $ss_s1_method -k $ss_s1_key $ss_usage
     nvram set ss_server=$ss_s1_ip
     nvram set ss_server_port=$ss_s1_port
     nvram set ss_key=$ss_s1_key
@@ -669,6 +654,7 @@ if [ -s ss.txt ] ; then
     fi
 
     if [ $CC = 2 ] ; then
+	/tmp/setssr.sh -r $CC -z ssr -s $ss_s1_ip -p $ss_s1_port -m $ss_s1_method -k $ss_s1_key $ss_usage
     nvram set ss_server2=$ss_s1_ip
     nvram set ss_s2_port=$ss_s1_port
     nvram set ss_s2_key=$ss_s1_key
