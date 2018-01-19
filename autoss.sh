@@ -662,8 +662,7 @@ if [ -s ss.txt ] ; then
 fi
 
 if   [ -s ss.inf ] ; then
-  head -n 5 ssr.ini |  base64   | sed ":a;N;s/\n//g;ta" >ssr.txt
-#  base64 ssr.ini  | sed ":a;N;s/\n//g;ta" >ssr.txt
+  head -n 3 ssr.ini |  base64   | sed ":a;N;s/\n//g;ta" >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
 	if [ "`nvram get wan_proto`" = "pppoe" ] ; then
   	  fn=`nvram get wan_pppoe_username`
