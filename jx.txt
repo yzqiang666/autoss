@@ -1,4 +1,5 @@
 +|iqiyi|youku|https://jiexi.071811.cc/jx.php?url=
+-|http://000o.cc/jx/ty.php?url=
 +|youku|http://jx.vgoodapi.com/jx.php?url
 -|iqiyi|http://www.wmxz.wang/video.php?url=
 -|youku|http://aikan-tv.com/?url=
