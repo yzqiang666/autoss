@@ -1,3 +1,4 @@
+alert('1111111');
 var jx_str0=["+|iqiyi|youku|https://jiexi.071811.cc/jx.php?url=",
         "+|youku|http://jx.vgoodapi.com/jx.php?url=",
         "-|iqiyi|http://www.wmxz.wang/video.php?url=",
@@ -43,3 +44,4 @@ for (i=0;i<jx_str0.length;i++)  {
 
 }
 document.getElementById('tongdao').innerHTML = s;
+alert('2222222222222222');
