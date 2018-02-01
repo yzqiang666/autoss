@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>视频播放 -yzqiang</title>
 <style type="text/css">
 body,html,div{padding: 0;margin: 0; 
 width:100%;height:100%;background-color:#000;
@@ -33,7 +34,7 @@ button:hover{color: #0283ec; text-decoration: underline}
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
   <!--切换线路-->
 <script type="text/javascript">
-
+var timer=null;
 function changeurl(index,th)   {
 if (th != null) {
   th.classname='cur';
@@ -41,7 +42,8 @@ if (th != null) {
 document.getElementById('settings').classname='cerrar';
 document.getElementById('player_box').innerHTML='<iframe id="rtgrhth_play_box" height="100%" width="100%" src="' + index + url +'" frameborder="0" border="0" allowfullscreen="true"></iframe>';
 document.getElementById('tongdao').style.display = 'block';
-var t=setTimeout("document.getElementById('tongdao').style.display = 'none';document.getElementById('settings').classname='';",10000);
+if (timer!=null) { window.clearTimeout(timer); timer=null; }
+timer=setTimeout("document.getElementById('tongdao').style.display = 'none'; $('#settings').attr('class', ''); window.clearTimeout(timer); timer=null;",10000);
 }   	
 
 </script>
@@ -50,22 +52,27 @@ var t=setTimeout("document.getElementById('tongdao').style.display = 'none';docu
    <!--切换线路-->
 
   <div id="settings" class="cerrar" >Settings</div> 
-  <div id="tongdao" style="top: 0px;"><!--font color="#ffffff">选择线路：</font-->
+  <div id="tongdao" style="top: 0px;" align="right"><!--font color="#ffffff">选择线路：</font-->
 
   </div>  
 
 <div id="player_box">
-<iframe id="rtgrhth_play_box" height="100%" width="100%" src="" frameborder="0" border="0" allowfullscreen="true"></iframe>
+<iframe id="rtgrhth_play_box" name="AAAA" height="100%" width="100%" src="" frameborder="0" border="0" allowfullscreen="true"></iframe>
 </div>
 </body>
 </html>
 
 <script>
-var jx_str0=["+|iqiyi|youku|https://jiexi.071811.cc/jx.php?url=",
+var jx_str0=["+|iqiyi|youku|le|mgtv|qq|https://qqapi000o.duapp.com/2018/222.php?url=",
+             "+|iqiyi|youku|https://jiexi.071811.cc/jx.php?url=",
+             "+|iqiyi|http://000o.cc/jx/ty.php?url=",
+			 "+|youku|http://014670.cn/jx/yk.php?url=",
+			 "+|le|http://014670.cn/jx/le.php?url=",
+			 "+|mgtv|http://014670.cn/jx/mg.php?url=",
              "+|youku|http://jx.vgoodapi.com/jx.php?url=",
              "-|iqiyi|http://www.wmxz.wang/video.php?url=",
 			 "-|youku|http://aikan-tv.com/?url=",
-			 "-|http://jx.vgoodapi.com/jx.php?url="]; 
+			 "-|http://014670.cn/jx/ty.php?url="]; 
 			 
 function loadXMLDoc()
 {
@@ -124,19 +131,19 @@ for (i=0;i<jx_str0.length;i++)  {
 
 
 }
+s = s + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 document.getElementById('tongdao').innerHTML = s;
 document.getElementById('tongdao').style.display = 'block';
 $('#settings').click(function () {
-settingsclick();
-
+   $('#tongdao').slideToggle();			
+   $(this).toggleClass('cerrar');
+   disablead();
 });
-			
-function settingsclick() {
 
-  if (document.getElementById('tongdao').style.display == 'block') 
-    document.getElementById('tongdao').style.display = 'none';
-  else
-	document.getElementById('tongdao').style.display = 'block';
-  document.getElementById('settings').classname='cerrar';		
+function disablead(){
+//$('iframe').attr('src','about:about');
+//alert('111'+$("iframe").contents().find("body").html());
 }
+
+//alert($('.vodplayinfo:last').html()); 强强			
 </script>
