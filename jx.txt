@@ -1,4 +1,4 @@
--|https://qqapi000o.duapp.com/2018/222.php?url=
++|iqiyi|youku|le|mgtv|qq|https://qqapi000o.duapp.com/2018/222.php?url=
 +|youku|http://014670.cn/jx/yk.php?url=
 +|iqiyi|http://014670.cn/jx/qy.php?url=
 +|le|http://014670.cn/jx/le.php?url=
