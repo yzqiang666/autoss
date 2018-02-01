@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+body,html,div{padding: 0;margin: 0; 
+width:100%;height:100%;background-color:#000;
+color:#999;{background-color: #FFF; font-family: Microsoft YaHei, Helvetica Neue, Helvetica, Roboto, Heiti SC, STHeiTi, Arial, sans-serif; font-size: 14px; line-height: 1; color: #333;overflow: hidden}</style>
+<style type="text/css">
+*{margin: 0; padding: 0; border: 0}
+img{display: block}
+body{background-color: #FFF; font-family: Microsoft YaHei, Helvetica Neue, Helvetica, Roboto, Heiti SC, STHeiTi, Arial, sans-serif; font-size: 14px; line-height: 1; color: #333;overflow: hidden}
+button{color: #222; text-decoration: none;display: inline-block; background-color:transparent;}
+button:hover{color: #0283ec; text-decoration: underline}
+#tongdao{padding-left:10px;}
+#tongdao button{display: inline-block;min-width: 40px;height: 30px;line-height: 30px;padding:0 4px 0 4px;text-align: center;color: #fff;border: 1px solid #fff;border-radius: 5px;margin:0 5px;}
+#tongdao button:hover,#tongdao a.cur{color: #ff7b00;border: 1px solid #ff7b00;text-decoration: none;}
+#tongdao{width: 100%;height: 60px;line-height: 60px;background: rgba(0,0,0,.5);position: absolute;top: -60px;left: 0;}
+#play_box{position: relative;overflow: hidden;width: 100%; height: 100%;}
+
+#settings {
+	Z-INDEX: 8000; POSITION: fixed; TEXT-INDENT: -99999px; WIDTH: 43px; DISPLAY: block; BACKGROUND: url(http://7cyd.com/vip/dxl/haunxian.gif) no-repeat 0px 0px; HEIGHT: 43px; TOP: 0px; CURSOR: pointer; RIGHT: 0px
+}
+#settings:hover {
+	BACKGROUND: url(http://7cyd.com/vip/dxl/haunxian.gif) no-repeat 0px -86px
+}
+.cerrar {
+	BACKGROUND: url(http://7cyd.com/vip/dxl/haunxian.gif) no-repeat 0px -43px!important;
+	
+	
+</style>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <!--切换线路-->
+<script type="text/javascript">
+
+function changeurl(index,th)   {
+if (th != null) {
+  th.classname='cur';
+}
+document.getElementById('settings').classname='cerrar';
+document.getElementById('player_box').innerHTML='<iframe id="rtgrhth_play_box" height="100%" width="100%" src="' + index + url +'" frameborder="0" border="0" allowfullscreen="true"></iframe>';
+document.getElementById('tongdao').style.display = 'block';
+var t=setTimeout("document.getElementById('tongdao').style.display = 'none';document.getElementById('settings').classname='';",10000);
+}   	
+
+</script>
+</head>
+<body>
+   <!--切换线路-->
+
+  <div id="settings" class="cerrar" >Settings</div> 
+  <div id="tongdao" style="top: 0px;"><!--font color="#ffffff">选择线路：</font-->
+
+  </div>  
+
+<div id="player_box">
+<iframe id="rtgrhth_play_box" height="100%" width="100%" src="" frameborder="0" border="0" allowfullscreen="true"></iframe>
+</div>
+</body>
+</html>
+
+<script>
+var jx_str0=["+|iqiyi|youku|https://jiexi.071811.cc/jx.php?url=",
+             "+|youku|http://jx.vgoodapi.com/jx.php?url=",
+             "-|iqiyi|http://www.wmxz.wang/video.php?url=",
+			 "-|youku|http://aikan-tv.com/?url=",
+			 "-|http://jx.vgoodapi.com/jx.php?url="]; 
+			 
+function loadXMLDoc()
+{
+var xmlhttp;
+var txt,x,i;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+		xmlDoc=xmlhttp.responseText;
+		if (xmlDoc.length>3) {
+		var t=xmlDoc.split('\n');
+		jx_str0.splice(0,jx_str0.length);
+		for (var i=0;i<t.length;i++)
+		  if (t[i].length>3)  jx_str0.push(t[i]);
+		}
+    }
+  }
+xmlhttp.open("GET","https://raw.githubusercontent.com/yzqiang666/autoss/master/jx.txt",false);
+xmlhttp.send();
+}
+loadXMLDoc();
+var s=window.location.href;
+var index=s.indexOf('?');
+var url='http://v.youku.com/v_show/id_XMzM0MTU4ODQ5Mg==.html?spm=a2h03.8164468.2069780.8';
+if (index>0) url=s.substring(index+1);			 
+var j=-1;
+var jx_str = new Array();
+var s='';
+var cc=0;
+for (i=0;i<jx_str0.length;i++)  {
+
+  var ss = jx_str0[i].split('|');
+  var found = false;
+
+  for (j=1;j<ss.length-1;j++) {
+    var temp='.'+ss[j]+'.';
+	if (url.indexOf(temp)>=0) { found = true; break;  }
+  }
+
+  if (ss[0] == '-') found = ! found; 
+
+  if (found) {
+     if (cc==0) changeurl(ss[ss.length-1],null);
+     cc++;
+     if (s.indexOf(ss[ss.length-1])<0)  s = s + '<button  onclick="changeurl(\'' +  ss[ss.length-1]+'\',this);">' + cc+ '线</button>';
+  }  
+
+
+}
+document.getElementById('tongdao').innerHTML = s;
+document.getElementById('tongdao').style.display = 'block';
+$('#settings').click(function () {
+settingsclick();
+
+});
+			
+function settingsclick() {
+
+  if (document.getElementById('tongdao').style.display == 'block') 
+    document.getElementById('tongdao').style.display = 'none';
+  else
+	document.getElementById('tongdao').style.display = 'block';
+  document.getElementById('settings').classname='cerrar';		
+}
+</script>
