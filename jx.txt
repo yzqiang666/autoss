@@ -1,8 +1,8 @@
 +|youku|http://014670.cn/jx/yk.php?url=
 +|iqiyi|http://014670.cn/jx/qy.php?url=
-+|youku|http://014670.cn/jx/yk.php?url=
 +|le|http://014670.cn/jx/le.php?url=
 +|mgtv|http://014670.cn/jx/mg.php?url=
++|qq|sohu|http://014670.cn/jx/ty.php?url=
 +|iqiyi|youku|https://jiexi.071811.cc/jx.php?url=
 +|youku|http://jx.vgoodapi.com/jx.php?url
 -|http://014670.cn/jx/ty.php?url=
