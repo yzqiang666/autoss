@@ -1,11 +1,11 @@
-+|iqiyi|youku|https://jiexi.071811.cc/jx.php?url=
++|iqiyi|youku|le|mgtv|https://qqapi000o.duapp.com/2018/222.php?url=
 +|youku|http://014670.cn/jx/yk.php?url=
 +|iqiyi|http://014670.cn/jx/qy.php?url=
 +|le|http://014670.cn/jx/le.php?url=
 +|mgtv|http://014670.cn/jx/mg.php?url=
 +|qq|sohu|http://014670.cn/jx/ty.php?url=
-+|iqiyi|youku|le|mgtv|https://qqapi000o.duapp.com/2018/222.php?url=
 +|qq|iqiyi|youku|le|mgtv|sohu|pptv|wasu|bilibili|http://jx.vgoodapi.com/jx.php?url=
++|iqiyi|youku|https://jiexi.071811.cc/jx.php?url=
 +|youku|http://jx.vgoodapi.com/jx.php?url
 -|http://014670.cn/jx/ty.php?url=
 -|iqiyi|http://www.wmxz.wang/video.php?url=
