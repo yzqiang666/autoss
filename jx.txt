@@ -1,5 +1,5 @@
 +|iqiyi|youku|le|mgtv|https://qqapi000o.duapp.com/2018/222.php?url=
-+|qq|iqiyi|le|mgtv|sohu|pptv|bilibili|youku|http://jx.vgoodapi.com/jx.php?url
++|qq|iqiyi|le|mgtv|sohu|pptv|bilibili|youku|http://jx.vgoodapi.com/jx.php?url=
 +|youku|http://014670.cn/jx/yk.php?url=
 +|iqiyi|http://014670.cn/jx/qy.php?url=
 +|le|http://014670.cn/jx/le.php?url=
