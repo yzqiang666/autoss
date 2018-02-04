@@ -12,7 +12,7 @@ color:#999;{background-color: #FFF; font-family: Microsoft YaHei, Helvetica Neue
 *{margin: 0; padding: 0; border: 0}
 img{display: block}
 body{background-color: #FFF; font-family: Microsoft YaHei, Helvetica Neue, Helvetica, Roboto, Heiti SC, STHeiTi, Arial, sans-serif; font-size: 14px; line-height: 1; color: #333;overflow: hidden}
-button{color: #222; text-decoration: none;display: inline-block; background-color:transparent;}
+button{ Width:60px; font-size:20px; color: #222; text-decoration: none;display: inline-block; background-color:transparent;}
 button:hover{color: #0283ec; text-decoration: underline}
 #tongdao{padding-left:10px;}
 #tongdao button{display: inline-block;min-width: 40px;height: 30px;line-height: 30px;padding:0 4px 0 4px;text-align: center;color: #fff;border: 1px solid #fff;border-radius: 5px;margin:0 5px;}
@@ -39,8 +39,8 @@ function changeurl(index,th)   {
 if (th != null) {
   th.classname='cur';
 }
-document.getElementById('settings').classname='cerrar';
 document.getElementById('player_box').innerHTML='<iframe id="rtgrhth_play_box" height="100%" width="100%" src="' + index + url +'" frameborder="0" border="0" allowfullscreen="true"></iframe>';
+document.getElementById('settings').classname='cerrar';
 document.getElementById('tongdao').style.display = 'block';
 if (timer!=null) { window.clearTimeout(timer); timer=null; }
 timer=setTimeout("document.getElementById('tongdao').style.display = 'none'; $('#settings').attr('class', ''); window.clearTimeout(timer); timer=null;",10000);
@@ -57,55 +57,33 @@ timer=setTimeout("document.getElementById('tongdao').style.display = 'none'; $('
   </div>  
 
 <div id="player_box">
-<iframe id="rtgrhth_play_box" name="AAAA" height="100%" width="100%" src="" frameborder="0" border="0" allowfullscreen="true"></iframe>
+
 </div>
 </body>
 </html>
 
 <script>
-var jx_str0=["+|iqiyi|youku|le|mgtv|qq|https://qqapi000o.duapp.com/2018/222.php?url=",
-             "+|iqiyi|youku|https://jiexi.071811.cc/jx.php?url=",
-             "+|iqiyi|http://000o.cc/jx/ty.php?url=",
-			 "+|youku|http://014670.cn/jx/yk.php?url=",
-			 "+|le|http://014670.cn/jx/le.php?url=",
+
+var jx_str0=["+|qq|iqiyi|le|mgtv|sohu|pptv|bilibili|youku|http://jx.vgoodapi.com/jx.php?url=",
+             "+|iqiyi|youku|le|mgtv|https://qqapi000o.duapp.com/2018/222.php?url=",
+             "+|youku|http://014670.cn/jx/yk.php?url=",
+             "+|iqiyi|http://014670.cn/jx/qy.php?url=",
+			 "|le|http://014670.cn/jx/le.php?url=",
 			 "+|mgtv|http://014670.cn/jx/mg.php?url=",
-             "+|youku|http://jx.vgoodapi.com/jx.php?url=",
-             "-|iqiyi|http://www.wmxz.wang/video.php?url=",
+			 "+|qq|sohu|http://014670.cn/jx/ty.php?url=",
+             "+|qq|iqiyi|youku|le|mgtv|sohu|pptv|wasu|bilibili|http://jx.vgoodapi.com/jx.php?url=",
+             "+|iqiyi|youku|https://jiexi.071811.cc/jx.php?url=",
+			 "-|http://014670.cn/jx/ty.php?url=",
+			 "-|iqiyi|http://www.wmxz.wang/video.php?url=",
 			 "-|youku|http://aikan-tv.com/?url=",
-			 "-|http://014670.cn/jx/ty.php?url="]; 
+			 "-|http://jx.vgoodapi.com/jx.php?url=",
+			 "-|qq|http://014670.cn/jx/ty.php?url="]; 
 			 
-function loadXMLDoc()
-{
-var xmlhttp;
-var txt,x,i;
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-		xmlDoc=xmlhttp.responseText;
-		if (xmlDoc.length>3) {
-		var t=xmlDoc.split('\n');
-		jx_str0.splice(0,jx_str0.length);
-		for (var i=0;i<t.length;i++)
-		  if (t[i].length>3)  jx_str0.push(t[i]);
-		}
-    }
-  }
-xmlhttp.open("GET","https://raw.githubusercontent.com/yzqiang666/autoss/master/jx.txt",false);
-xmlhttp.send();
-}
-loadXMLDoc();
+
+//loadXMLDoc();
 var s=window.location.href;
 var index=s.indexOf('?');
-var url='http://v.youku.com/v_show/id_XMzM0MTU4ODQ5Mg==.html?spm=a2h03.8164468.2069780.8';
+var url='http://m.iqiyi.com/v_19rrfnf1gk.html';
 if (index>0) url=s.substring(index+1);			 
 var j=-1;
 var jx_str = new Array();
@@ -121,12 +99,12 @@ for (i=0;i<jx_str0.length;i++)  {
 	if (url.indexOf(temp)>=0) { found = true; break;  }
   }
 
-  if (ss[0] == '-') found = ! found; 
+  if (ss[0][0] == '-') found = ! found; 
 
   if (found) {
      if (cc==0) changeurl(ss[ss.length-1],null);
-     cc++;
-     if (s.indexOf(ss[ss.length-1])<0)  s = s + '<button  onclick="changeurl(\'' +  ss[ss.length-1]+'\',this);">' + cc+ '线</button>';
+	 if (ss[ss.length-1][ss[ss.length-1].length-1]!='=') ss[ss.length-1]=ss[ss.length-1]+'=';
+     if (s.indexOf(ss[ss.length-1])<0)  {  cc++; s = '<button  onclick="changeurl(\'' +  ss[ss.length-1]+'\',this);">' + cc+ '线</button>' + s ; }
   }  
 
 
