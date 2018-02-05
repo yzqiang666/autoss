@@ -14,6 +14,6 @@
 -|http://jx.vgoodapi.com/jx.php?url=
 -|https://api.daidaitv.com/index/?url=
 -|http://47ksvip.duapp.com/vip/?url=
-
+-|http://tianyi.duapp.com/jx/1/?url=
 
 
