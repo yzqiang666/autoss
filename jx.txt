@@ -1,5 +1,5 @@
 +|iqiyi|http://y.mt2t.com/lines?url=
-#|http://api.baiyug.cn/vip/index.php?url=
+-|http://api.baiyug.cn/vip/index.php?url=
 +|qq|iqiyi|le|mgtv|sohu|pptv|youku|http://jiexi.071811.cc/jx.php?url=
 +|iqiyi|http://014670.cn/jx/qy.php?url=
 +|youku|http://014670.cn/jx/yk.php?url=
