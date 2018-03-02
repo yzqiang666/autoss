@@ -414,7 +414,8 @@ get_from_ishadowsock
 curl -o ss.txt -s -m 10 http://202.109.226.26:81/mac/ss.ini	
 if [ $? = 0 ] ; then
   mv ss.ini s.ini
-  sed -e '/.bid:/d'  ss.txt | head -n 10 >ss.ini
+#  sed -e '/.bid:/d'  ss.txt | head -n 10 >ss.ini
+  head -n 10  ss.txt >ss.ini
   echo "==============" >>ss.ini
   cat s.ini >>ss.ini
 fi
