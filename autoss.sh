@@ -143,7 +143,7 @@ get_from_tckssr()
 {
 rm ss.txt > /dev/null 2>&1
 tkcssr="`nvram get tkcssr`"
-if [ ! "$tkcssr"x = "x" ] ; then 
+if [ ! "$tkcssr"x = "x" ] || [ "1" = "1" ] ; then 
 iss="https://capsule.cf/"$tkcssr
 iss="https://capsule.cf/link/zdV3ynUZyEoBp5Pa?is_ss=0"
 curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
