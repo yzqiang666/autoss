@@ -31,8 +31,8 @@ url="https://www.youtube.com/intl/zh-CN/yt/about/"
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 curl -o /tmp/tmp.txt -s -k -L --retry 3 -r 0-10239  -m 10 $url 2>/dev/null
-#[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239 -m 5 $url 2>/dev/null
-#[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239  -m 8 $url 2>/dev/null
+[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239 -m 5 $url 2>/dev/null
+[ ! -s /tmp/tmp.txt ] && curl -o /tmp/tmp.txt -s -k -L  --retry 3 --r 0-10239  -m 8 $url 2>/dev/null
 [  -s /tmp/tmp.txt  ]  &&  exit 0
 fi
 
@@ -414,7 +414,7 @@ get_from_ishadowsock
 curl -o ss.txt -s -m 10 http://202.109.226.26:81/mac/ss.ini	
 if [ $? = 0 ] ; then
   mv ss.ini s.ini
-  sed -e '/.bid:/d'  ss.txt | head -n 5 >ss.ini
+  sed -e '/.bid:/d'  ss.txt | head -n 10 >ss.ini
   echo "==============" >>ss.ini
   cat s.ini >>ss.ini
 fi
