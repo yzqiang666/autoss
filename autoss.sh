@@ -3,6 +3,10 @@
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 [ -f /tmp/cron_ss.lock ]  && exit 1
 
+nvram set tkcssr="link/FCgzUG7KGaSQFpLm"
+nvram set ssrurl=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
+nvram commmit
+
 
 #sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
 #echo "4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh" >> /etc/storage/cron/crontabs/admin.1
