@@ -4,7 +4,7 @@
 [ -f /tmp/cron_ss.lock ]  && exit 1
 
 nvram set tkcssr="link/FCgzUG7KGaSQFpLm"
-nvram set ssrurl=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
+nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
 nvram commmit
 
 
@@ -665,7 +665,7 @@ if [ -s ss.txt ] ; then
 
 
 fi
-
+echo SSRURL="$ssr_url"
 if   [ -s ss.inf ] ; then
   head -n 3 ssr.ini |  base64   | sed ":a;N;s/\n//g;ta" >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
