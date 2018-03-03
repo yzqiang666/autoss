@@ -665,7 +665,7 @@ if [ -s ss.txt ] ; then
 
 
 fi
-echo SSRURL="$ssr_url"
+
 if   [ -s ss.inf ] ; then
   head -n 3 ssr.ini |  base64   | sed ":a;N;s/\n//g;ta" >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
