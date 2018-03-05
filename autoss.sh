@@ -545,14 +545,14 @@ sort ss.ini | while read str
 do
 [ $CC -ge $CC0 ] || [ $BESTTIME -ge $BESTTIME0 ] && break
 [ "$HOST0" = "$str" ] && continue 
-[ "$str" = "" ] && continue 
+[ "$str" = "" ] && continue f 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
 HOST0="$str"
 
 echo "lock">cron_ss.lock
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
-[ "$ss_s1_ip" = "$HOST1" ] && continue 
+#[ "$ss_s1_ip" = "$HOST1" ] && continue 
 HOST2=$ss_s1_ip
 ss_s1=$ss_s1_ip
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
