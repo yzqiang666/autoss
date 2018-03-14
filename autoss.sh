@@ -519,6 +519,7 @@ rm ss.txt >/dev/null 2>&1
 rm ssr.inf >/dev/null 2>&1
 rm ssr.ini >/dev/null 2>&1
 rm ss.inf >/dev/null 2>&1
+rm s.inf >/dev/null 2>&1
 
 #/etc/storage/script/Sh15_ss.sh start >/dev/null 2>/dev/null &
 sleep 6
@@ -612,7 +613,12 @@ fi
 
 fi
 done
-
+SUCESS=1
+if [ ! -s ss.txt ] ; then
+ curl -o ss.inf -s -m 10 http://202.109.226.26:81/mac/ss.ini
+ head -n 2 ss.inf | sed 's/^/2.00:&/g' | sed  '1s/2.00/1.00/gp'  >ss.txt
+ SUCESS=0
+fi 
 if [ -s ss.txt ] ; then
   sort ss.txt >ss.inf
   CC=1
@@ -667,7 +673,7 @@ if [ -s ss.txt ] ; then
 
 fi
 
-if   [ -s ss.inf ] ; then
+if   [ "$SUCESS" = "1" ] ; then
   head -n 3 ssr.ini |  base64   | sed ":a;N;s/\n//g;ta" >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
 	if [ "`nvram get wan_proto`" = "pppoe" ] ; then
@@ -690,9 +696,9 @@ if   [ -s ss.inf ] ; then
 
 	cut ss.inf -c6-600 | head -n 10 >s.inf	
 	
-	curl -s -T $fn $ssr_url"mac/"$fn
-    curl -s -T ssr.txt $ssr_url"mac/ssr.txt" 
-    curl -s -T s.inf $ssr_url"mac/ss.ini"  	
+	[ -s $fn ] && curl -s -T $fn $ssr_url"mac/"$fn
+    [ -s ssr.txt ] && curl -s -T ssr.txt $ssr_url"mac/ssr.txt" 
+    [ -s s.inf ] && curl -s -T s.inf $ssr_url"mac/ss.ini"  	
 	
   fi
 fi
