@@ -518,6 +518,7 @@ lan_ipaddr=`nvram get lan_ipaddr`
 rm ss.txt >/dev/null 2>&1
 rm ssr.inf >/dev/null 2>&1
 rm ssr.ini >/dev/null 2>&1
+rm ss.inf >/dev/null 2>&1
 
 #/etc/storage/script/Sh15_ss.sh start >/dev/null 2>/dev/null &
 sleep 6
