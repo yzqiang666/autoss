@@ -554,7 +554,7 @@ HOST0="$str"
 
 echo "lock">cron_ss.lock
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
-#[ "$ss_s1_ip" = "$HOST1" ] && continue 
+[ "$ss_s1_ip" = "$HOST1" ] && continue 
 HOST2=$ss_s1_ip
 ss_s1=$ss_s1_ip
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
@@ -697,8 +697,8 @@ if   [ "$SUCESS" = "1" ] ; then
 	cut ss.inf -c6-600 | head -n 10 >s.inf	
 	
 	[ -s $fn ] && curl -s -T $fn $ssr_url"mac/"$fn
-    [ -s ssr.txt ] && curl -s -T ssr.txt $ssr_url"mac/ssr.txt" 
-    [ -s s.inf ] && curl -s -T s.inf $ssr_url"mac/ss.ini"  	
+        [ -s ssr.txt ] && curl -s -T ssr.txt $ssr_url"mac/ssr.txt" 
+        [ -s s.inf ] && curl -s -T s.inf $ssr_url"mac/ss.ini"  	
 	
   fi
 fi
