@@ -616,7 +616,7 @@ done
 SUCESS=1
 if [ ! -s ss.txt ] ; then
  curl -o ss.inf -s -m 10 http://202.109.226.26:81/mac/ss.ini
- head -n 2 ss.inf | sed 's/^/2.00:&/g' | sed  '1s/2.00/1.00/'  >ss.txt
+ head -n 2 ss.inf | sed '1s/^/1.00:&/g'  | sed '2s/^/2.00:&/g'  >ss.txt
  SUCESS=0
 fi 
 if [ -s ss.txt ] ; then
