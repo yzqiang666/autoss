@@ -548,7 +548,7 @@ sort ss.ini | while read str
 do
 [ $CC -ge $CC0 ] || [ $BESTTIME -ge $BESTTIME0 ] && break
 [ "$HOST0" = "$str" ] && continue 
-[ "$str" = "" ] && continue f 
+[ "$str" = "" ] && continue
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
 HOST0="$str"
