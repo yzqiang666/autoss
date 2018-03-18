@@ -3,7 +3,7 @@
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 [ -f /tmp/cron_ss.lock ]  && exit 1
 
-nvram set tkcssr="link/S6v4iuNmjynywEZ0?is_ss=0"
+nvram set tkcssr="link/uqCxfyeFth56MN0a?is_ss=0"
 nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
 nvram commmit
 
@@ -150,7 +150,7 @@ rm ss.txt > /dev/null 2>&1
 tkcssr="`nvram get tkcssr`"
 if [ ! "$tkcssr"x = "x" ] || [ "1" = "1" ] ; then 
 iss="https://capsule.cf/"$tkcssr
-iss="https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0"
+iss="https://capsule.cf/link/uqCxfyeFth56MN0a?is_ss=0"
 curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
 
 if [  "$?" = "0" ] ; then
@@ -548,7 +548,7 @@ sort ss.ini | while read str
 do
 [ $CC -ge $CC0 ] || [ $BESTTIME -ge $BESTTIME0 ] && break
 [ "$HOST0" = "$str" ] && continue 
-[ "$str" = "" ] && continue
+[ "$str" = "" ] && continue f 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
 HOST0="$str"
