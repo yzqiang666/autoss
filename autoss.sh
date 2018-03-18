@@ -7,7 +7,6 @@ nvram set tkcssr="link/uqCxfyeFth56MN0a?is_ss=0"
 nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
 nvram commmit
 
-
 #sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
 #echo "4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh" >> /etc/storage/cron/crontabs/admin.1
 #echo "8 0,6,12,14,18  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh refresh" >> /etc/storage/cron/crontabs/admin.1
@@ -555,8 +554,6 @@ HOST0="$str"
 
 echo "lock">cron_ss.lock
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
-[ "$ss_s1_ip" = "$HOST1" ] && continue 
-HOST2=$ss_s1_ip
 ss_s1=$ss_s1_ip
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
@@ -570,6 +567,9 @@ resolveip=`/usr/bin/resolveip -4 -t 4 $ss_server1 | grep -v : | sed -n '1p'`
 if [ -n "$resolveip" ] ; then
 ss_server1=$resolveip
 ss_s1_ip=$ss_server1
+
+[ "$ss_s1_ip":"$ss_s1_port" = "$HOST1" ] && continue 
+HOST2=$ss_s1_ip":"$ss_s1_port
 
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
 /tmp/SSJSON.sh -f /tmp/ss-redir_3.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1090 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
