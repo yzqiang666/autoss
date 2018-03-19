@@ -579,7 +579,6 @@ HOST2=$ss_s1_ip":"$ss_s1_port
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
 ss_usage="`echo "$ss_usage" | sed -e "s/ -g//g" | sed -e "s/ -G//g" `"
 /tmp/SSJSON.sh  -f /tmp/ss-redir_3.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1090 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
-cat  /tmp/ss-redir_3.json
 ss-redir -c /tmp/ss-redir_3.json $options1 >/dev/null 2>&1 &
 ss_s1_ip=$ss_server1
 action_ssip=$ss_s1_ip
