@@ -548,7 +548,7 @@ CC0=90
 
 HOST1=""
 HOST0=""
-cat sss.ini >ss.ini
+
 sort ss.ini | while read str
 do
 [ $CC -ge $CC0 ] || [ $BESTTIME -ge $BESTTIME0 ] && break
