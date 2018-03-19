@@ -410,8 +410,8 @@ sleep 1
 ssr_url="`nvram get ssr_url`"
 
 tkcssr="`nvram get tkcssr`"
-#get_from_tckssr
-#get_from_ishadowsock
+get_from_tckssr
+get_from_ishadowsock
 
 #[ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
 
