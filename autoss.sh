@@ -152,9 +152,12 @@ iss="https://www.capsule.cf/"$tkcssr
 iss="https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0"
 #iss="https://capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0"
 #curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
-curl -o ss.txt -s -k -L   -m 10 https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0 2>/dev/null
-
-if [  "$?" = "0" ] ; then
+#以下为自定义端口
+curl -o ss.txt  -k -L   -m 10 https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0 2>/dev/null
+#以下为单端口多用户
+curl -o ss1.txt  -k -L   -m 10 https://www.capsule.cf/link/uqCxfyeFth56MN0a?is_ss=0 2>/dev/null
+cat ss1.txt >>ss.txt
+if [   -s ss.txt ] ; then
 Server=""
 Port=""
 Pass=""
