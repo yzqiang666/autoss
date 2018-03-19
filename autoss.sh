@@ -410,8 +410,8 @@ sleep 1
 ssr_url="`nvram get ssr_url`"
 
 tkcssr="`nvram get tkcssr`"
-#get_from_tckssr
-#get_from_ishadowsock
+get_from_tckssr
+get_from_ishadowsock
 
 #[ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
 
@@ -548,7 +548,6 @@ CC0=90
 
 HOST1=""
 HOST0=""
-cat sss.ini >ss.ini
 sort ss.ini | while read str
 do
 [ $CC -ge $CC0 ] || [ $BESTTIME -ge $BESTTIME0 ] && break
@@ -580,25 +579,6 @@ HOST2=$ss_s1_ip":"$ss_s1_port
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
 ss_usage="`echo "$ss_usage" | sed -e "s/ -g//g" `"
 /tmp/SSJSON.sh  -f /tmp/ss-redir_3.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1090 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
-
-
-cat >/tmp/ss-redir_3.json <<-ABCDEFG
-{
-"server": "#server#",
-"server_port": "#server_port#",
-"local_address": "0.0.0.0",
-"local_port": "1090",
-"password": "#server_port#",
-"timeout": "180",
-"method": "",
-"protocol": "",
-"protocol_param": "",
-"obfs": "tls1.2_ticket_auth",
-"obfs_param": "-O",
-"plugin": "",
-"plugin_opts": ""
-}
-ABCDEFG
 
 ss-redir -c /tmp/ss-redir_3.json $options1 >/dev/null 2>&1 &
 ss_s1_ip=$ss_server1
