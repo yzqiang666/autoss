@@ -9,7 +9,7 @@ cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
 4,14,24,34,44,54 * * * * [ `nvram get ss_enable` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || wget -q -O /tmp/autoss.sh  http://202.109.226.26:81/mac/autoss.sh && sh /tmp/autoss.sh
 ABCDEFG
 mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
-mtd_storage.sh save
+mtd_storage.sh save >/dev/null 2>/dev/null
 killall crond && crond 
 
 
