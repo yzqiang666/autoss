@@ -105,9 +105,9 @@ get_from_ishadowsock()
 {
 iss="https://ss.ishadowx.com/"
 rm ss.txt > /dev/null 2>&1
-curl -o ss.txt -s -k   -L  -m 10 $iss 2>/dev/null
+curl -o ss.txt -s -k   -L  -m 30 $iss 2>/dev/null
 iss="http://www.myshadowsocks.me/"
-[ -s ss.txt ]  &&  curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
+[ -s ss.txt ]  &&  curl -o ss.txt -s -k -L   -m 30 $iss 2>/dev/null
 
 if [ -s ss.txt ] ; then
 cp /dev/null  ssss.ini
@@ -172,7 +172,7 @@ get_from_tckssr
 #get_from_ishadowsock
 
 
-curl -o ss.txt -s -m 10 http://202.109.226.26:81/mac/ss.ini	
+curl -o ss.txt -s -m 30 http://202.109.226.26:81/mac/ss.ini	
 if [ $? = 0 ] ; then
   mv ss.ini s.ini
 #  sed -e '/.bid:/d'  ss.txt | head -n 10 >ss.ini
