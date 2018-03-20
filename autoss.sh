@@ -1,4 +1,4 @@
-#[ ! "`nvram get wan_proto`" = "pppoe" ] && reboot && exit 1
+
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 [ -f /tmp/cron_ss.lock ]  && exit 1
@@ -7,28 +7,10 @@ nvram set tkcssr="link/S6v4iuNmjynywEZ0?is_ss=0"
 nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
 nvram commmit
 
-#sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
-#echo "4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh" >> /etc/storage/cron/crontabs/admin.1
-#echo "3 0,6,12,18  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh refresh" >> /etc/storage/cron/crontabs/admin.1
-#mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
-#mtd_storage.sh save
-#killall crond && crond 
-
-
-#killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
-#killall -9 Sh15_ss.sh >/dev/null 2>/dev/null
-#PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
-#PID=${PID:0:10}
-#kill -9 $PID >/dev/null 2>/dev/null
-
 DNS="`nvram get ss_DNS_Redirect`"
 [ "$DNS" = "1" ] && nvram set ss_DNS_Redirect=0 && nvram commit
 
 ##################### SSR Server ###########
-#[  -s /opt/shadowsocksr-manyuser/shadowsocks/run.sh ] \
-#&& [ -z "`ps | grep "python server.py a" |grep -v grep`" ] \
-#&&  /opt/shadowsocksr-manyuser/shadowsocks/run.sh
-
 url="https://www.youtube.com/intl/zh-CN/yt/about/"
 
 if [ ! "$1" = "refresh" ] ; then
@@ -94,16 +76,13 @@ result=$(echo $Server | grep level3 )
 #    [  "${Server:0:2}" = "us" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "uk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "fr" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-#     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+
 
 	
- #   [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
- #   [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
- #   [  "${Server:0:2}" = "hk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-
-#    [  "${Server:0:3}" = "hk6" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-#    [  "${Server:0:4}" = "hk14" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini	
+#    [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#    [  "${Server:0:2}" = "hk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
     Server=""
     Port=""
@@ -112,9 +91,9 @@ result=$(echo $Server | grep level3 )
 fi
 done
 
-sort ss.ini >sss.ini
-rm ss.ini
-mv sss.ini ss.ini
+#sort ss.ini >sss.ini
+#rm ss.ini
+#mv sss.ini ss.ini
 
 fi
 echo "==========" >> ss.ini 
@@ -176,6 +155,8 @@ fi
 
 
 
+
+
 ###加入私有SSR
 
 
@@ -188,7 +169,7 @@ ssr_url="`nvram get ssr_url`"
 
 tkcssr="`nvram get tkcssr`"
 get_from_tckssr
-get_from_ishadowsock
+#get_from_ishadowsock
 
 
 curl -o ss.txt -s -m 10 http://202.109.226.26:81/mac/ss.ini	
@@ -201,6 +182,71 @@ if [ $? = 0 ] ; then
 fi
 
 [ ! -s ss.ini ] && exit 1
+
+
+cat > "/tmp/setssr.sh" <<-\SETSSR
+
+base64_str=""
+base64_res=""
+
+base64_encode() 
+{
+vvvvv=`echo -n $base64_str|base64|sed 's/=//g'|sed 's/\//_/g'`
+base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
+}
+
+while getopts "s:p:m:k:o:O:g:G:r:z:" arg; do
+case "$arg" in
+s)
+server="$OPTARG"
+;;
+p)
+server_port="$OPTARG"
+;;
+k)
+base64_str="$OPTARG"
+base64_encode
+password="$base64_res"
+;;
+m)
+method="$OPTARG"
+;;
+o)
+obfs="$OPTARG"
+;;
+O)
+protocol="$OPTARG"
+;;
+g)
+base64_str="$OPTARG"
+base64_encode
+obfs_param="$base64_res"
+;;
+G)
+base64_str="$OPTARG"
+base64_encode
+protocol_param="$base64_res"
+;;
+r)
+base64_str="$OPTARG"
+base64_encode
+remark="$base64_res"
+;;
+z)
+base64_str="$OPTARG"
+base64_encode
+group="$base64_res"
+;;
+esac
+done
+
+base64_str=$server:$server_port:$protocol:$method:$obfs:$password"/?obfsparam="$obfs_param"&protoparam="$protocol_param"&remarks="$remark"&group="$group
+base64_encode
+echo "ssr://"$base64_res >>ssr.ini
+SETSSR
+chmod 755 /tmp/setssr.sh
+
+
 
 
 ###################### set ss information ####################################
@@ -230,13 +276,10 @@ rm ssr.ini >/dev/null 2>&1
 rm ss.inf >/dev/null 2>&1
 rm s.inf >/dev/null 2>&1
 
-#/etc/storage/script/Sh15_ss.sh start >/dev/null 2>/dev/null &
 sleep 6
 
 killall -9  ss-redir 2>/dev/null
 killall -9  ss-local 2>/dev/null
-##killall -9  Sh15_ss.sh 2>/dev/null 
-#/etc/storage/script/Sh15_ss.sh rules >/dev/null 2>/dev/null
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 sleep 2
 
@@ -282,9 +325,6 @@ ss_s1_ip=$ss_server1
 HOST2=$ss_s1_ip":"$ss_s1_port
 
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
-#ss_usage="`echo "$ss_usage" | sed -e "s/ -g -/ -/g" | sed -e "s/ -G -/ -/g"`"
-#AA=`echo $ss_usage | awk '$0=substr($0,length($0)-1,1)'`
-#[ "$AA" = "-" ] && ss_usage=`echo $ss_usage |  awk '$0=substr($0,1,length($0)-2)'`
 ss_usage=`echo "$ss_usage" | sed -e "s/ -. -/ -/g"| sed -e "s/ -.$//g"`
 ss_usage=`echo "$ss_usage" | sed -e "s/ -. -/ -/g"| sed -e "s/ -.$//g"`
 /tmp/SSJSON.sh  -f /tmp/ss-redir_3.json $ss_usage $ss_usage_json -s $ss_s1_ip -p $ss_s1_port -l 1090 -b 0.0.0.0 -k $ss_s1_key -m $ss_s1_method
