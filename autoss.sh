@@ -186,7 +186,7 @@ esac
 if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  && [ ! "$Usage" = "" ] ; then
 [  "${Server:0:2}" = "cn" ] && continue 
 result=$(echo $Server | grep level3 )
-[[ "$result" != "" ]] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+[[ "$result" != "" ]] && [  "${Server:0:2}" = "hk" ]  && [  ! "${Server:0:4}" = "hk20" ] && [  ! "${Server:0:4}" = "hk21" ] && [  ! "${Server:0:4}" = "hk22" ] && [  ! "${Server:0:4}" = "hk23" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
 #    [  "${Server:0:2}" = "jp" ] && [ ! "${Server:0:3}" = "jp3" ] && [ ! "${Server:0:3}" = "jp4" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
