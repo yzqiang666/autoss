@@ -372,7 +372,7 @@ if [  $CODE = "0" ] ; then
     [ $CC -ge 10 ] && echo $CC $TIME0 $ss_server0 && logger "$CC $TIME0 $ss_server0"
     [ $CC -lt 10 ] && echo 0$CC $TIME0 $ss_server0 && logger "0$CC $TIME0 $ss_server0"
 	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
-	[ "$RES" = "1"  ] && echo $TIME0:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method:$ss_usage0 >>ss.txt && let CC=$CC+1	
+	[ "$RES" = "1"  ] && echo $TIME0:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method:$ss_usage >>ss.txt && let CC=$CC+1	
 else
     HOST1=$HOST2
 	echo "XX" $TIME0 "$ss_server0" $CODE
