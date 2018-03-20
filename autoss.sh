@@ -9,7 +9,7 @@ nvram commmit
 
 #sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
 #echo "4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh" >> /etc/storage/cron/crontabs/admin.1
-#echo "8 0,6,12,14,18  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh refresh" >> /etc/storage/cron/crontabs/admin.1
+#echo "3 0,6,12,18  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh --no-check-certificate https://raw.github.com/yzqiang666/autoss/master/autoss.sh && sh /tmp/autoss.sh refresh" >> /etc/storage/cron/crontabs/admin.1
 #mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
 #mtd_storage.sh save
 #killall crond && crond 
@@ -40,107 +40,6 @@ curl -o /tmp/tmp.txt -s -k -L --retry 3   -m 5 https://www.google.com.hk/?gws_rd
 [  -s /tmp/tmp.txt  ]  &&  exit 0
 fi
 
-
-########################  get from arukas ########################
-get_from_arukas()
-{
-token="e39ed54e-18ee-4eae-b372-41b4e05721f3"
-secret="eoZ9cCkTpM0d6Rb7BEtXl5luBcqZyVeiNLZuKUxGjgOFnB1tqTChz3Wr8JKS2kJY"
-
-rm ss.txt > /dev/null 2>&1
-
-curl -o ss.txt -s -k -L   -m 5 https://$token:$secret@app.arukas.io/api/containers 2>/dev/null
-if [  "$?" = "0" ] ; then
-Server=""
-Port=""
-sed 's/{"container_port"/\n"container_port"/g' ss.txt \
- | sed 's/}/\n/g' \
- | grep container_port \
- | grep -v '"container_port":22,' \
- | sed 's/"//g' | sed 's/,/\n/g'  | while read i  
-do
-var1=`echo $i|awk -F ':' '{print $1}'`
-var2=`echo $i|awk -F ':' '{print $2}'`
-case "$var1" in
-    "host")  Server="$var2"
-    ;;
-    "service_port")  Port="$var2"
-    ;;
-esac
-
-if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]    ; then
-    echo $Server:$Port:yzqyzq:rc4-md5 >>ss.ini
-    Server=""
-    Port=""
-
-fi
-done
-
- 
-echo "==========" >> ss.ini 
-fi
-}
-
-################ 零星收集的SS
-get_from_other()
-{
-rm ss.txt > /dev/null 2>&1
-curl -o ss.txt -s -k -L   -m 5 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt 2>/dev/null
-[  "$?" = "0" ]  && cat ss.txt >>ss.ini && echo "==========" >> ss.ini 
-}
-
-########################  get from ishadowsock ########################
-get_from_ishadowsock()
-{
-iss="https://ss.ishadowx.com/"
-rm ss.txt > /dev/null 2>&1
-curl -o ss.txt -s -k   -L  -m 10 $iss 2>/dev/null
-iss="http://www.myshadowsocks.me/"
-[ -s ss.txt ]  &&  curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
-
-if [ -s ss.txt ] ; then
-cp /dev/null  ssss.ini
-Server=""
-Port=""
-Pass=""
-Method=""
-Other=""
-
-cat ss.txt |grep -E "<h4>IP Address|<h4>Port|<h4>Password|<h4>Method|<h4>auth_" | sed 's/<[^<>]*>//g' | sed 's/：/:/g' | sed 's/IP Address/Server/g'| sed 's/ //g' |sed 's/\r//g' | while read i  
-do
-var1=`echo $i|awk -F ':' '{print $1}'`
-var2=`echo $i|awk -F ':' '{print $2}'`
-case $var1 in
-    Server)  Server="$var2"
-    ;;
-    Port)  Port="$var2"
-    ;;
-    Password)  Pass="$var2"
-    ;;
-    Method)  Method="$var2"
-    ;;
-    *)  Other="$var1"
-    ;;
-
-esac
-
-
-
-if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Method" = "" ]  ; then
-    [ ! "$Pass" = "" ]  && echo $Server:$Port:$Pass:$Method >>ss.ini
-    Server=""
-    Port=""
-    Pass=""
-    Method=""
-    Other=""
-
-fi
-
-done
-echo "==========" >> ss.ini 
-fi
-
-}
 
 ########################  get from tckssr　########################
 get_from_tckssr() 
@@ -222,184 +121,59 @@ echo "==========" >> ss.ini
 fi
 }
 
-
-
-########################  get from github.com/Alvin9999 不得已才用　########################
-get_from_Alvin9999()
+########################  get from ishadowsock ########################
+get_from_ishadowsock()
 {
-
-
-
+iss="https://ss.ishadowx.com/"
 rm ss.txt > /dev/null 2>&1
-iss="https://raw.githubusercontent.com/Alvin9999/pac2/master/ssconfig.txt"
-curl -o ss.txt -s -k -L   -m 5 $iss 2>/dev/null
-if [  "$?" = "0" ] ; then
+curl -o ss.txt -s -k   -L  -m 10 $iss 2>/dev/null
+iss="http://www.myshadowsocks.me/"
+[ -s ss.txt ]  &&  curl -o ss.txt -s -k -L   -m 10 $iss 2>/dev/null
+
+if [ -s ss.txt ] ; then
+cp /dev/null  ssss.ini
 Server=""
 Port=""
 Pass=""
 Method=""
+Other=""
 
-base64 -d ss.txt|sed 's/"//g'|sed 's/,//g'|sed s/[[:space:]]//g| grep -E 'server:|server_port:|password:|method:'  | while read i 
+cat ss.txt |grep -E "<h4>IP Address|<h4>Port|<h4>Password|<h4>Method|<h4>auth_" | sed 's/<[^<>]*>//g' | sed 's/：/:/g' | sed 's/IP Address/Server/g'| sed 's/ //g' |sed 's/\r//g' | while read i  
 do
-
 var1=`echo $i|awk -F ':' '{print $1}'`
 var2=`echo $i|awk -F ':' '{print $2}'`
+case $var1 in
+    Server)  Server="$var2"
+    ;;
+    Port)  Port="$var2"
+    ;;
+    Password)  Pass="$var2"
+    ;;
+    Method)  Method="$var2"
+    ;;
+    *)  Other="$var1"
+    ;;
 
-case "$var1" in
-    "server")  Server="$var2"
-    ;;
-    "server_port")  Port="$var2"
-    ;;
-    "password")  Pass="$var2"
-    ;;
-    "method")  Method="$var2"
-    ;;
 esac
 
-if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
-    echo $Server:$Port:$Pass:$Method >>ss.ini
+
+
+if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Method" = "" ]  ; then
+    [ ! "$Pass" = "" ]  && echo $Server:$Port:$Pass:$Method >>ss.ini
     Server=""
     Port=""
     Pass=""
     Method=""
+    Other=""
+
 fi
+
 done
-fi
-
-
-
-
-rm ss.txt > /dev/null 2>&1
-iss="https://socks.zone/free/"
-curl -o ss.txt -s -k -L   -m 5 $iss 2>/dev/null
-if [  "$?" = "0" ] ; then
-Server=""
-Port=""
-Pass=""
-Method=""
-
-sed 's/<[^<>]*>//g' ss.txt | grep -E '服务器地址：|端口：|密码：|加密方式：' | sed 's/：/:/g' | while read i 
-do
-
-var1=`echo $i|awk -F ':' '{print $1}'`
-var2=`echo $i|awk -F ':' '{print $2}'`
-
-case "$var1" in
-    "服务器地址")  Server="$var2"
-    ;;
-    "端口")  Port="$var2"
-    ;;
-    "密码")  Pass="$var2"
-    ;;
-    "加密方式")  Method="$var2"
-    ;;
-esac
-
-if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
-    echo $Server:$Port:$Pass:$Method >>ss.ini
-    Server=""
-    Port=""
-    Pass=""
-    Method=""
-fi
-done
-fi
-
-
-rm ss.txt > /dev/null 2>&1
-iss="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-curl -o ss.txt -s -k -L   -m 5 $iss 2>/dev/null
-if [  "$?" = "0" ] ; then                                                                                   
-cat ss.txt |grep 端口：|grep  密码： |sed 's/<[^<>]*>//g' | sed 's/：/:/g'  | sed 's/　/ /g'  \
-| tr -s ' ' | tr ' ' ':' | sed 's/ /:/g'  | sed 's/：/:/g' | sed 's/:(/(/g' | sed 's/::/:/g'  \
-| sed 's/256-cfb（/256-cfb:/g' | sed 's/chacha20-life（/chacha20-life:/g' | while read i
-do 
-  var1=`echo $i|awk -F ':' '{print $2}'`
-  var2=`echo $i|awk -F ':' '{print $4}'`
-  var3=`echo $i|awk -F ':' '{print $6}'`
-  var4=`echo $i|awk -F ':' '{print $8}' | tr '[A-Z]' '[a-z]'`  
-  echo $var1:$var2:$var3:$var4 >> ss.ini
-done
-fi
-
-
-rm ss.txt > /dev/null 2>&1
-iss="https://freessr.xyz/"
-curl -o ss.txt -s -k -L   -m 5 $iss 2>/dev/null
-if [  "$?" = "0" ] ; then
-cat ss.txt | grep -E '服务器地址|端口|密码|加密方式' | sed 's/<[^<>]*>//g' | sed 's/ //g' | while read i 
-do
-var1=`echo $i|awk -F ':' '{print $1}'`
-var2=`echo $i|awk -F ':' '{print $2}'`
-case "$var1" in
-    "服务器地址")  Server="$var2"
-    ;;
-    "端口")  Port="$var2"
-    ;;
-    "密码")  Pass="$var2"
-    ;;
-    "加密方式")  Method="$var2"
-    ;;
-esac
-
-if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
-    echo $Server:$Port:$Pass:$Method >>ss.ini
-    Server=""
-    Port=""
-    Pass=""
-    Method=""
-fi
-done
-fi
-
-
-rm ss.txt > /dev/null 2>&1
-iss="https://xsjs.yhyhd.org/free-ss"
-curl -o ss.txt -s -k -L   -m 5 $iss 2>/dev/null
-if [  "$?" = "0" ] ; then
-Server=""
-Port=""
-Pass=""
-Method=""
-sed 's/<div class="modal-body" id="ss-body">/\n/g'  ss.txt | sed 's/<div class="modal-footer">/\n/g' \
-| sed 's/<[^<>]*>//g'  | grep -E 'IP:&nbsp;|加密方式:&nbsp;' | sed 's/&nbsp;//g' | sed 's/&nbsp;//g' \
-| sed 's/ /:/g' | sed 's/,/:/g' | sed 's/端口号/Port/g' | sed 's/密码/Password/g' | sed 's/加密方式/Method/g' | sed 's/地址/IP/g' \
-| sed 's/Port/\nPort/g' | sed 's/Password/\nPassword/g' | sed 's/Method/\nMethod/g' | sed 's/IP/\nIP/g'  | while read i 
-do
-
-var1=`echo $i|awk -F ':' '{print $1}'`
-var2=`echo $i|awk -F ':' '{print $2}'`
-
-case "$var1" in
-    "IP")  Server="$var2"
-    ;;
-    "Port")  Port="$var2"
-    ;;
-    "Password")  Pass="$var2"
-    ;;
-    "Method")  Method="$var2"
-    ;;
-esac
-
-if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  ; then
-    echo $Server:$Port:$Pass:$Method >>ss.ini
-    Server=""
-    Port=""
-    Pass=""
-    Method=""
-fi
-done
-
-
-
-fi
-
-
-
 echo "==========" >> ss.ini 
+fi
+
 }
 
-#########################################
 
 
 ###加入私有SSR
@@ -416,12 +190,6 @@ tkcssr="`nvram get tkcssr`"
 get_from_tckssr
 get_from_ishadowsock
 
-#[ ! -s ss.ini ] && curl $ssr_url"ss.ini" -o ss.ini
-
-#get_from_arukas
-#[  "$tkcssr"x = "x" ] && get_from_Alvin9999 
-#get_from_Alvin9999
-#[ ! -s ss.ini ] && get_from_other
 
 curl -o ss.txt -s -m 10 http://202.109.226.26:81/mac/ss.ini	
 if [ $? = 0 ] ; then
@@ -435,71 +203,6 @@ fi
 [ ! -s ss.ini ] && exit 1
 
 
-cat > "/tmp/setssr.sh" <<-\SETSSR
-
-base64_str=""
-base64_res=""
-
-base64_encode() 
-{
-vvvvv=`echo -n $base64_str|base64|sed 's/=//g'|sed 's/\//_/g'`
-base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
-}
-
-while getopts "s:p:m:k:o:O:g:G:r:z:" arg; do
-case "$arg" in
-s)
-server="$OPTARG"
-;;
-p)
-server_port="$OPTARG"
-;;
-k)
-base64_str="$OPTARG"
-base64_encode
-password="$base64_res"
-;;
-m)
-method="$OPTARG"
-;;
-o)
-obfs="$OPTARG"
-;;
-O)
-protocol="$OPTARG"
-;;
-g)
-base64_str="$OPTARG"
-base64_encode
-obfs_param="$base64_res"
-;;
-G)
-base64_str="$OPTARG"
-base64_encode
-protocol_param="$base64_res"
-;;
-r)
-base64_str="$OPTARG"
-base64_encode
-remark="$base64_res"
-;;
-z)
-base64_str="$OPTARG"
-base64_encode
-group="$base64_res"
-;;
-esac
-done
-
-base64_str=$server:$server_port:$protocol:$method:$obfs:$password"/?obfsparam="$obfs_param"&protoparam="$protocol_param"&remarks="$remark"&group="$group
-base64_encode
-echo "ssr://"$base64_res >>ssr.ini
-SETSSR
-chmod 755 /tmp/setssr.sh
-
-
-
-
 ###################### set ss information ####################################
 
 [ -n "$ssr_url" ] && rm ssr.txt >/dev/null 2>&1
@@ -510,9 +213,7 @@ options2=""
 ss_usage=""
 ss_usage_json=""
 
-#nvram set ss_status=1
-#nvram set ss_enable=0
-#nvram set ss_check=0
+
 nvram set ss_type=1
 nvram set ss_working_port="1090"
 nvram commit
