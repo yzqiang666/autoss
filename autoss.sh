@@ -88,7 +88,7 @@ result=$(echo $Server | grep level3 )
 #    [  "${Server:0:2}" = "fr" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
 
-	
+
 #    [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "sg" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "ca" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
@@ -309,16 +309,22 @@ HOST0=""
 sort ss.ini | while read str
 do
 [ $CC -ge $CC0 ] || [ $BESTTIME -ge $BESTTIME0 ] && break
-[ "$HOST0" = "$str" ] && continue 
 [ "$str" = "" ] && continue f 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
-HOST0="$str"
 
-echo "lock">cron_ss.lock
+
+
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1=$ss_s1_ip
-ss_s1_port=`echo $str|awk -F ':' '{print $2}'`  
+ss_s1_port=`echo $str|awk -F ':' '{print $2}'` 
+
+[ "$HOST0" = $ss_s1_ip":"$ss_s1_port ] && continue 
+HOST0=$ss_s1_ip":"$ss_s1_port
+[ "$ss_s1_ip":"$ss_s1_port" = "$HOST1" ] && continue 
+HOST2=$ss_s1_ip":"$ss_s1_port
+
+
 ss_s1_key=`echo $str|awk -F ':' '{print $3}'`  
 ss_s1_method=`echo $str|awk -F ':' '{print $4}'`  
 ss_usage0=`echo $str|awk -F ':' '{print $5}'`  
@@ -330,9 +336,6 @@ resolveip=`/usr/bin/resolveip -4 -t 4 $ss_server1 | grep -v : | sed -n '1p'`
 if [ -n "$resolveip" ] ; then
 ss_server1=$resolveip
 ss_s1_ip=$ss_server1
-
-[ "$ss_s1_ip":"$ss_s1_port" = "$HOST1" ] && continue 
-HOST2=$ss_s1_ip":"$ss_s1_port
 
 pidof ss-redir  >/dev/null 2>&1 && killall ss-redir && killall -9 ss-redir 2>/dev/null
 if [ ! -z "$ss_usage" ] ; then 
@@ -368,17 +371,17 @@ TIME0=$TIME
 [ ${#TIME0} = 2 ] && TIME0=$TIME0"0"
 [ ${#TIME0} = 3 ] && TIME0=$TIME0"0"
 
-	
+
 if [  $CODE = "0" ] ; then
     [ "${TIME0:0:1}" = "0" ] && let BESTTIME=$BESTTIME+1
     [ $CC -ge 10 ] && echo $CC $TIME0 $ss_server0 && logger "$CC $TIME0 $ss_server0"
     [ $CC -lt 10 ] && echo 0$CC $TIME0 $ss_server0 && logger "0$CC $TIME0 $ss_server0"
-	RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
-	[ "$RES" = "1"  ] && echo $TIME0:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method:$ss_usage >>ss.txt && let CC=$CC+1	
+RES=`awk -v a=$TIME  'BEGIN { print (a<=10)?1:0'}`
+[ "$RES" = "1"  ] && echo $TIME0:$ss_s1:$ss_s1_port:$ss_s1_key:$ss_s1_method:$ss_usage >>ss.txt && let CC=$CC+1	
 else
     HOST1=$HOST2
-	echo "XX" $TIME0 "$ss_server0" $CODE
-	logger "XX" $TIME0 "$ss_server0" $CODE
+echo "XX" $TIME0 "$ss_server0" $CODE
+logger "XX" $TIME0 "$ss_server0" $CODE
 fi
 
 fi
@@ -394,7 +397,7 @@ if [ -s ss.txt ] ; then
   CC=1
   cat ss.inf | while read str
   do  
-    TIME=`echo $str|awk -F ':' '{print $1}'`  	
+    TIME=`echo $str|awk -F ':' '{print $1}'`  
     ss_s1_ip=`echo $str|awk -F ':' '{print $2}'`  
     ss_s1_port=`echo $str|awk -F ':' '{print $3}'`  
     ss_s1_key=`echo $str|awk -F ':' '{print $4}'`  
@@ -403,7 +406,7 @@ if [ -s ss.txt ] ; then
     ss_usage=${ss_usage0//：/:}	
 
     /tmp/setssr.sh -r $CC -z ssr -s $ss_s1_ip -p $ss_s1_port -m $ss_s1_method -k $ss_s1_key $ss_usage
-	
+
     if [ $CC = 1 ] ; then
     nvram set ss_server=$ss_s1_ip
     nvram set ss_server_port=$ss_s1_port
@@ -421,8 +424,8 @@ if [ -s ss.txt ] ; then
     nvram commit
 
     echo "The No1 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
-	echo "The No1 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME >serverinfo
-	logger "The No1 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
+echo "The No1 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME >serverinfo
+logger "The No1 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
     fi
 
     if [ $CC = 2 ] ; then
@@ -435,9 +438,9 @@ if [ -s ss.txt ] ; then
 
     echo "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
     echo "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME >>serverinfo
-	logger "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
+logger "The No2 server: "$ss_s1_ip:$ss_s1_port:$ss_s1_key:$ss_s1_method"   "$TIME
     fi
-	let CC=$CC+1
+let CC=$CC+1
   done
 
 
@@ -446,30 +449,30 @@ fi
 if   [ "$SUCESS" = "1" ] ; then
   head -n 3 ssr.ini |  base64   | sed ":a;N;s/\n//g;ta" >ssr.txt
   if [ ! "$ssr_url" = "" ] ; then
-	if [ "`nvram get wan_proto`" = "pppoe" ] ; then
-  	  fn=`nvram get wan_pppoe_username`
-	  nvram get wan_pppoe_username >$fn
-	  nvram get wan_pppoe_passwd >>$fn
-	else
-  	  fn=`nvram get wan_hwaddr`
-	  fn=${fn//:/-}
-	  nvram get nvram get wan_hwaddr >$fn
-	fi
-	
-	nvram get wl_ssid >>$fn	
-	nvram get wl_wpa_psk >>$fn	
-	nvram get rt_ssid >>$fn	
-	nvram get rt_wpa_psk >>$fn	
-	cat serverinfo >>$fn	
-	rm serverinfo
+if [ "`nvram get wan_proto`" = "pppoe" ] ; then
+    fn=`nvram get wan_pppoe_username`
+  nvram get wan_pppoe_username >$fn
+  nvram get wan_pppoe_passwd >>$fn
+else
+    fn=`nvram get wan_hwaddr`
+  fn=${fn//:/-}
+  nvram get nvram get wan_hwaddr >$fn
+fi
+
+nvram get wl_ssid >>$fn	
+nvram get wl_wpa_psk >>$fn	
+nvram get rt_ssid >>$fn	
+nvram get rt_wpa_psk >>$fn	
+cat serverinfo >>$fn	
+rm serverinfo
 
 
-	cut ss.inf -c6-600 | head -n 10 >s.inf	
-	
-	[ -s $fn ] && curl -s -T $fn $ssr_url"mac/"$fn
+cut ss.inf -c6-600 | head -n 10 >s.inf	
+
+[ -s $fn ] && curl -s -T $fn $ssr_url"mac/"$fn
         [ -s ssr.txt ] && curl -s -T ssr.txt $ssr_url"mac/ssr.txt" 
-        [ -s s.inf ] && curl -s -T s.inf $ssr_url"mac/ss.ini"  	
-	
+        [ -s s.inf ] && curl -s -T s.inf $ssr_url"mac/ss.ini"  
+
   fi
 fi
 
@@ -494,4 +497,3 @@ mv syslog.tmp syslog.log 2>/dev/null
 ABCDEF
 
 sh /tmp/delay40.sh &
-
