@@ -155,8 +155,8 @@ iss="https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0"
 #以下为自定义端口
 curl -o ss.txt  -s -k -L   -m 10 https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0 2>/dev/null
 #以下为单端口多用户
-curl -o ss1.txt  -s -k -L   -m 10 https://www.capsule.cf/link/uqCxfyeFth56MN0a?is_ss=0 2>/dev/null
-cat ss1.txt >>ss.txt
+#curl -o ss1.txt  -s -k -L   -m 10 https://www.capsule.cf/link/uqCxfyeFth56MN0a?is_ss=0 2>/dev/null
+#cat ss1.txt >>ss.txt
 if [   -s ss.txt ] ; then
 Server=""
 Port=""
@@ -179,11 +179,14 @@ case "$var1" in
     "rt_ss_method")  Method="$var2"
     ;;
     "rt_ss_usage")  Usage="$var2"
-	            Usage=${Usage//:/：}
+      Usage=${Usage//:/：}
     ;;
 esac
 
 if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  && [ ! "$Usage" = "" ] ; then
+[  "${Server:0:2}" = "cn" ] && continue 
+result=$(echo $Server | grep level3 )
+[[ "$result" != "" ]] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
 #    [  "${Server:0:2}" = "jp" ] && [ ! "${Server:0:3}" = "jp3" ] && [ ! "${Server:0:3}" = "jp4" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
@@ -192,7 +195,7 @@ if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$
 #    [  "${Server:0:2}" = "us" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "uk" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "fr" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
-     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+#     [ !  "${Server:0:2}" = "cn" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
 	
  #   [  "${Server:0:2}" = "jp" ]  && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
