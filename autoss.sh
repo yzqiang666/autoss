@@ -3,10 +3,13 @@
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 [ -f /tmp/cron_ss.lock ]  && exit 1
 
+cd /tmp
+
+[ ! "`stat -c %s /tmp/autoss.sh`" = "`stat -c %s /etc/storage/autoss.sh 2>/dev/null`" ] && cp /tmp/autoss.sh  /etc/storage/autoss.sh
 sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
 cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
-33 0,6,12,18  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || wget -q -O /tmp/autoss.sh  http://202.109.226.26:81/mac/autoss.sh && sh /tmp/autoss.sh refresh
-4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || wget -q -O /tmp/autoss.sh  http://202.109.226.26:81/mac/autoss.sh && sh /tmp/autoss.sh
+33 0,6,12,18  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh refresh
+4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh
 ABCDEFG
 mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
 mtd_storage.sh save >/dev/null 2>/dev/null
