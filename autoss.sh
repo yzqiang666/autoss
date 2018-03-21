@@ -49,8 +49,8 @@ iss="https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0"
 #以下为自定义端口
 curl -o ss.txt  -s -k -L   -m 30 https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0 2>/dev/null
 #以下为单端口多用户
-#curl -o ss1.txt  -s -k -L   -m 30 https://www.capsule.cf/link/uqCxfyeFth56MN0a?is_ss=0 2>/dev/null
-#cat ss1.txt >>ss.txt
+curl -o ss1.txt  -s -k -L   -m 30 https://www.capsule.cf/link/uqCxfyeFth56MN0a?is_ss=0 2>/dev/null
+cat ss1.txt >>ss.txt
 if [   -s ss.txt ] ; then
 Server=""
 Port=""
@@ -182,7 +182,7 @@ ssr_url="`nvram get ssr_url`"
 
 tkcssr="`nvram get tkcssr`"
 get_from_tckssr
-#get_from_ishadowsock
+get_from_ishadowsock
 
 
 curl -o ss.txt -s -m 30 http://202.109.226.26:81/mac/ss.ini	
@@ -324,7 +324,7 @@ ss_s1_port=`echo $str|awk -F ':' '{print $2}'`
 
 [ "$HOST0" = $ss_s1_ip":"$ss_s1_port ] && continue 
 HOST0=$ss_s1_ip":"$ss_s1_port
-[ "$ss_s1_ip":"$ss_s1_port" = "$HOST1" ] && continue 
+#[ "$ss_s1_ip":"$ss_s1_port" = "$HOST1" ] && continue 
 HOST2=$ss_s1_ip":"$ss_s1_port
 
 
