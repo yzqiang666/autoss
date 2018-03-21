@@ -49,8 +49,8 @@ iss="https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0"
 #以下为自定义端口
 curl -o ss.txt  -s -k -L   -m 30 https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0 2>/dev/null
 #以下为单端口多用户
-curl -o ss1.txt  -s -k -L   -m 30 https://www.capsule.cf/link/uqCxfyeFth56MN0a?is_ss=0 2>/dev/null
-cat ss1.txt >>ss.txt
+#curl -o ss1.txt  -s -k -L   -m 30 https://www.capsule.cf/link/uqCxfyeFth56MN0a?is_ss=0 2>/dev/null
+#cat ss1.txt >>ss.txt
 if [   -s ss.txt ] ; then
 Server=""
 Port=""
@@ -173,29 +173,6 @@ fi
 ###加入私有SSR
 
 
-cd /tmp
-echo "lock">cron_ss.lock
-rm ss.ini >/dev/null 2>&1
-
-sleep 1
-ssr_url="`nvram get ssr_url`"
-
-tkcssr="`nvram get tkcssr`"
-get_from_tckssr
-get_from_ishadowsock
-
-
-curl -o ss.txt -s -m 30 http://202.109.226.26:81/mac/ss.ini	
-if [ $? = 0 ] ; then
-  mv ss.ini s.ini
-#  sed -e '/.bid:/d'  ss.txt | head -n 10 >ss.ini
-  head -n 10  ss.txt >ss.ini
-  echo "==============" >>ss.ini
-  cat s.ini >>ss.ini
-fi
-
-[ ! -s ss.ini ] && exit 1
-
 
 cat > "/tmp/setssr.sh" <<-\SETSSR
 
@@ -262,8 +239,26 @@ chmod 755 /tmp/setssr.sh
 
 
 
-###################### set ss information ####################################
+cd /tmp
+rm ss.ini >/dev/null 2>&1
+ssr_url="`nvram get ssr_url`"
+tkcssr="`nvram get tkcssr`"
+get_from_tckssr
+#get_from_ishadowsock
 
+
+curl -o ss.txt -s -m 30 http://202.109.226.26:81/mac/ss.ini	
+if [ $? = 0 ] ; then
+  mv ss.ini s.ini
+#  sed -e '/.bid:/d'  ss.txt | head -n 10 >ss.ini
+  head -n 10  ss.txt >ss.ini
+  echo "==============" >>ss.ini
+  cat s.ini >>ss.ini
+fi
+
+[ ! -s ss.ini ] && exit 1
+###################### set ss information ####################################
+echo "lock">cron_ss.lock
 [ -n "$ssr_url" ] && rm ssr.txt >/dev/null 2>&1
 logger "get bestss server"
 
@@ -295,7 +290,6 @@ killall -9  ss-redir 2>/dev/null
 killall -9  ss-local 2>/dev/null
 killall -9  sh_sskeey_k.sh >/dev/null 2>/dev/null
 sleep 2
-
 PID=`ps |grep "Sh15_ss.sh keep"|grep -v grep|tr '[:alpha:][:punct:][:blank:]' '  '`
 PID=${PID:0:10}
 kill -9 $PID >/dev/null 2>/dev/null
@@ -315,9 +309,7 @@ do
 [ "$str" = "" ] && continue f 
 [ ${str:0:1} = "#" ] && continue 
 [ ${str:0:1} = "=" ] && continue 
-
-
-
+echo "lock">cron_ss.lock
 ss_s1_ip=`echo $str|awk -F ':' '{print $1}'`  
 ss_s1=$ss_s1_ip
 ss_s1_port=`echo $str|awk -F ':' '{print $2}'` 
