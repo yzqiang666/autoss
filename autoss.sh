@@ -80,7 +80,7 @@ esac
 if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  && [ ! "$Usage" = "" ] ; then
 [  "${Server:0:2}" = "cn" ] && continue 
 result=$(echo $Server | grep level3 )
-[[ "$result" != "" ]] && [  "${Server:0:2}" = "hk" ]  && [  ! "${Server:0:4}" = "hk20" ] && [  ! "${Server:0:4}" = "hk21" ] && [  ! "${Server:0:4}" = "hk22" ] && [  ! "${Server:0:4}" = "hk23" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+[[ "$result" != "" ]]  && [  ! "${Server:0:4}" = "hk20" ] && [  ! "${Server:0:4}" = "hk21" ] && [  ! "${Server:0:4}" = "hk22" ] && [  ! "${Server:0:4}" = "hk23" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
 #    [  "${Server:0:2}" = "jp" ] && [ ! "${Server:0:3}" = "jp3" ] && [ ! "${Server:0:3}" = "jp4" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
@@ -296,9 +296,9 @@ kill -9 $PID >/dev/null 2>/dev/null
 echo "lock">cron_ss.lock
 CC=1
 BESTTIME=0
-BESTTIME0=8
+BESTTIME0=30
 CC0=90
-[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 7 ] && [ "$1" = "refresh" ] && BESTTIME0=30
+[ `date "+%k"` -ge 1 ] && [ `date "+%k"` -le 7 ] && [ "$1" = "refresh" ] && BESTTIME0=90
 
 HOST1=""
 HOST0=""
