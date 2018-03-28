@@ -5,23 +5,28 @@
 
 cd /tmp
 
-[ ! "`stat -c %s /tmp/autoss.sh`" = "`stat -c %s /etc/storage/autoss.sh 2>/dev/null`" ] && cp /tmp/autoss.sh  /etc/storage/autoss.sh
-sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
-cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
-29 5  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh refresh
-4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh
-ABCDEFG
-mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
+#nvram set tkcssr="link/S6v4iuNmjynywEZ0?is_ss=0"
+#nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
+#nvram commmit
+
+#DNS="`nvram get ss_DNS_Redirect`"
+#[ "$DNS" = "1" ] && nvram set ss_DNS_Redirect=0 && nvram commit
+
+#sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
+#cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
+#29 5  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh refresh
+#4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh
+#ABCDEFG
+#mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
+#mtd_storage.sh save >/dev/null 2>/dev/null
+#killall crond && crond 
+
+if [ ! "`stat -c %s /tmp/autoss.sh`" = "`stat -c %s /etc/storage/autoss.sh 2>/dev/null`" ] ; then
+cp /tmp/autoss.sh  /etc/storage/autoss.sh
 mtd_storage.sh save >/dev/null 2>/dev/null
 killall crond && crond 
+fi
 
-
-nvram set tkcssr="link/S6v4iuNmjynywEZ0?is_ss=0"
-nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
-nvram commmit
-
-DNS="`nvram get ss_DNS_Redirect`"
-[ "$DNS" = "1" ] && nvram set ss_DNS_Redirect=0 && nvram commit
 
 ##################### SSR Server ###########
 url="https://www.youtube.com/intl/zh-CN/yt/about/"
@@ -46,7 +51,7 @@ iss="https://www.capsule.cf/"$tkcssr
 iss="https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0"
 #iss="https://capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0"
 #curl -o ss.txt -s -k -L   -m 30 $iss 2>/dev/null
-#以下为自定义端口
+#以下为4位自定义端口
 curl -o ss.txt  -s -k -L   -m 30 https://www.capsule.cf/link/S6v4iuNmjynywEZ0?is_ss=0 2>/dev/null
 #以下为单端口多用户
 #curl -o ss1.txt  -s -k -L   -m 30 https://www.capsule.cf/link/uqCxfyeFth56MN0a?is_ss=0 2>/dev/null
