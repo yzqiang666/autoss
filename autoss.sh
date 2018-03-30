@@ -83,9 +83,9 @@ case "$var1" in
 esac
 
 if [ ! "$Server" = "" ]  && [ ! "$Port" = "" ]  && [ ! "$Pass" = "" ]  && [ ! "$Method" = "" ]  && [ ! "$Usage" = "" ] ; then
-[  "${Server:0:2}" = "cn" ] && continue 
+[  "${Server:0:2}" = "cn" ] || [  "${Server:0:2}" = "tw" ] && continue 
 result=$(echo $Server | grep level3 )
-[[ "$result" != "" ]]  && [  ! "${Server:0:4}" = "hk20" ] && [  ! "${Server:0:4}" = "hk21" ] && [  ! "${Server:0:4}" = "hk22" ] && [  ! "${Server:0:4}" = "hk23" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
+[[ "$result" != "" ]]  && [  ! "${Server:0:4}" = "hk35" ] && [  ! "${Server:0:4}" = "hk34" ] && [  ! "${Server:0:4}" = "hk20" ] && [  ! "${Server:0:4}" = "hk21" ] && [  ! "${Server:0:4}" = "hk22" ] && [  ! "${Server:0:4}" = "hk23" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 
 #    [  "${Server:0:2}" = "jp" ] && [ ! "${Server:0:3}" = "jp3" ] && [ ! "${Server:0:3}" = "jp4" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
 #    [  "${Server:0:2}" = "us" ] && echo $Server:$Port:$Pass:$Method:$Usage >>ss.ini
