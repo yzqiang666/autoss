@@ -261,9 +261,9 @@ tkcssr="`nvram get tkcssr`"
 get_from_other
 
 curl -o ss.txt -s -m 30 http://202.109.226.26:81/mac/ss.ini	
-if [ $? = 0 ] ; then
-  mv ss.ini s.ini
-#  sed -e '/.bid:/d'  ss.txt | head -n 10 >ss.ini
+if [ $? = 0 ] &&  [  "`cat ss.txt|grep '404 Not Found'`" = "" ] ; then
+  rm s.ini 2>/dev/null
+  mv ss.ini s.ini 2>/dev/null
   head -n 10  ss.txt >ss.ini
   echo "==============" >>ss.ini
   cat s.ini >>ss.ini
@@ -507,4 +507,3 @@ ABCDEF
 sh /tmp/delay40.sh &
 
 #FINISH
-
