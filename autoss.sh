@@ -14,8 +14,8 @@ cd /tmp
 
 sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
 cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
-29 5  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss1.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss1.sh /tmp/autoss.sh && tr -d "\015" <autoss1.sh >autoss.sh && sh /tmp/autoss.sh refresh
-4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss1.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss1.sh /tmp/autoss.sh && tr -d "\015" <autoss1.sh >autoss.sh && sh /tmp/autoss.sh
+29 5  * * * [ \`nvram get ss_enable\` = 1 ] && cd /tmp && wget -q -O autoss1.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss1.sh autoss.sh && tr -d "\015" <autoss1.sh >autoss.sh && sh autoss.sh refresh
+4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && cd /tmp && wget -q -O autoss1.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss1.sh autoss.sh && tr -d "\015" <autoss1.sh >autoss.sh && sh autoss.sh
 ABCDEFG
 mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
 mtd_storage.sh save >/dev/null 2>/dev/null
