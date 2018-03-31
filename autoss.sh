@@ -262,6 +262,7 @@ curl -o ss.txt -l -k -s -m 30 https://gitee.com/yzqiang/autoss/raw/master/ss.txt
 if [ $? = 0 ] ; then
   tr -d "\015" <ss.txt >>ss.ini 
 #  cat ss.txt >>ss.ini
+  echo "">>ss.ini
   echo "==============" >>ss.ini
 fi
 
