@@ -1,4 +1,3 @@
-
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 [ -f /tmp/cron_ss.lock ]  && exit 1
@@ -14,8 +13,8 @@ cd /tmp
 
 sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
 cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
-29 5  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh refresh
-4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh
+29 5  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh refresh
+4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh
 ABCDEFG
 mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
 mtd_storage.sh save >/dev/null 2>/dev/null
@@ -173,13 +172,6 @@ fi
 
 
 
-################ 零星收集的SS
-get_from_other()
-{
-rm ss.txt > /dev/null 2>&1
-curl -o ss.txt -s -k -L   -m 40 https://gitee.com/yzqiang/autoss/raw/master/ss.txt 2>/dev/null
-[  "$?" = "0" ]  && cat ss.txt >>ss.ini && echo "==========" >> ss.ini 
-}
 
 
 ###加入私有SSR
@@ -187,16 +179,13 @@ curl -o ss.txt -s -k -L   -m 40 https://gitee.com/yzqiang/autoss/raw/master/ss.t
 
 
 cat > "/tmp/setssr.sh" <<-\SETSSR
-
 base64_str=""
 base64_res=""
-
 base64_encode() 
 {
 vvvvv=`echo -n $base64_str|base64|sed 's/=//g'|sed 's/\//_/g'`
 base64_res=`echo $vvvvv|sed s/[[:space:]]//g`
 }
-
 while getopts "s:p:m:k:o:O:g:G:r:z:" arg; do
 case "$arg" in
 s)
@@ -241,7 +230,6 @@ group="$base64_res"
 ;;
 esac
 done
-
 base64_str=$server:$server_port:$protocol:$method:$obfs:$password"/?obfsparam="$obfs_param"&protoparam="$protocol_param"&remarks="$remark"&group="$group
 base64_encode
 echo "ssr://"$base64_res >>ssr.ini
@@ -257,7 +245,7 @@ ssr_url="`nvram get ssr_url`"
 tkcssr="`nvram get tkcssr`"
 get_from_tckssr
 #get_from_ishadowsock
-#get_from_other
+
 
 curl -o ss.txt -s -m 30 http://202.109.226.26:81/mac/ss.ini	
 if [ $? = 0 ] ; then
@@ -504,6 +492,3 @@ mv syslog.tmp syslog.log 2>/dev/null
 ABCDEF
 
 sh /tmp/delay40.sh &
-
-#FINISH
-
