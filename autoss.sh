@@ -244,7 +244,7 @@ cd /tmp
 rm ss.ini >/dev/null 2>&1
 ssr_url="`nvram get ssr_url`"
 tkcssr="`nvram get tkcssr`"
-#get_from_tckssr
+get_from_tckssr
 #get_from_ishadowsock
 
 
