@@ -9,6 +9,21 @@ cd /tmp
 #nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
 #nvram commmit
 
+
+nvram set ss_3p_enable=1
+nvram set ss_3p_gfwlist=1
+nvram set ss_3p_kool=1
+nvram set ss_ss_sub1=1
+nvram unset ss_check
+nvram set ss_updatess=1
+nvram set ss_update=0
+nvram set ss_update_hour=05
+nvram set ss_update_min=35
+nvram commit
+
+
+
+
 #DNS="`nvram get ss_DNS_Redirect`"
 #[ "$DNS" = "1" ] && nvram set ss_DNS_Redirect=0 && nvram commit
 
@@ -244,7 +259,7 @@ cd /tmp
 rm ss.ini >/dev/null 2>&1
 ssr_url="`nvram get ssr_url`"
 tkcssr="`nvram get tkcssr`"
-get_from_tckssr
+#get_from_tckssr
 #get_from_ishadowsock
 
 
