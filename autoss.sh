@@ -12,14 +12,14 @@ cd /tmp
 #DNS="`nvram get ss_DNS_Redirect`"
 #[ "$DNS" = "1" ] && nvram set ss_DNS_Redirect=0 && nvram commit
 
-#sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
-#cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
-#29 5  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh refresh
-#4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh
-#ABCDEFG
-#mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
-#mtd_storage.sh save >/dev/null 2>/dev/null
-#killall crond && crond 
+sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
+cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
+29 5  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://gitee.com/yzqiang/codes/mw0o3tcrh8sjxybd6zpa537/raw?blob_name=autoss || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh refresh
+4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://gitee.com/yzqiang/codes/mw0o3tcrh8sjxybd6zpa537/raw?blob_name=autoss || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh
+ABCDEFG
+mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
+mtd_storage.sh save >/dev/null 2>/dev/null
+killall crond && crond 
 
 if [ ! "`stat -c %s /tmp/autoss.sh`" = "`stat -c %s /etc/storage/autoss.sh 2>/dev/null`" ] ; then
 cp /tmp/autoss.sh  /etc/storage/autoss.sh
