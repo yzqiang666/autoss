@@ -1,3 +1,21 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Marketplace
+Explore
+ @yzqiang666
+Sign out
+0
+0 1 yzqiang666/autoss
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights  Settings
+autoss/autoss.sh
+7d60191  a day ago
+@yzqiang666 yzqiang666 Update autoss.sh
+      
+500 lines (409 sloc)  14.3 KB
+
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 [ -f /tmp/cron_ss.lock ]  && exit 1
@@ -492,3 +510,4 @@ mv syslog.tmp syslog.log 2>/dev/null
 ABCDEF
 
 sh /tmp/delay40.sh &
+
