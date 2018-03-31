@@ -14,8 +14,8 @@ cd /tmp
 
 sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
 cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
-29 5  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh refresh
-4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh
+29 5  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh refresh
+4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://raw.githubusercontent.com/yzqiang666/autoss/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh
 ABCDEFG
 mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
 mtd_storage.sh save >/dev/null 2>/dev/null
@@ -176,8 +176,9 @@ fi
 get_from_other()
 {
 rm ss.txt > /dev/null 2>&1
-curl -o ss.txt -s -k -L   -m 40 https://gitee.com/yzqiang/autoss/raw/master/ss.txt 2>/dev/null
-[  "$?" = "0" ]  && sed ':a;N;s/\r\n/\n/g;ta' ss.txt >>ss.ini && echo "" >>ss.ini && echo "==========" >> ss.ini 
+curl -o ss.txt -s -k -L   -m 40 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt 2>/dev/null
+#[  "$?" = "0" ]  && sed ':a;N;s/\r\n/\n/g;ta' ss.txt >>ss.ini && echo "" >>ss.ini && echo "==========" >> ss.ini 
+[  "$?" = "0" ]  && cat ss.txt >>ss.ini && echo "==========" >> ss.ini 
 
 }
 
