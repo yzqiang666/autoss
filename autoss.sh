@@ -250,7 +250,8 @@ tkcssr="`nvram get tkcssr`"
 
 curl -o ss.txt -s -m 30 http://202.109.226.26:81/mac/ss.ini	
 if [ $? = 0 ] ; then
-  mv ss.ini s.ini
+  rm s.ini 2>/dev/null
+  mv ss.ini s.ini 2>/dev/null
 #  sed -e '/.bid:/d'  ss.txt | head -n 10 >ss.ini
   head -n 10  ss.txt >ss.ini
   echo "==============" >>ss.ini
