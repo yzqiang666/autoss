@@ -14,8 +14,8 @@ cd /tmp
 
 sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
 cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
-29 5  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://gitee.com/yzqiang/codes/mw0o3tcrh8sjxybd6zpa537/raw?blob_name=autoss || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh refresh
-4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://gitee.com/yzqiang/codes/mw0o3tcrh8sjxybd6zpa537/raw?blob_name=autoss || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh
+29 5  * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh refresh
+4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ] && wget -q -O /tmp/autoss.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss.sh /tmp/autoss.sh && sh /tmp/autoss.sh
 ABCDEFG
 mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
 mtd_storage.sh save >/dev/null 2>/dev/null
@@ -173,6 +173,13 @@ fi
 
 
 
+################ 零星收集的SS
+get_from_other()
+{
+rm ss.txt > /dev/null 2>&1
+curl -o ss.txt -s -k -L   -m 40 https://gitee.com/yzqiang/autoss/raw/master/ss.txt 2>/dev/null
+[  "$?" = "0" ]  && cat ss.txt >>ss.ini && echo "==========" >> ss.ini 
+}
 
 
 ###加入私有SSR
@@ -250,7 +257,7 @@ ssr_url="`nvram get ssr_url`"
 tkcssr="`nvram get tkcssr`"
 get_from_tckssr
 #get_from_ishadowsock
-
+#get_from_other
 
 curl -o ss.txt -s -m 30 http://202.109.226.26:81/mac/ss.ini	
 if [ $? = 0 ] ; then
@@ -498,4 +505,5 @@ ABCDEF
 
 sh /tmp/delay40.sh &
 
+#FINISH
 
