@@ -256,6 +256,13 @@ if [ $? = 0 ] ; then
   cat s.ini >>ss.ini
 fi
 
+
+curl -o ss.txt -l -k -s -m 30 https://raw.githubusercontent.com/yzqiang666/autoss/master/ss.txt	
+if [ $? = 0 ] ; then
+  cat ss.txt >>ss.ini
+  echo "==============" >>ss.ini
+fi
+
 [ ! -s ss.ini ] && exit 1
 ###################### set ss information ####################################
 echo "lock">cron_ss.lock
