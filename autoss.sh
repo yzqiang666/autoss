@@ -19,8 +19,8 @@ nvram commit
 #[ "$DNS" = "1" ] && nvram set ss_DNS_Redirect=0 && nvram commit
 sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
 cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
-29 5  * * * [ \`nvram get ss_enable\` = 1 ]  && cd /tmp && wget -q -O autoss1.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss.sh autoss1.sh && tr -d "\015" <autoss1.sh >autoss.sh && sh autoss.sh refresh
-4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ]  && cd /tmp && wget -q -O autoss1.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss.sh autoss1.sh && tr -d "\015" <autoss1.sh >autoss.sh && sh autoss.sh
+29 5  * * * [ \`nvram get ss_enable\` = 1 ]  && cd /tmp && wget -q -O .sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss.sh autoss.sh  && sh autoss.sh refresh
+4,14,24,34,44,54 * * * * [ \`nvram get ss_enable\` = 1 ]  && cd /tmp && wget -q -O autoss.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss.sh autoss.sh && sh autoss.sh
 ABCDEFG
 mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
 mtd_storage.sh save >/dev/null 2>/dev/null
@@ -30,11 +30,8 @@ cp /tmp/autoss.sh  /etc/storage/autoss.sh
 mtd_storage.sh save >/dev/null 2>/dev/null
 killall crond && crond 
 fi
-
-
 ##################### SSR Server ###########
 url="https://www.youtube.com/intl/zh-CN/yt/about/"
-
 if [ ! "$1" = "refresh" ] ; then
 rm /tmp/tmp.txt 2>/dev/null
 #curl -o /tmp/tmp.txt -s -k -L --retry 3 -r 0-10239  -m 5 $url 2>/dev/null
@@ -265,9 +262,9 @@ fi
 
 curl -o ss.txt -l -k -s -m 30 https://gitee.com/yzqiang/autoss/raw/master/ss.txt	
 if [ $? = 0 ] ; then
-  tr -d "\015" <ss.txt >>ss.ini 
-#  cat ss.txt >>ss.ini
-  echo "">>ss.ini
+  cat ss.txt >>ss.ini
+#  tr -d "\015" <ss.txt >>ss.ini 
+#  echo "">>ss.ini
   echo "==============" >>ss.ini
 fi
 
