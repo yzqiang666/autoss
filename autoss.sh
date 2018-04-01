@@ -271,6 +271,8 @@ fi
 [ ! -s ss.ini ] && exit 1
 ###################### set ss information ####################################
 echo "lock">cron_ss.lock
+sed -i '/^$/d' ss.ini
+
 [ -n "$ssr_url" ] && rm ssr.txt >/dev/null 2>&1
 logger "get bestss server"
 
