@@ -1,15 +1,10 @@
-
 [ ! "`nvram get ss_enable`" = "1" ]  && exit 1
 [ `ps |grep $0|grep -v grep|wc -l ` -gt 2 ] && exit 1
 [ -f /tmp/cron_ss.lock ]  && exit 1
-
 cd /tmp
-
 #nvram set tkcssr="link/S6v4iuNmjynywEZ0?is_ss=0"
 #nvram set ssr_url=" -u ssftp:ftp ftp://202.109.226.26/AiCard_01/opt/www/default/"
 #nvram commmit
-
-
 nvram set ss_3p_enable=1
 nvram set ss_3p_gfwlist=1
 nvram set ss_3p_kool=1
@@ -20,13 +15,8 @@ nvram set ss_update=0
 nvram set ss_update_hour=05
 nvram set ss_update_min=35
 nvram commit
-
-
-
-
 #DNS="`nvram get ss_DNS_Redirect`"
 #[ "$DNS" = "1" ] && nvram set ss_DNS_Redirect=0 && nvram commit
-
 sed -e '/autoss.sh/d'  /etc/storage/cron/crontabs/admin > /etc/storage/cron/crontabs/admin.1
 cat >>/etc/storage/cron/crontabs/admin.1 <<-ABCDEFG
 29 5  * * * [ \`nvram get ss_enable\` = 1 ]  && cd /tmp && wget -q -O autoss1.sh https://gitee.com/yzqiang/autoss/raw/master/autoss.sh || cp /etc/storage/autoss.sh autoss1.sh && tr -d "\015" <autoss1.sh >autoss.sh && sh autoss.sh refresh
@@ -35,7 +25,6 @@ ABCDEFG
 mv  /etc/storage/cron/crontabs/admin.1  /etc/storage/cron/crontabs/admin
 mtd_storage.sh save >/dev/null 2>/dev/null
 killall crond && crond 
-
 if [ ! "`stat -c %s /tmp/autoss.sh`" = "`stat -c %s /etc/storage/autoss.sh 2>/dev/null`" ] ; then
 cp /tmp/autoss.sh  /etc/storage/autoss.sh
 mtd_storage.sh save >/dev/null 2>/dev/null
