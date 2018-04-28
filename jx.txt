@@ -1,3 +1,4 @@
+-|http://demo.ouchand.cn/player.php?url=
 +|youku|iqiyi|http://jx.aikansa.com?url=
 -|iqiyi|http://y.mt2t.com/lines?url=
 -|http://api.baiyug.cn/vip/index.php?url=
