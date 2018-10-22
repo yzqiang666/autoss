@@ -1,3 +1,7 @@
+wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/ssr.sh && chmod +x ssr.sh && bash ssr.sh
+
+
+
 #/usr/bin/ssserver -p 8888 -k yzqyzq -m rc4-md5 -o http_simple_compatible -O auth_sha1_compatible
 #Ubuntu/debian安装
 #apt-get install python-pip
